@@ -1,38 +1,90 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
+import Experience from "./sections/Experience";
 import Services from "./sections/Services";
 import Projects from "./sections/Projects";
 import About from "./sections/About";
 import Contact from "./sections/Contact";
 import LogisticsCaseStudy from "./pages/LogisticsCaseStudy";
-// 1. Agrega esta línea para importar tu nuevo caso de estudio:
 import GammaCaseStudy from "./pages/GammaCaseStudy";
 import QroDataCaseStudy from "./pages/QroDataCaseStudy";
+import Labs from "./sections/Labs";
 
+// 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
 function Home() {
   return (
-    <main>
+    <motion.main
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
       <Hero />
-      <Services />
+      <Experience />
       <Projects />
+      <Labs />     {/* <-- Agregamos Labs justo aquí */}
       <About />
       <Contact />
-    </main>
+    </motion.main>
   );
 }
 
+// 2. Componente que maneja la detección de ruta y las animaciones
+function AnimatedRoutes() {
+  const location = useLocation();
+  
+  return (
+    // AnimatePresence detecta cuándo un componente se desmonta para animar su salida
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        
+        {/* Envolvemos cada caso de estudio con su propia animación de página */}
+        <Route path="/proyecto/logisticsflow" element={
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -20 }} 
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <LogisticsCaseStudy />
+          </motion.div>
+        } />
+        
+        <Route path="/proyecto/gamma" element={
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -20 }} 
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <GammaCaseStudy />
+          </motion.div>
+        } />
+        
+        <Route path="/proyecto/qrodata" element={
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -20 }} 
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <QroDataCaseStudy />
+          </motion.div>
+        } />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+// 3. App Principal
 function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/proyecto/logisticsflow" element={<LogisticsCaseStudy />} />
-        {/* 2. Agrega esta línea para la nueva ruta: */}
-        <Route path="/proyecto/gamma" element={<GammaCaseStudy />} />
-        <Route path="/proyecto/qrodata" element={<QroDataCaseStudy />} />
-      </Routes>
+      <AnimatedRoutes />
     </Router>
   );
 }

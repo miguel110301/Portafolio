@@ -15,7 +15,7 @@ function Hero() {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-panel mb-8"
         >
           <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-xs font-medium tracking-wide text-muted uppercase">Disponible para proyectos</span>
+          <span className="text-xs font-medium tracking-wide text-muted uppercase">Available for new projects</span>
         </motion.div>
 
         <motion.h1 
@@ -24,9 +24,9 @@ function Hero() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="text-5xl md:text-7xl font-bold tracking-tight text-primary mb-6 leading-tight max-w-4xl"
         >
-          Construyendo sistemas que <br className="hidden md:block"/>
+          Building systems that <br className="hidden md:block"/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">
-            automatizan el trabajo.
+            automate workflows.
           </span>
         </motion.h1>
 
@@ -36,7 +36,7 @@ function Hero() {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="text-lg md:text-xl text-muted max-w-2xl mb-10 leading-relaxed"
         >
-          Diseño arquitecturas backend, integro APIs y desarrollo aplicaciones enfocadas en rendimiento, utilidad y operaciones reales.
+          I design backend architectures, integrate APIs, and build applications focused on performance, utility, and real-world operations.
         </motion.p>
 
         <motion.div 
@@ -46,13 +46,13 @@ function Hero() {
           className="flex flex-col sm:flex-row items-center gap-4"
         >
           <a href="/#projects" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-full font-medium hover:scale-105 transition-transform duration-200">
-            Ver Proyectos <ArrowRight size={18} />
+            View Projects <ArrowRight size={18} />
           </a>
           <a href="/#contact" className="w-full sm:w-auto flex items-center justify-center gap-2 glass-panel text-primary px-8 py-3.5 rounded-full font-medium hover:bg-white/5 transition-colors duration-200">
-            <Terminal size={18} /> Hablemos
+            <Terminal size={18} /> Let's Talk
           </a>
-          <a href="/CV_Miguel_Moreno.pdf" download className="w-full sm:w-auto flex items-center justify-center gap-2 text-muted hover:text-primary px-6 py-3.5 rounded-full font-medium transition-colors duration-200">
-            <FileText size={18} /> Descargar CV
+          <a href="/CVAutomat.pdf" download className="w-full sm:w-auto flex items-center justify-center gap-2 text-muted hover:text-primary px-6 py-3.5 rounded-full font-medium transition-colors duration-200">
+            <FileText size={18} /> Download CV
           </a>
         </motion.div>
       </div>

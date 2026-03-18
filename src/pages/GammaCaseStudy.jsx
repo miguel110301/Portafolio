@@ -1,43 +1,66 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Clock, Bot, Mail, CheckCircle, RefreshCw } from 'lucide-react';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+// 1. Nuevas importaciones
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 function GammaCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // 2. Guardamos el código
+  const codeSnippet = `// Initial ingestion: Identifying the type of interaction (Message vs Button)
+const staticData = $getWorkflowStaticData('global');
+const payload = $input.first().json;
+
+if (payload.callback_query) {
+  return [{ json: { type: 'callback', payload } }];
+}
+
+// Flow control based on memory state
+if (payload.message) {
+  const chatId = payload.message.chat.id.toString();
+  const context = staticData[chatId];
+  
+  // If the user already approved and we are waiting for the datetime:
+  if (context && context.status === 'waiting_datetime') {
+    return [{ json: { type: 'datetime', payload, context } }];
+  }
+  
+  // Normal data input
+  return [{ json: { type: 'message', payload } }];
+}`;
+
   return (
     <div className="pt-24 pb-32">
       <div className="max-w-4xl mx-auto px-6">
         
-        {/* Navegación */}
         <Link to="/" className="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-12 group">
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          Volver al Portafolio
+          Back to Portfolio
         </Link>
 
-        {/* Header del Proyecto */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
           <div className="flex flex-wrap gap-2 mb-6">
-            <span className="text-xs font-medium px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">Automatización Asíncrona</span>
+            <span className="text-xs font-medium px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">Asynchronous Automation</span>
             <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">Telegram Bot</span>
             <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">Gamma API</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6 leading-tight">
-            Agente Generador de <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">Reportes Ejecutivos</span>
+            Executive Report <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">Generator Agent</span>
           </h1>
           <p className="text-xl text-muted leading-relaxed mb-12">
-            Un bot conversacional que ingesta datos crudos, orquesta la creación de presentaciones mediante IA, gestiona aprobaciones humanas (Human-in-the-loop) y programa envíos de correo diferidos en el tiempo.
+            A conversational bot that ingests raw data, orchestrates presentation creation via AI, manages human approvals (Human-in-the-loop), and schedules deferred email deliveries.
           </p>
         </motion.div>
 
-        {/* Métricas / Highlights */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -45,10 +68,10 @@ function GammaCaseStudy() {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
         >
           {[
-            { label: "Interfaz", value: "Telegram" },
-            { label: "Generación", value: "Gamma API" },
-            { label: "Aprobación", value: "Interactive" },
-            { label: "Ejecución", value: "Scheduled" }
+            { label: "Interface", value: "Telegram" },
+            { label: "Generation", value: "Gamma API" },
+            { label: "Approval", value: "Interactive" },
+            { label: "Execution", value: "Scheduled" }
           ].map((stat, i) => (
             <div key={i} className="glass-panel p-6 rounded-2xl text-center border-t border-t-white/10">
               <span className="block text-2xl font-bold text-primary mb-1">{stat.value}</span>
@@ -57,7 +80,6 @@ function GammaCaseStudy() {
           ))}
         </motion.div>
 
-        {/* Contenido Principal */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -67,38 +89,38 @@ function GammaCaseStudy() {
           
           <section>
             <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
-              <Bot className="text-accent" /> El Reto Operativo
+              <Bot className="text-accent" /> The Operational Challenge
             </h2>
             <p>
-              Generar presentaciones ejecutivas a partir de datos crudos (ej. exportaciones de Power BI) toma horas de trabajo manual. El objetivo fue crear un asistente accesible desde el celular que pudiera recibir los datos, estructurarlos con IA, generar las diapositivas y, lo más importante, <strong>pedir aprobación humana antes de enviar el resultado final a los clientes en una fecha y hora programada.</strong>
+              Generating executive presentations from raw data (e.g., Power BI exports) takes hours of manual work. The goal was to create a mobile-accessible assistant that could receive the data, structure it with AI, generate the slides, and most importantly, <strong>request human approval before sending the final result to clients at a scheduled date and time.</strong>
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
-              <RefreshCw className="text-accent" /> Arquitectura Asíncrona
+              <RefreshCw className="text-accent" /> Asynchronous Architecture
             </h2>
             <div className="glass-panel p-8 rounded-2xl mb-6 border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
               <ul className="space-y-6">
                 <li className="flex gap-4">
                   <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><RefreshCw size={20} className="text-accent"/></div>
                   <div>
-                    <strong className="text-primary block mb-1">Mecanismo de Polling Inteligente</strong>
-                    Las APIs de generación de documentos (como Gamma) no responden de inmediato. Implementé un ciclo de espera controlada (Wait/Check) con un límite de reintentos seguro para monitorear el estatus sin saturar los endpoints.
+                    <strong className="text-primary block mb-1">Intelligent Polling Mechanism</strong>
+                    Document generation APIs (like Gamma) do not respond immediately. I implemented a controlled wait cycle (Wait/Check) with a safe retry limit to monitor the status without overwhelming the endpoints.
                   </div>
                 </li>
                 <li className="flex gap-4">
                   <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><CheckCircle size={20} className="text-accent"/></div>
                   <div>
-                    <strong className="text-primary block mb-1">Human-in-the-Loop & Manejo de Estado</strong>
-                    Utilizando <code>$getWorkflowStaticData</code>, el sistema guarda en memoria la sesión del usuario. El bot envía la presentación por Telegram con botones interactivos (Callbacks) y "pausa" su ejecución hasta recibir el clic de aprobación o cancelación.
+                    <strong className="text-primary block mb-1">Human-in-the-Loop & State Management</strong>
+                    Using <code>$getWorkflowStaticData</code>, the system saves the user's session in memory. The bot sends the presentation via Telegram with interactive buttons (Callbacks) and "pauses" its execution until receiving the approval or cancellation click.
                   </div>
                 </li>
                 <li className="flex gap-4">
                   <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><Clock size={20} className="text-accent"/></div>
                   <div>
-                    <strong className="text-primary block mb-1">Ejecución Diferida (Scheduling)</strong>
-                    Una vez aprobado, el sistema le pide al usuario una fecha de envío. Un parser de código extrae el string "DD/MM/AAAA HH:MM", lo convierte a zona horaria estricta, valida que sea en el futuro, y suspende el flujo completo hasta ese instante exacto.
+                    <strong className="text-primary block mb-1">Deferred Execution (Scheduling)</strong>
+                    Once approved, the system asks the user for a delivery date. A code parser extracts the "DD/MM/YYYY HH:MM" string, converts it to a strict timezone, validates that it is in the future, and suspends the entire flow until that exact moment.
                   </div>
                 </li>
               </ul>
@@ -107,10 +129,10 @@ function GammaCaseStudy() {
 
           <section>
             <h2 className="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
-              <Mail className="text-accent" /> Código Destacado: Control de Estado Global
+              <Mail className="text-accent" /> Featured Code: Global State Control
             </h2>
             <p className="mb-6">
-              Mantener el contexto de la conversación entre múltiples mensajes separados en el tiempo requiere un buen diseño de estado. Aquí muestro cómo estructuro la persistencia en memoria para gestionar la máquina de estados del bot.
+              Maintaining conversation context across multiple messages separated in time requires good state design. Here I show how I structure in-memory persistence to manage the bot's state machine.
             </p>
             
             <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117]">
@@ -122,28 +144,15 @@ function GammaCaseStudy() {
                 </div>
                 <span className="ml-4 text-xs font-mono text-muted">state_manager.js</span>
               </div>
-              <div className="p-6 overflow-x-auto text-sm font-mono text-gray-300 leading-relaxed">
-<pre><code>{`// Ingesta inicial: Identificando el tipo de interacción (Mensaje vs Botón)
-const staticData = $getWorkflowStaticData('global');
-const payload = $input.first().json;
-
-if (payload.callback_query) {
-  return [{ json: { tipo: 'callback', payload } }];
-}
-
-// Control de flujo basado en estado de memoria
-if (payload.message) {
-  const chatId = payload.message.chat.id.toString();
-  const contexto = staticData[chatId];
-  
-  // Si el usuario ya aprobó y estamos esperando que escriba la fecha:
-  if (contexto && contexto.status === 'waiting_datetime') {
-    return [{ json: { tipo: 'fecha', payload, contexto } }];
-  }
-  
-  // Entrada de datos normal
-  return [{ json: { tipo: 'mensaje', payload } }];
-}`}</code></pre>
+              {/* 3. Componente de sintaxis aquí también */}
+              <div className="text-sm font-mono text-gray-300">
+                <SyntaxHighlighter 
+                  language="javascript" 
+                  style={vscDarkPlus} 
+                  customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}
+                >
+                  {codeSnippet}
+                </SyntaxHighlighter>
               </div>
             </div>
           </section>
