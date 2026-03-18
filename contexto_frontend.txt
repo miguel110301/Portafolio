@@ -1,0 +1,708 @@
+FILE: src/sections/About.jsx
+import { motion } from 'framer-motion';
+
+function About() {
+  return (
+    <section id="about" className="py-24 relative">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">Sobre mí</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">Sistemas robustos, <br/>código limpio.</h2>
+            <div className="space-y-4 text-muted text-lg leading-relaxed">
+              <p>
+                Como estudiante de Ingeniería de Software, mi enfoque siempre ha estado en ir más allá de lo académico: me apasiona construir herramientas y arquitecturas que resuelvan cuellos de botella reales en los negocios.
+              </p>
+              <p>
+                Ya sea orquestando flujos complejos con n8n, desarrollando el backend en Python, o creando aplicaciones nativas en iOS con Swift, mi filosofía es la misma: <strong>crear sistemas en los que las empresas puedan confiar.</strong>
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="glass-panel p-8 rounded-2xl"
+          >
+            <h3 className="text-xl font-semibold text-primary mb-6">Mi Stack</h3>
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-sm font-medium text-accent mb-3">Backend & Automatización</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['Python', 'Django', 'Flask', 'n8n', 'APIs REST', 'MySQL'].map(tech => (
+                    <span key={tech} className="text-xs font-medium text-primary/80 bg-white/5 px-3 py-1.5 rounded-md border border-white/5">{tech}</span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="text-sm font-medium text-accent mb-3">Frontend & Móvil</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['Swift', 'iOS', 'React', 'JavaScript', 'Tailwind'].map(tech => (
+                    <span key={tech} className="text-xs font-medium text-primary/80 bg-white/5 px-3 py-1.5 rounded-md border border-white/5">{tech}</span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="text-sm font-medium text-accent mb-3">Herramientas & Cloud</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['Git', 'AWS (Estudiando CCP)', 'Docker', 'Firebase'].map(tech => (
+                    <span key={tech} className="text-xs font-medium text-primary/80 bg-white/5 px-3 py-1.5 rounded-md border border-white/5">{tech}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default About;
+---
+FILE: src/sections/Hero.jsx
+import { motion } from 'framer-motion';
+import { ArrowRight, Terminal } from 'lucide-react';
+
+function Hero() {
+  return (
+    <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      {/* Resplandor de fondo */}
+      <div className="absolute inset-0 bg-glow-gradient pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-panel mb-8"
+        >
+          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          <span className="text-xs font-medium tracking-wide text-muted uppercase">Disponible para proyectos</span>
+        </motion.div>
+
+        <motion.h1 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="text-5xl md:text-7xl font-bold tracking-tight text-primary mb-6 leading-tight max-w-4xl"
+        >
+          Construyendo sistemas que <br className="hidden md:block"/>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">
+            automatizan el trabajo.
+          </span>
+        </motion.h1>
+
+        <motion.p 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="text-lg md:text-xl text-muted max-w-2xl mb-10 leading-relaxed"
+        >
+          Diseño arquitecturas backend, integro APIs y desarrollo aplicaciones enfocadas en rendimiento, utilidad y operaciones reales.
+        </motion.p>
+
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="flex flex-col sm:flex-row items-center gap-4"
+        >
+          <a href="#projects" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-full font-medium hover:scale-105 transition-transform duration-200">
+            Ver Proyectos <ArrowRight size={18} />
+          </a>
+          <a href="#contact" className="w-full sm:w-auto flex items-center justify-center gap-2 glass-panel text-primary px-8 py-3.5 rounded-full font-medium hover:bg-white/5 transition-colors duration-200">
+            <Terminal size={18} /> Hablemos
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+export default Hero;
+---
+FILE: src/sections/Projects.jsx
+import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+function Projects() {
+  const projects = [
+    {
+      title: "LogisticsFlow AI",
+      category: "Arquitectura & Automatización",
+      description: "Sistema logístico basado en eventos para la validación de evidencias (tickets, identificaciones) mediante IA. Orquestado con n8n, sincronización estricta a backend en Django, clasificación de audios con Whisper y notificaciones en tiempo real vía WhatsApp API.",
+      tech: ["n8n", "Django", "OpenAI", "WhatsApp", "Firebase"],
+      featured: true,
+      link: "/proyecto/logisticsflow"
+    },
+    {
+      title: "QroData",
+      category: "Plataforma Web & Analytics",
+      description: "Plataforma de monitoreo y analítica con pipelines de ingesta de datos, modelos analíticos listos para producción y flujos de reportes. Interfaz interactiva y backend optimizado.",
+      tech: ["React", "Python", "MySQL", "Data Pipelines"],
+      featured: true, // Lo hacemos destacado para que ocupe todo el ancho
+      link: "/proyecto/qrodata"
+    },
+    {
+      title: "Agente Gamma",
+      category: "Telegram Bot & IA",
+      description: "Bot asíncrono que ingesta datos, orquesta la generación de presentaciones con Gamma API, maneja aprobaciones y programa envíos diferidos.",
+      tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
+      featured: false,
+      link: "/proyecto/gamma"
+    },
+    {
+      title: "App iOS (Próximamente)",
+      category: "iOS Development",
+      description: "Aplicación nativa en desarrollo para el ecosistema de Apple, implementando patrones de arquitectura modernos y persistencia de datos.",
+      tech: ["Swift", "iOS", "CoreData"],
+      featured: false,
+      link: "/"
+    }
+  ];
+
+  return (
+    <section id="projects" className="py-24 relative bg-surface/30">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="mb-16">
+          <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">Portafolio</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Trabajo Destacado</h2>
+          <p className="text-muted text-lg max-w-2xl">
+            Proyectos enfocados en resolver problemas operativos reales, mostrando pensamiento sistémico y ejecución técnica.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {projects.map((project, index) => (
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className={`glass-panel p-8 rounded-2xl group flex flex-col h-full hover:border-white/20 transition-all duration-300 ${project.featured ? 'md:col-span-2 relative overflow-hidden' : ''}`}
+            >
+              {project.featured && (
+                <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-[80px] rounded-full pointer-events-none" />
+              )}
+              
+              <div className="flex justify-between items-start mb-6 relative z-10">
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">
+                  {project.category}
+                </span>
+                <Link to={project.link} className="text-muted hover:text-accent transition-colors duration-200">
+                  <ArrowUpRight size={22} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </Link>
+              </div>
+
+              <h3 className="text-2xl font-bold text-primary mb-3 relative z-10">{project.title}</h3>
+              <p className="text-muted mb-8 flex-grow relative z-10 leading-relaxed text-sm md:text-base">
+                {project.description}
+              </p>
+
+              <ul className="flex flex-wrap gap-2 relative z-10">
+                {project.tech.map((tech, i) => (
+                  <li key={i} className="text-xs font-medium text-primary/80 bg-white/5 px-3 py-1.5 rounded-md border border-white/5">
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default Projects;
+---
+FILE: src/sections/Services.jsx
+import { motion } from 'framer-motion';
+import { GitMerge, Terminal, Smartphone, Globe } from 'lucide-react';
+
+function Services() {
+  const services = [
+    {
+      icon: <GitMerge size={24} className="text-accent" />,
+      title: "Automatización Avanzada",
+      description: "Flujos de n8n con enrutamiento inteligente, webhooks, reintentos y manejo de estados operativos en tiempo real."
+    },
+    {
+      icon: <Terminal size={24} className="text-accent" />,
+      title: "Sistemas Backend",
+      description: "Desarrollo de APIs y lógica de negocio robusta con Python y Django para operaciones en producción."
+    },
+    {
+      icon: <Smartphone size={24} className="text-accent" />,
+      title: "Desarrollo iOS",
+      description: "Creación de aplicaciones nativas con Swift, enfocadas en rendimiento, escalabilidad y una experiencia de usuario fluida."
+    },
+    {
+      icon: <Globe size={24} className="text-accent" />,
+      title: "Aplicaciones Web",
+      description: "Interfaces dinámicas y modernas construidas con React y Vite, integradas perfectamente con arquitecturas backend."
+    }
+  ];
+
+  return (
+    <section id="services" className="py-24 relative">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="mb-16">
+          <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">Habilidades</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Lo que construyo</h2>
+          <p className="text-muted text-lg max-w-2xl">
+            Sistemas diseñados para automatizar operaciones, conectar plataformas y crear productos digitales de alto nivel.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {services.map((service, index) => (
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className="glass-panel p-8 rounded-2xl hover:bg-white/[0.03] transition-colors duration-300"
+            >
+              <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-inner">
+                {service.icon}
+              </div>
+              <h3 className="text-xl font-semibold text-primary mb-3">{service.title}</h3>
+              <p className="text-muted leading-relaxed">{service.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default Services;
+---
+FILE: src/sections/Contact.jsx
+import { motion } from 'framer-motion';
+import { Mail, Linkedin } from 'lucide-react';
+
+function Contact() {
+  return (
+    <section id="contact" className="py-32 relative overflow-hidden">
+      {/* Resplandor sutil de fondo para el CTA */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 blur-[120px] rounded-full pointer-events-none" />
+      
+      <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="glass-panel p-10 md:p-16 rounded-[2.5rem] border border-white/10 shadow-2xl"
+        >
+          <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">Contacto</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-6">¿Listo para construir algo útil?</h2>
+          <p className="text-muted text-lg mb-10 max-w-xl mx-auto">
+            Si necesitas optimizar procesos, construir una API robusta o desarrollar una aplicación desde cero, hablemos.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a 
+              href="mailto:miguelmoreno.uaq@gmail.com" 
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-background px-8 py-4 rounded-full font-medium hover:scale-105 transition-transform duration-200"
+            >
+              <Mail size={18} />
+              Envíame un correo
+            </a>
+            
+            <a 
+              href="https://www.linkedin.com/in/miguel-angel-moreno-sanchez" 
+              target="_blank" 
+              rel="noreferrer"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 glass-panel text-primary px-8 py-4 rounded-full font-medium hover:bg-white/5 transition-colors duration-200"
+            >
+              <Linkedin size={18} />
+              LinkedIn
+            </a>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Footer minimalista integrado */}
+      <div className="absolute bottom-8 left-0 right-0 text-center text-sm text-muted/50">
+        <p>© {new Date().getFullYear()} Miguel Moreno. Todos los derechos reservados.</p>
+      </div>
+    </section>
+  );
+}
+
+export default Contact;
+---
+FILE: src/components/Navbar.jsx
+import { motion } from 'framer-motion';
+
+function Navbar() {
+  return (
+    <motion.header 
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="fixed top-0 left-0 right-0 z-50 glass-panel border-b-0"
+    >
+      <div className="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="#hero" className="text-primary font-medium tracking-wide flex items-center gap-2">
+          {/* Logo minimalista */}
+          <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center border border-white/5">
+            <span className="text-sm font-bold text-white">M</span>
+          </div>
+          Miguel Moreno
+        </a>
+
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
+          <a href="#projects" className="hover:text-primary transition-colors duration-200">Work</a>
+          <a href="#services" className="hover:text-primary transition-colors duration-200">Services</a>
+          <a href="#about" className="hover:text-primary transition-colors duration-200">About</a>
+        </nav>
+
+        <a 
+          href="#contact" 
+          className="text-sm font-medium text-background bg-primary px-5 py-2.5 rounded-full hover:bg-white/90 transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+        >
+          Contact
+        </a>
+      </div>
+    </motion.header>
+  );
+}
+
+export default Navbar;
+---
+FILE: src/main.jsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+---
+FILE: src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from "./components/Navbar";
+import Hero from "./sections/Hero";
+import Services from "./sections/Services";
+import Projects from "./sections/Projects";
+import About from "./sections/About";
+import Contact from "./sections/Contact";
+import LogisticsCaseStudy from "./pages/LogisticsCaseStudy";
+// 1. Agrega esta línea para importar tu nuevo caso de estudio:
+import GammaCaseStudy from "./pages/GammaCaseStudy";
+import QroDataCaseStudy from "./pages/QroDataCaseStudy";
+
+function Home() {
+  return (
+    <main>
+      <Hero />
+      <Services />
+      <Projects />
+      <About />
+      <Contact />
+    </main>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/proyecto/logisticsflow" element={<LogisticsCaseStudy />} />
+        {/* 2. Agrega esta línea para la nueva ruta: */}
+        <Route path="/proyecto/gamma" element={<GammaCaseStudy />} />
+        <Route path="/proyecto/qrodata" element={<QroDataCaseStudy />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+---
+FILE: src/pages/GammaCaseStudy.jsx
+import { motion } from 'framer-motion';
+import { ArrowLeft, Clock, Bot, Mail, CheckCircle, RefreshCw } from 'lucide-react';
+import { Link, useEffect } from 'react-router-dom';
+
+function GammaCaseStudy() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="pt-24 pb-32">
+      <div className="max-w-4xl mx-auto px-6">
+        
+        {/* Navegación */}
+        <Link to="/" className="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-12 group">
+          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+          Volver al Portafolio
+        </Link>
+
+        {/* Header del Proyecto */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex flex-wrap gap-2 mb-6">
+            <span className="text-xs font-medium px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">Automatización Asíncrona</span>
+            <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">Telegram Bot</span>
+            <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">Gamma API</span>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6 leading-tight">
+            Agente Generador de <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">Reportes Ejecutivos</span>
+          </h1>
+          <p className="text-xl text-muted leading-relaxed mb-12">
+            Un bot conversacional que ingesta datos crudos, orquesta la creación de presentaciones mediante IA, gestiona aprobaciones humanas (Human-in-the-loop) y programa envíos de correo diferidos en el tiempo.
+          </p>
+        </motion.div>
+
+        {/* Métricas / Highlights */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
+        >
+          {[
+            { label: "Interfaz", value: "Telegram" },
+            { label: "Generación", value: "Gamma API" },
+            { label: "Aprobación", value: "Interactive" },
+            { label: "Ejecución", value: "Scheduled" }
+          ].map((stat, i) => (
+            <div key={i} className="glass-panel p-6 rounded-2xl text-center border-t border-t-white/10">
+              <span className="block text-2xl font-bold text-primary mb-1">{stat.value}</span>
+              <span className="text-xs text-muted uppercase tracking-wider">{stat.label}</span>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Contenido Principal */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="space-y-16 text-muted leading-relaxed"
+        >
+          
+          <section>
+            <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
+              <Bot className="text-accent" /> El Reto Operativo
+            </h2>
+            <p>
+              Generar presentaciones ejecutivas a partir de datos crudos (ej. exportaciones de Power BI) toma horas de trabajo manual. El objetivo fue crear un asistente accesible desde el celular que pudiera recibir los datos, estructurarlos con IA, generar las diapositivas y, lo más importante, <strong>pedir aprobación humana antes de enviar el resultado final a los clientes en una fecha y hora programada.</strong>
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
+              <RefreshCw className="text-accent" /> Arquitectura Asíncrona
+            </h2>
+            <div className="glass-panel p-8 rounded-2xl mb-6 border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
+              <ul className="space-y-6">
+                <li className="flex gap-4">
+                  <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><RefreshCw size={20} className="text-accent"/></div>
+                  <div>
+                    <strong className="text-primary block mb-1">Mecanismo de Polling Inteligente</strong>
+                    Las APIs de generación de documentos (como Gamma) no responden de inmediato. Implementé un ciclo de espera controlada (Wait/Check) con un límite de reintentos seguro para monitorear el estatus sin saturar los endpoints.
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><CheckCircle size={20} className="text-accent"/></div>
+                  <div>
+                    <strong className="text-primary block mb-1">Human-in-the-Loop & Manejo de Estado</strong>
+                    Utilizando <code>$getWorkflowStaticData</code>, el sistema guarda en memoria la sesión del usuario. El bot envía la presentación por Telegram con botones interactivos (Callbacks) y "pausa" su ejecución hasta recibir el clic de aprobación o cancelación.
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><Clock size={20} className="text-accent"/></div>
+                  <div>
+                    <strong className="text-primary block mb-1">Ejecución Diferida (Scheduling)</strong>
+                    Una vez aprobado, el sistema le pide al usuario una fecha de envío. Un parser de código extrae el string "DD/MM/AAAA HH:MM", lo convierte a zona horaria estricta, valida que sea en el futuro, y suspende el flujo completo hasta ese instante exacto.
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+              <Mail className="text-accent" /> Código Destacado: Control de Estado Global
+            </h2>
+            <p className="mb-6">
+              Mantener el contexto de la conversación entre múltiples mensajes separados en el tiempo requiere un buen diseño de estado. Aquí muestro cómo estructuro la persistencia en memoria para gestionar la máquina de estados del bot.
+            </p>
+            
+            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117]">
+              <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                </div>
+                <span className="ml-4 text-xs font-mono text-muted">state_manager.js</span>
+              </div>
+              <div className="p-6 overflow-x-auto text-sm font-mono text-gray-300 leading-relaxed">
+<pre><code>{`// Ingesta inicial: Identificando el tipo de interacción (Mensaje vs Botón)
+const staticData = $getWorkflowStaticData('global');
+const payload = $input.first().json;
+
+if (payload.callback_query) {
+  return [{ json: { tipo: 'callback', payload } }];
+}
+
+// Control de flujo basado en estado de memoria
+if (payload.message) {
+  const chatId = payload.message.chat.id.toString();
+  const contexto = staticData[chatId];
+  
+  // Si el usuario ya aprobó y estamos esperando que escriba la fecha:
+  if (contexto && contexto.status === 'waiting_datetime') {
+    return [{ json: { tipo: 'fecha', payload, contexto } }];
+  }
+  
+  // Entrada de datos normal
+  return [{ json: { tipo: 'mensaje', payload } }];
+}`}</code></pre>
+              </div>
+            </div>
+          </section>
+
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+export default GammaCaseStudy;
+---
+FILE: src/pages/QroDataCaseStudy.jsx
+import { motion } from 'framer-motion';
+import { ArrowLeft, LineChart, Database, LayoutDashboard } from 'lucide-react';
+import { Link, useEffect } from 'react-router-dom';
+
+function QroDataCaseStudy() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="pt-24 pb-32">
+      <div className="max-w-4xl mx-auto px-6">
+        
+        <Link to="/" className="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-12 group">
+          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+          Volver al Portafolio
+        </Link>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex flex-wrap gap-2 mb-6">
+            <span className="text-xs font-medium px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">Fullstack Web</span>
+            <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">React</span>
+            <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">Python Analytics</span>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6 leading-tight">
+            QroData: Analítica y <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">Monitoreo Visual</span>
+          </h1>
+          <p className="text-xl text-muted leading-relaxed mb-12">
+            Desarrollo end-to-end de una plataforma web capaz de ingerir volúmenes de datos crudos, procesarlos en el backend y servirlos en interfaces interactivas y tableros de control en tiempo real.
+          </p>
+        </motion.div>
+
+        {/* Aquí va tu primera captura de pantalla principal */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-16 rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-white/5 aspect-video relative flex items-center justify-center"
+        >
+          {/* Instrucción: Reemplaza "/ruta-a-tu-imagen.png" con el nombre de tu imagen real que pongas en la carpeta "public" */}
+          <p className="absolute text-muted/50 z-0">Espacio para Captura del Dashboard</p>
+          <img 
+            src="/dashboard-qrodata.png" 
+            alt="Dashboard principal de QroData" 
+            className="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-500"
+            onLoad={(e) => e.target.classList.remove('opacity-0')}
+            onError={(e) => e.target.style.display = 'none'} 
+          />
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="space-y-16 text-muted leading-relaxed"
+        >
+          
+          <section>
+            <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
+              <Database className="text-accent" /> Ingesta y Procesamiento
+            </h2>
+            <p>
+              El principal desafío de los datos no es mostrarlos, sino limpiarlos y estructurarlos. Para este proyecto, el backend en Python se encarga de extraer la información de múltiples fuentes, aplicar transformaciones (ETL) y almacenarlas en una base de datos MySQL optimizada para consultas de lectura rápida.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
+              <LayoutDashboard className="text-accent" /> Interfaz y Experiencia
+            </h2>
+            <p className="mb-6">
+              Del lado del cliente, la aplicación está construida con React, enfocándose en un rendimiento fluido sin recargas de página completas. Los componentes consumen los endpoints REST del backend y renderizan la información utilizando librerías de gráficos modernos.
+            </p>
+            
+            {/* Aquí va tu segunda captura (ej. detalle de una gráfica o tabla) */}
+            <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 aspect-[21/9] relative flex items-center justify-center">
+               <p className="absolute text-muted/50 z-0">Espacio para Captura de Tabla/Gráficos</p>
+               <img 
+                src="/detalle-qrodata.png" 
+                alt="Vista de detalle QroData" 
+                className="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-500"
+                onLoad={(e) => e.target.classList.remove('opacity-0')}
+                onError={(e) => e.target.style.display = 'none'} 
+              />
+            </div>
+          </section>
+
+          <section className="bg-gradient-to-r from-accent/10 to-transparent p-8 rounded-2xl border border-accent/20">
+            <h2 className="text-2xl font-bold text-primary mb-2">Valor Aportado</h2>
+            <p className="text-primary/80">
+              QroData demuestra mi capacidad para salir del código backend puro y conectar los sistemas lógicos con interfaces de usuario consumibles. Es la prueba de que puedo tomar un requerimiento desde la base de datos hasta el navegador del usuario final.
+            </p>
+          </section>
+
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+export default QroDataCaseStudy;
+---

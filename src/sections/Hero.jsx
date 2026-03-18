@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Terminal } from 'lucide-react';
+import { ArrowRight, Terminal, FileText } from 'lucide-react';
 
 function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      {/* Resplandor de fondo */}
       <div className="absolute inset-0 bg-glow-gradient pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
@@ -46,11 +45,14 @@ function Hero() {
           transition={{ duration: 0.7, delay: 0.5 }}
           className="flex flex-col sm:flex-row items-center gap-4"
         >
-          <a href="#projects" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-full font-medium hover:scale-105 transition-transform duration-200">
+          <a href="/#projects" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-full font-medium hover:scale-105 transition-transform duration-200">
             Ver Proyectos <ArrowRight size={18} />
           </a>
-          <a href="#contact" className="w-full sm:w-auto flex items-center justify-center gap-2 glass-panel text-primary px-8 py-3.5 rounded-full font-medium hover:bg-white/5 transition-colors duration-200">
+          <a href="/#contact" className="w-full sm:w-auto flex items-center justify-center gap-2 glass-panel text-primary px-8 py-3.5 rounded-full font-medium hover:bg-white/5 transition-colors duration-200">
             <Terminal size={18} /> Hablemos
+          </a>
+          <a href="/CV_Miguel_Moreno.pdf" download className="w-full sm:w-auto flex items-center justify-center gap-2 text-muted hover:text-primary px-6 py-3.5 rounded-full font-medium transition-colors duration-200">
+            <FileText size={18} /> Descargar CV
           </a>
         </motion.div>
       </div>
