@@ -1,7 +1,7 @@
+// src/sections/About.jsx
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-// Simplified icons for portability (you can use Lucide React if available)
 const Icons = {
   Webhook: () => (
     <div className="w-8 h-8 flex items-center justify-center bg-accent/10 border border-accent/30 rounded-lg text-accent">
@@ -30,12 +30,13 @@ const Icons = {
   )
 };
 
+// Coordenadas X comprimidas para que no se corte en ningún monitor
 const nodes = [
-  { id: 'webhook', label: 'CRM Event (Webhook)', icon: Icons.Webhook, x: 10, y: 50 },
-  { id: 'transform', label: 'Clean Data (JSON)', icon: Icons.Function, x: 120, y: 50 },
-  { id: 'switch', label: 'Valid?', icon: Icons.Switch, x: 230, y: 50 },
-  { id: 'crm', label: 'Add to Hubspot', icon: Icons.Slack, x: 340, y: 10 },
-  { id: 'log', label: 'Log Error', icon: Icons.Database, x: 340, y: 90 },
+  { id: 'webhook', label: 'CRM Event', icon: Icons.Webhook, x: 35, y: 50 },
+  { id: 'transform', label: 'Clean Data', icon: Icons.Function, x: 115, y: 50 },
+  { id: 'switch', label: 'Is Valid?', icon: Icons.Switch, x: 195, y: 50 },
+  { id: 'crm', label: 'Hubspot', icon: Icons.Slack, x: 275, y: 15 },
+  { id: 'log', label: 'Log Error', icon: Icons.Database, x: 275, y: 85 },
 ];
 
 const connections = [
@@ -47,45 +48,38 @@ const connections = [
 
 function WorkflowSimulation() {
   const controls = useAnimation();
-  const [activePath, setActivePath] = useState(0); // 0: yes, 1: no
+  const [activePath, setActivePath] = useState(0); 
 
   const animateEvent = async (pathIndex) => {
-    // A -> B
-    await controls.start({ cx: [10, 120], cy: [50, 50], transition: { duration: 0.8, ease: "easeInOut" } });
-    await new Promise(r => setTimeout(r, 200)); // Process delay
+    // Tiempos y distancias actualizadas
+    await controls.start({ cx: [35, 115], cy: [50, 50], transition: { duration: 0.6, ease: "easeInOut" } });
+    await new Promise(r => setTimeout(r, 200)); 
     
-    // B -> C
-    await controls.start({ cx: [120, 230], cy: [50, 50], transition: { duration: 0.8, ease: "easeInOut" } });
-    await new Promise(r => setTimeout(r, 400)); // Decision delay
+    await controls.start({ cx: [115, 195], cy: [50, 50], transition: { duration: 0.6, ease: "easeInOut" } });
+    await new Promise(r => setTimeout(r, 400)); 
 
-    // C -> D (or E)
     if (pathIndex === 0) {
-      // Path: CRM (Hubspot)
-      await controls.start({ cx: [230, 340], cy: [50, 10], transition: { duration: 0.8, ease: "easeInOut" } });
+      await controls.start({ cx: [195, 275], cy: [50, 15], transition: { duration: 0.6, ease: "easeInOut" } });
     } else {
-      // Path: Error Log
-      await controls.start({ cx: [230, 340], cy: [50, 90], transition: { duration: 0.8, ease: "easeInOut" } });
+      await controls.start({ cx: [195, 275], cy: [50, 85], transition: { duration: 0.6, ease: "easeInOut" } });
     }
 
-    await new Promise(r => setTimeout(r, 1000)); // Complete stay
+    await new Promise(r => setTimeout(r, 1000)); 
   };
 
   useEffect(() => {
     const loop = async () => {
-      // Run the animation sequence and wait for it
       await animateEvent(activePath);
-      // Wait before starting the next loop
       await new Promise(r => setTimeout(r, 1000));
-      // Alternate the path for the next loop
       setActivePath(prev => (prev === 0 ? 1 : 0));
     };
     loop();
-  }, [activePath]); // Restarts when activePath changes, creating a full loop cycle
+  }, [activePath]); 
 
   return (
-    <div className="relative w-full h-[200px] bg-black/50 rounded-xl overflow-hidden border border-white/5 p-4 shadow-inner">
-      {/* Network of Lines (static) */}
-      <svg width="100%" height="100%" viewBox="0 0 450 100" className="absolute top-0 left-0">
+    <div className="relative w-full h-[220px] bg-black/50 rounded-xl overflow-hidden border border-white/5 p-4 shadow-inner">
+      {/* ViewBox ajustado a 320 para que los elementos escalen si el contenedor es pequeño */}
+      <svg width="100%" height="100%" viewBox="0 0 320 100" className="absolute top-0 left-0" preserveAspectRatio="xMidYMid meet">
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 0 L 10 5 L 0 10 z" fill="#14B8A6" />
@@ -97,7 +91,7 @@ function WorkflowSimulation() {
           return (
             <path
               key={idx}
-              d={`M ${fromNode.x + 40} ${fromNode.y} L ${toNode.x} ${toNode.y}`}
+              d={`M ${fromNode.x + 15} ${fromNode.y} L ${toNode.x - 15} ${toNode.y}`}
               stroke="#14B8A6"
               strokeWidth="1.5"
               strokeOpacity="0.3"
@@ -107,44 +101,23 @@ function WorkflowSimulation() {
             />
           );
         })}
-        {/* Animated Event Particle */}
         <motion.circle
-          cx={10}
-          cy={50}
-          r={6}
-          fill="#14B8A6"
-          animate={controls}
-          className="shadow-xl"
+          cx={35} cy={50} r={5} fill="#14B8A6" animate={controls} className="shadow-xl"
         />
         <motion.circle
-          cx={10}
-          cy={50}
-          r={6}
-          fill="none"
-          stroke="#14B8A6"
-          strokeWidth="1"
-          animate={controls}
+          cx={35} cy={50} r={5} fill="none" stroke="#14B8A6" strokeWidth="1" animate={controls}
           transition={{ duration: 1.2, repeat: Infinity }}
-          initial={{ r: 6, opacity: 1 }}
-          keypoints={[0, 1, 0]}
-          style={{ originX: 0, originY: 0 }}
-          transform-origin="center"
-          custom={{
-            cx: { value: 6 },
-            cy: { value: 6 },
-            r: { value: [6, 12, 6] },
-            opacity: { value: [1, 0, 1] }
-          }}
+          custom={{ r: { value: [5, 12, 5] }, opacity: { value: [1, 0, 1] } }}
         />
       </svg>
 
-      {/* Nodes (labels and icons) */}
+      {/* Nodos renderizados usando porcentajes relativos al ViewBox de 320px para alinearse perfectamente con el SVG */}
       {nodes.map(node => (
-        <div key={node.id} style={{ left: `${node.x}px`, top: `${node.y - 20}px` }} className="absolute z-10 flex items-center gap-2 text-xs font-mono">
-          <div className="glass-panel p-2 rounded-lg border border-white/10 shadow-lg hover:border-white/30 transition-colors">
+        <div key={node.id} style={{ left: `${(node.x / 320) * 100}%`, top: `${node.y}%`, transform: 'translate(-50%, -50%)' }} className="absolute z-10 flex flex-col items-center gap-1.5 text-[10px] font-mono">
+          <div className="glass-panel p-2 rounded-lg border border-white/10 shadow-lg hover:border-white/30 transition-colors bg-[#0a0a0a]">
             {node.icon && <node.icon />}
           </div>
-          <span className="text-white/70 bg-black/60 px-2 py-0.5 rounded backdrop-blur-sm whitespace-nowrap">{node.label}</span>
+          <span className="text-white/70 bg-black/80 px-2 py-0.5 rounded backdrop-blur-sm whitespace-nowrap border border-white/5">{node.label}</span>
         </div>
       ))}
     </div>
@@ -155,7 +128,7 @@ function About() {
   return (
     <section id="about" className="py-24 relative">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -182,11 +155,11 @@ function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="glass-panel p-8 rounded-2xl hover:border-white/20 transition-colors duration-300 shadow-xl"
+            className="glass-panel p-6 md:p-8 rounded-2xl hover:border-white/20 transition-colors duration-300 shadow-xl w-full"
           >
-            <h3 className="text-xl font-semibold text-primary mb-6">Workflow Automation Simulation</h3>
-            <p className="text-muted text-base leading-relaxed mb-6">
-              A stylized demonstration of how an event-driven workflow processes data, makes a decision, and orchestrates actions between APIs. This visualization is inspired by n8n.
+            <h3 className="text-xl font-semibold text-primary mb-4">Workflow Automation Simulation</h3>
+            <p className="text-muted text-sm leading-relaxed mb-6">
+              A stylized demonstration of how an event-driven workflow processes data, makes a decision, and orchestrates actions between APIs. Inspired by n8n.
             </p>
             
             <WorkflowSimulation />

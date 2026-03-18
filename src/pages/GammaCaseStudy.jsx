@@ -1,18 +1,27 @@
+// src/pages/GammaCaseStudy.jsx
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Clock, Bot, Mail, CheckCircle, RefreshCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
-// 1. Nuevas importaciones
+import { ArrowLeft, Clock, Bot, Mail, CheckCircle, RefreshCw } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-function GammaCaseStudy() {
+export default function GammaCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (window.anime) {
+      window.anime({
+        targets: '.animate-in',
+        translateY: [40, 0],
+        opacity: [0, 1],
+        delay: window.anime.stagger(150),
+        easing: 'easeOutExpo',
+        duration: 1000
+      });
+    }
   }, []);
 
-  // 2. Guardamos el código
-  const codeSnippet = `// Initial ingestion: Identifying the type of interaction (Message vs Button)
+  const codeSnippet = `// Initial ingestion: Identifying the type of interaction
 const staticData = $getWorkflowStaticData('global');
 const payload = $input.first().json;
 
@@ -30,112 +39,84 @@ if (payload.message) {
     return [{ json: { type: 'datetime', payload, context } }];
   }
   
-  // Normal data input
   return [{ json: { type: 'message', payload } }];
 }`;
 
   return (
-    <div className="pt-24 pb-32">
+    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
       <div className="max-w-4xl mx-auto px-6">
         
-        <Link to="/" className="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-12 group">
-          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          Back to Portfolio
-        </Link>
+        <nav className="mb-16 animate-in opacity-0">
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
+            <ArrowLeft size={18} /> Back to Portfolio
+          </Link>
+        </nav>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex flex-wrap gap-2 mb-6">
-            <span className="text-xs font-medium px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">Asynchronous Automation</span>
-            <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">Telegram Bot</span>
-            <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">Gamma API</span>
+        <header className="mb-16 animate-in opacity-0">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">
+              Asynchronous Automation
+            </span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6 leading-tight">
-            Executive Report <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">Generator Agent</span>
-          </h1>
-          <p className="text-xl text-muted leading-relaxed mb-12">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">Gamma Agent</h1>
+          <p className="text-xl text-muted leading-relaxed max-w-2xl">
             A conversational bot that ingests raw data, orchestrates presentation creation via AI, manages human approvals (Human-in-the-loop), and schedules deferred email deliveries.
           </p>
-        </motion.div>
+        </header>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
-        >
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20 animate-in opacity-0">
           {[
-            { label: "Interface", value: "Telegram" },
-            { label: "Generation", value: "Gamma API" },
-            { label: "Approval", value: "Interactive" },
-            { label: "Execution", value: "Scheduled" }
-          ].map((stat, i) => (
-            <div key={i} className="glass-panel p-6 rounded-2xl text-center border-t border-t-white/10">
-              <span className="block text-2xl font-bold text-primary mb-1">{stat.value}</span>
-              <span className="text-xs text-muted uppercase tracking-wider">{stat.label}</span>
+            { label: 'Interface', value: 'Telegram Bot', icon: Bot },
+            { label: 'Generation', value: 'Gamma API', icon: RefreshCw },
+            { label: 'Approval', value: 'Interactive', icon: CheckCircle },
+            { label: 'Execution', value: 'Scheduled', icon: Clock },
+          ].map((item, i) => (
+            <div key={i} className="glass-panel p-5 rounded-xl border border-white/5">
+              <item.icon className="text-accent mb-3" size={20} />
+              <div className="text-xs text-muted mb-1 uppercase tracking-wider">{item.label}</div>
+              <div className="font-semibold">{item.value}</div>
             </div>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="space-y-16 text-muted leading-relaxed"
-        >
+        <section className="space-y-16">
           
-          <section>
-            <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
-              <Bot className="text-accent" /> The Operational Challenge
-            </h2>
-            <p>
-              Generating executive presentations from raw data (e.g., Power BI exports) takes hours of manual work. The goal was to create a mobile-accessible assistant that could receive the data, structure it with AI, generate the slides, and most importantly, <strong>request human approval before sending the final result to clients at a scheduled date and time.</strong>
+          <div className="animate-in opacity-0">
+            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">01. The Operational Challenge</h2>
+            <p className="text-muted text-lg leading-relaxed">
+              Generating executive presentations from raw data takes hours of manual work. The goal was to create a mobile-accessible assistant that could receive the data, structure it with AI, generate the slides, and most importantly, request human approval before sending the final result to clients at a scheduled date and time.
             </p>
-          </section>
+          </div>
 
-          <section>
-            <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-3">
-              <RefreshCw className="text-accent" /> Asynchronous Architecture
-            </h2>
-            <div className="glass-panel p-8 rounded-2xl mb-6 border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
-              <ul className="space-y-6">
-                <li className="flex gap-4">
-                  <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><RefreshCw size={20} className="text-accent"/></div>
-                  <div>
-                    <strong className="text-primary block mb-1">Intelligent Polling Mechanism</strong>
-                    Document generation APIs (like Gamma) do not respond immediately. I implemented a controlled wait cycle (Wait/Check) with a safe retry limit to monitor the status without overwhelming the endpoints.
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><CheckCircle size={20} className="text-accent"/></div>
-                  <div>
-                    <strong className="text-primary block mb-1">Human-in-the-Loop & State Management</strong>
-                    Using <code>$getWorkflowStaticData</code>, the system saves the user's session in memory. The bot sends the presentation via Telegram with interactive buttons (Callbacks) and "pauses" its execution until receiving the approval or cancellation click.
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="mt-1 bg-white/10 p-2 rounded-lg h-fit"><Clock size={20} className="text-accent"/></div>
-                  <div>
-                    <strong className="text-primary block mb-1">Deferred Execution (Scheduling)</strong>
-                    Once approved, the system asks the user for a delivery date. A code parser extracts the "DD/MM/YYYY HH:MM" string, converts it to a strict timezone, validates that it is in the future, and suspends the entire flow until that exact moment.
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </section>
+          <div className="animate-in opacity-0">
+            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">02. Asynchronous Architecture</h2>
+            <ul className="space-y-6 mt-6">
+              <li className="flex gap-4 glass-panel p-6 rounded-xl border border-white/5">
+                <div className="mt-1 bg-white/5 p-2 rounded-lg h-fit"><RefreshCw size={20} className="text-accent"/></div>
+                <div>
+                  <strong className="text-primary block mb-1 text-lg">Intelligent Polling Mechanism</strong>
+                  <span className="text-muted leading-relaxed">Document generation APIs do not respond immediately. I implemented a controlled wait cycle (Wait/Check) with a safe retry limit to monitor the status without overwhelming the endpoints.</span>
+                </div>
+              </li>
+              <li className="flex gap-4 glass-panel p-6 rounded-xl border border-white/5">
+                <div className="mt-1 bg-white/5 p-2 rounded-lg h-fit"><CheckCircle size={20} className="text-accent"/></div>
+                <div>
+                  <strong className="text-primary block mb-1 text-lg">Human-in-the-Loop & State Management</strong>
+                  <span className="text-muted leading-relaxed">Using <code>$getWorkflowStaticData</code>, the system saves the user's session in memory. The bot sends the presentation via Telegram with interactive buttons and pauses its execution until receiving the approval.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
 
-          <section>
-            <h2 className="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+          <div className="animate-in opacity-0">
+            <h2 className="text-2xl font-bold mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
               <Mail className="text-accent" /> Featured Code: Global State Control
             </h2>
-            <p className="mb-6">
+            <p className="text-muted text-lg leading-relaxed mb-6">
               Maintaining conversation context across multiple messages separated in time requires good state design. Here I show how I structure in-memory persistence to manage the bot's state machine.
             </p>
             
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117]">
+            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
@@ -144,7 +125,6 @@ if (payload.message) {
                 </div>
                 <span className="ml-4 text-xs font-mono text-muted">state_manager.js</span>
               </div>
-              {/* 3. Componente de sintaxis aquí también */}
               <div className="text-sm font-mono text-gray-300">
                 <SyntaxHighlighter 
                   language="javascript" 
@@ -155,12 +135,11 @@ if (payload.message) {
                 </SyntaxHighlighter>
               </div>
             </div>
-          </section>
+          </div>
 
-        </motion.div>
+        </section>
+
       </div>
     </div>
   );
 }
-
-export default GammaCaseStudy;

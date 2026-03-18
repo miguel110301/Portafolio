@@ -1,158 +1,127 @@
+// src/pages/LogisticsCaseStudy.jsx
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Server, Cpu, Webhook, ShieldCheck, Database, Terminal, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { ArrowLeft, GitBranch, Server, Database, Activity, CheckCircle2 } from 'lucide-react';
 
-function LogisticsCaseStudy() {
+export default function LogisticsCaseStudy() {
   useEffect(() => {
+    // Scroll al top al montar el componente
     window.scrollTo(0, 0);
+
+    // Animación de entrada con Anime.js (asegúrate de tener el script en index.html)
+    if (window.anime) {
+      window.anime({
+        targets: '.animate-in',
+        translateY: [40, 0],
+        opacity: [0, 1],
+        delay: window.anime.stagger(150),
+        easing: 'easeOutExpo',
+        duration: 1000
+      });
+    }
   }, []);
 
-  const codeSnippet = `// Recursive function to find the valid JSON object within the LLM response
-function findValidJSON(obj) {
-  if (!obj) return null;
-  if (typeof obj === 'string' && (obj.includes('monto') || obj.includes('categoria'))) return obj;
-  if (typeof obj === 'object') {
-    for (let key in obj) {
-      let found = findValidJSON(obj[key]);
-      if (found) return found;
-    }
-  }
-  return null;
-}
-
-const foundText = findValidJSON($json);
-if (!foundText) return { json: { is_valid: false, error_msg: "Parse Error" }};
-
-try {
-  const cleanStr = foundText.replace(/\\\`\\\`\\\`json/g, '').replace(/\\\`\\\`\\\`/g, '').trim();
-  const data = JSON.parse(cleanStr);
-  
-  return { json: { is_valid: true, monto: data.monto, categoria: data.categoria }};
-} catch (error) {
-  return { json: { is_valid: false, error_msg: "Corrupted data." }};
-}`;
-
   return (
-    <div className="pt-24 pb-32">
+    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
       <div className="max-w-4xl mx-auto px-6">
         
-        <Link to="/" className="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-12 group">
-          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          Back to Portfolio
-        </Link>
+        {/* Navbar minimalista / Botón de regreso */}
+        <nav className="mb-16 animate-in opacity-0">
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
+            <ArrowLeft size={18} /> Back to Portfolio
+          </Link>
+        </nav>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <div className="flex flex-wrap gap-2 mb-6">
-            <span className="text-xs font-medium px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">Event-Driven Logistics</span>
-            <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">Advanced n8n</span>
+        {/* Header */}
+        <header className="mb-16 animate-in opacity-0">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">
+              Architecture & Automation
+            </span>
+            <span className="text-xs font-mono text-muted">2025</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6 leading-tight">
-            Logistics Orchestrator <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">Powered by AI</span>
-          </h1>
-          <p className="text-xl text-muted leading-relaxed mb-12">
-            High-concurrency automated system for driver operational management, physical evidence validation using Computer Vision, and strict state synchronization with a centralized backend.
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">LogisticsFlow AI</h1>
+          <p className="text-xl text-muted leading-relaxed max-w-2xl">
+            An event-driven logistics system engineered to validate evidence automatically, sync data tightly with a Django backend, and communicate via WhatsApp API in real-time.
           </p>
-        </motion.div>
+        </header>
 
-        <motion.div 
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-16 text-muted leading-relaxed"
-        >
+        {/* Tech Stack Banner */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20 animate-in opacity-0">
+          {[
+            { label: 'Orchestrator', value: 'n8n', icon: GitBranch },
+            { label: 'Backend', value: 'Django & Python', icon: Server },
+            { label: 'AI Engine', value: 'OpenAI Whisper', icon: Activity },
+            { label: 'Database', value: 'PostgreSQL', icon: Database },
+          ].map((item, i) => (
+            <div key={i} className="glass-panel p-5 rounded-xl border border-white/5">
+              <item.icon className="text-accent mb-3" size={20} />
+              <div className="text-xs text-muted mb-1 uppercase tracking-wider">{item.label}</div>
+              <div className="font-semibold">{item.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Content Sections */}
+        <section className="space-y-16">
           
-          <section>
-            <h2 className="text-2xl font-bold text-primary mb-8 flex items-center gap-3">
-              <Server className="text-accent" /> System Architecture Flow
-            </h2>
-            
-            {/* EL DIAGRAMA ANIMADO */}
-            <div className="glass-panel p-8 rounded-2xl border border-white/10 bg-[#0d1117] flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 overflow-hidden relative py-12">
-              
-              {/* Partícula de datos que viaja */}
-              <motion.div 
-                className="absolute h-2 w-2 rounded-full bg-accent z-0 hidden md:block"
-                animate={{
-                  x: [0, 200, 400, 600, 800],
-                  opacity: [0, 1, 1, 1, 0],
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                style={{ top: '50%', marginTop: '-4px', left: '10%' }}
-              />
+          <div className="animate-in opacity-0">
+            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">01. The Problem</h2>
+            <p className="text-muted text-lg leading-relaxed">
+              Logistics companies face extreme bottlenecks when processing driver evidence. Delivery tickets, IDs, and voice notes arrive chaotically through different channels. Manual validation is slow, prone to human error, and delays the supply chain billing cycle. We needed a system capable of ingesting this unstructured data and structuring it autonomously.
+            </p>
+          </div>
 
-              <div className="z-10 flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-white/5 border border-white/20 flex items-center justify-center mb-3">
-                  <Webhook className="text-muted" size={28} />
-                </div>
-                <span className="text-sm font-semibold text-primary">Webhook</span>
-                <span className="text-xs text-muted">Raw Payload</span>
+          <div className="animate-in opacity-0">
+            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">02. The Architecture</h2>
+            <p className="text-muted text-lg leading-relaxed mb-6">
+              I designed a highly decoupled architecture where <strong>n8n</strong> acts as the central nervous system, catching Webhooks from the WhatsApp Business API and routing the payloads based on their MIME type (Images vs. Audio).
+            </p>
+            <ul className="space-y-4 text-muted text-lg mb-8">
+              <li className="flex items-start gap-3">
+                <CheckCircle2 className="text-green-500 shrink-0 mt-1" size={20} />
+                <span><strong>Audio Processing:</strong> Voice notes sent by drivers are intercepted by n8n, temporarily stored, and sent to OpenAI's Whisper API for high-fidelity transcription.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle2 className="text-green-500 shrink-0 mt-1" size={20} />
+                <span><strong>Image Validation:</strong> Delivery tickets are passed through a vision model to extract text (OCR) and validate signatures before touching the main database.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle2 className="text-green-500 shrink-0 mt-1" size={20} />
+                <span><strong>Strict Sync:</strong> Once data is validated, n8n structures the JSON payload and pushes it via REST API to a secure Django backend, which handles the business logic and database persistence.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="animate-in opacity-0 glass-panel p-8 rounded-2xl border border-white/10 bg-[#0a0a0a]">
+            <h2 className="text-2xl font-bold mb-6">03. Impact & Results</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <div className="text-4xl font-extrabold text-accent mb-2">90%</div>
+                <div className="text-sm text-muted">Reduction in manual ticket processing time.</div>
               </div>
-
-              <ArrowRight className="hidden md:block text-white/20" />
-
-              <div className="z-10 flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-accent/20 border border-accent/50 flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(56,189,248,0.3)]">
-                  <Cpu className="text-accent" size={28} />
-                </div>
-                <span className="text-sm font-semibold text-primary">n8n Router</span>
-                <span className="text-xs text-muted">State Machine</span>
+              <div>
+                <div className="text-4xl font-extrabold text-accent mb-2">0</div>
+                <div className="text-sm text-muted">Data loss during peak driver reporting hours.</div>
               </div>
-
-              <ArrowRight className="hidden md:block text-white/20" />
-
-              <div className="z-10 flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-purple-500/20 border border-purple-500/50 flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
-                  <ShieldCheck className="text-purple-400" size={28} />
-                </div>
-                <span className="text-sm font-semibold text-primary">GPT-4o</span>
-                <span className="text-xs text-muted">OCR & Anti-Fraud</span>
-              </div>
-
-              <ArrowRight className="hidden md:block text-white/20" />
-
-              <div className="z-10 flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-white/5 border border-white/20 flex items-center justify-center mb-3">
-                  <Database className="text-green-400" size={28} />
-                </div>
-                <span className="text-sm font-semibold text-primary">Django DB</span>
-                <span className="text-xs text-muted">Single Source</span>
+              <div>
+                <div className="text-4xl font-extrabold text-accent mb-2">24/7</div>
+                <div className="text-sm text-muted">Automated evidence ingestion via WhatsApp.</div>
               </div>
             </div>
-            <p className="mt-6 text-sm">
-              The payload is intercepted, audio is converted to text asynchronously using Whisper, and strict business rules are applied through the state machine before committing to the Django database.
-            </p>
-          </section>
+          </div>
 
-          <section>
-            <h2 className="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
-              <Terminal className="text-accent" /> Engineering in Automation
-            </h2>
-            <p className="mb-6">
-              Low-code tools fail if there is no solid code backing them up. Here I show how I solve one of the most common problems when using LLMs in production: <strong>ensuring JSON parsing even when the AI hallucinates additional text or markdown formatting.</strong>
-            </p>
-            
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117]">
-              <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                </div>
-                <span className="ml-4 text-xs font-mono text-muted">ai_json_parser.js</span>
-              </div>
-              <div className="text-sm font-mono text-gray-300">
-                <SyntaxHighlighter language="javascript" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}>
-                  {codeSnippet}
-                </SyntaxHighlighter>
-              </div>
-            </div>
-          </section>
+        </section>
 
-        </motion.div>
+        {/* Footer CTA */}
+        <div className="mt-24 pt-12 border-t border-white/10 text-center animate-in opacity-0">
+          <h3 className="text-xl font-bold mb-6">Interested in this architecture?</h3>
+          <a href="mailto:tu-correo@example.com" className="inline-flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-xl font-bold hover:scale-105 transition-transform duration-200">
+            Let's build something similar
+          </a>
+        </div>
+
       </div>
     </div>
   );
 }
-
-export default LogisticsCaseStudy;
