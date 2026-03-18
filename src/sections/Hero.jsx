@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Terminal, FileText } from 'lucide-react';
 import NetworkBackground from '../components/NetworkBackground';
-import SystemDashboard from '../components/SystemDashboard'; // <-- Importamos el nuevo Dashboard
+import DataStreamGame from '../components/DataStreamGame'; // <-- IMPORTA EL NUEVO JUEGO
 
 function Hero() {
   return (
@@ -51,19 +51,19 @@ function Hero() {
           <a href="/#projects" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-xl font-bold hover:scale-105 transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
             Explore Architecture <ArrowRight size={18} strokeWidth={2.5} />
           </a>
-          <a href="/CVAutomat.pdf" download className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-8 py-3.5 rounded-xl font-semibold hover:bg-white/10 transition-colors duration-200">
+          <a href="/CV_Miguel_Moreno.pdf" download className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-8 py-3.5 rounded-xl font-semibold hover:bg-white/10 transition-colors duration-200">
             <FileText size={18} /> Download Resume
           </a>
         </motion.div>
 
-        {/* Inyectamos el Dashboard de Telemetría aquí */}
+        {/* AQUÍ METEMOS EL NUEVO JUEGO */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
           className="w-full"
         >
-          <SystemDashboard />
+          <DataStreamGame />
         </motion.div>
 
       </div>

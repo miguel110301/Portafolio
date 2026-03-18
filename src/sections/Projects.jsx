@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-// 1. Importamos la librería mágica
 import Tilt from 'react-parallax-tilt';
 
 function Projects() {
@@ -27,7 +26,7 @@ function Projects() {
       category: "Telegram Bot & AI",
       description: "Asynchronous bot that ingests data, orchestrates presentation generation with Gamma API, handles human approvals, and schedules deferred email deliveries.",
       tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
-      featured: false,
+      featured: true, // <-- ¡CAMBIO AQUÍ! Ahora ocupará todo el ancho
       link: "/proyecto/gamma"
     }
   ];
@@ -53,7 +52,6 @@ function Projects() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               className={project.featured ? 'md:col-span-2' : ''}
             >
-              {/* 2. Envolvemos la tarjeta en Tilt */}
               <Tilt 
                 tiltMaxAngleX={5} 
                 tiltMaxAngleY={5} 

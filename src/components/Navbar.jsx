@@ -40,7 +40,7 @@ function Navbar() {
             </button>
 
             <a 
-              href="/CVAutomat.pdf" 
+              href="/CV_Miguel_Moreno.pdf" 
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:block text-sm font-medium text-muted hover:text-primary transition-colors duration-200"
