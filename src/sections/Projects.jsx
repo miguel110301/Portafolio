@@ -26,7 +26,7 @@ function Projects() {
       category: "Telegram Bot & AI",
       description: "Asynchronous bot that ingests data, orchestrates presentation generation with Gamma API, handles human approvals, and schedules deferred email deliveries.",
       tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
-      featured: true, // <-- ¡CAMBIO AQUÍ! Ahora ocupará todo el ancho
+      featured: true,
       link: "/proyecto/gamma"
     }
   ];
