@@ -6,17 +6,19 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: '#0a0a0a', // Un negro casi puro, muy elegante
-        surface: '#121212', // Ligeramente más claro para tarjetas
-        border: 'rgba(255,255,255,0.08)',
-        primary: '#f8fafc', // Texto principal (casi blanco)
-        muted: '#94a3b8', // Texto secundario
-        accent: '#38bdf8', // Un azul sutil para detalles (tipo iOS)
+      fontFamily: {
+        // Establecemos Inter como la fuente principal del proyecto
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
-      backgroundImage: {
-        'glow-gradient': 'radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 50%)',
-      }
+      colors: {
+        background: '#0a0a0a',
+        surface: '#121212',
+        border: 'rgba(255,255,255,0.08)',
+        primary: '#f8fafc',
+        muted: '#94a3b8',
+        accent: '#38bdf8',
+      },
     },
   },
   plugins: [],

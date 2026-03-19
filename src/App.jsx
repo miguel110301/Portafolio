@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import Experience from "./sections/Experience";
-import Services from "./sections/Services";
+import Education from "./sections/Education";
 import Projects from "./sections/Projects";
 import About from "./sections/About";
 import Contact from "./sections/Contact";
@@ -24,6 +24,7 @@ function Home() {
     >
       <Hero />
       <Experience />
+      <Education />
       <Projects />
       <Labs />     {/* <-- Agregamos Labs justo aquí */}
       <About />
@@ -86,7 +87,7 @@ function AnimatedRoutes() {
             <DashboardProCaseStudy />
           </motion.div>
         } />
-        
+
       </Routes>
     </AnimatePresence>
   );
