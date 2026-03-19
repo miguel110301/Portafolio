@@ -6,11 +6,11 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion } from 'framer-motion';
 
-// --- COMPONENTE ANIMADO DEL DASHBOARD ---
+// --- ANIMATED DASHBOARD COMPONENT ---
 function AnimatedDashboard() {
   const [revenue, setRevenue] = useState(124500);
   
-  // Simulación de cambio de números en vivo
+  // Simulate live number changes
   useEffect(() => {
     const interval = setInterval(() => {
       setRevenue(prev => prev + Math.floor(Math.random() * 500));
@@ -20,10 +20,10 @@ function AnimatedDashboard() {
 
   return (
     <div className="w-full h-full bg-[#050505] p-4 md:p-6 flex flex-col gap-4 font-sans text-white/80 select-none overflow-hidden relative">
-      {/* Grid de fondo decorativo */}
+      {/* Decorative background grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4%_8%] pointer-events-none" />
       
-      {/* Header del ERP Mock */}
+      {/* ERP Mock Header */}
       <div className="flex justify-between items-center border-b border-white/10 pb-3 relative z-10">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded bg-accent/20 flex items-center justify-center border border-accent/30">
@@ -57,7 +57,7 @@ function AnimatedDashboard() {
       {/* Main Content Area */}
       <div className="flex-1 grid grid-cols-3 gap-3 md:gap-4 relative z-10">
         
-        {/* Gráfico de Barras Animado */}
+        {/* Animated Bar Chart */}
         <div className="col-span-2 bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col">
           <span className="text-xs text-muted mb-4 font-medium">Hourly Transaction Volume</span>
           <div className="flex-1 flex items-end justify-between gap-1 md:gap-2">
@@ -80,18 +80,17 @@ function AnimatedDashboard() {
           </div>
         </div>
 
-        {/* Activity Feed Animado */}
-            <div className="col-span-1 bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col relative">
-            <span className="text-xs text-muted mb-3 font-medium shrink-0">Security Logs</span>
-            
-            {/* El secreto es el overflow-hidden aquí */}
-            <div className="flex-1 relative overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
-                <motion.div 
-                animate={{ y: [0, -60] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                className="absolute top-0 left-0 w-full space-y-3 pt-2"
-                >
+        {/* Animated Activity Feed */}
+        <div className="col-span-1 bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col relative">
+          <span className="text-xs text-muted mb-3 font-medium shrink-0">Security Logs</span>
+          
+          <div className="flex-1 relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
+            <motion.div 
+              animate={{ y: [0, -60] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+              className="absolute top-0 left-0 w-full space-y-3 pt-2"
+            >
               {[
                 { type: "auth", msg: "User admin logged in", time: "10s ago" },
                 { type: "query", msg: "Exporting sales_Q3", time: "14s ago" },
@@ -114,7 +113,7 @@ function AnimatedDashboard() {
               ))}
             </motion.div>
 
-            {/* Gradiente inferior para difuminar cuando el texto aparece */}
+            {/* Bottom gradient fade */}
             <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-[#111111] to-transparent z-10 pointer-events-none" />
           </div>
         </div>
@@ -123,7 +122,7 @@ function AnimatedDashboard() {
     </div>
   );
 }
-// --- FIN DEL COMPONENTE ANIMADO ---
+// --- END OF ANIMATED DASHBOARD COMPONENT ---
 
 
 export default function DashboardProCaseStudy() {
@@ -151,26 +150,26 @@ logger = logging.getLogger('security')
 
 def require_role(allowed_roles):
     """
-    Protege los endpoints asegurando que el usuario tenga un rol autorizado.
+    Protects endpoints by ensuring the user holds an authorized role.
     """
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
             if not request.user.is_authenticated:
-                logger.warning(f"Intento de acceso anónimo a {request.path}")
-                raise PermissionDenied("Se requiere autenticación.")
+                logger.warning(f"Anonymous access attempt on {request.path}")
+                raise PermissionDenied("Authentication required.")
             
             user_role = getattr(request.user, 'role', None)
             
             if not user_role or user_role.name not in allowed_roles:
-                logger.warning(f"Acceso denegado: Usuario {request.user.email} (Rol: {user_role})")
-                raise PermissionDenied(f"Permisos insuficientes para esta acción.")
+                logger.warning(f"Access denied: User {request.user.email} (Role: {user_role})")
+                raise PermissionDenied(f"Insufficient permissions for this action.")
                 
             return view_func(request, *args, **kwargs)
         return _wrapped_view
     return decorator
 
-# Ejemplo de uso en el controlador de Inventario:
+# Usage example on the Inventory controller:
 # @require_role(['Admin', 'Warehouse_Manager'])
 # def update_stock(request, product_id):
 #     ...
@@ -180,14 +179,14 @@ def require_role(allowed_roles):
     <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
       <div className="max-w-4xl mx-auto px-6">
         
-        {/* Navegación */}
+        {/* Navigation */}
         <nav className="mb-16 animate-in opacity-0">
           <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
-            <ArrowLeft size={18} /> Volver al Portafolio
+            <ArrowLeft size={18} /> Back to Portfolio
           </Link>
         </nav>
 
-        {/* Header del Proyecto */}
+        {/* Project Header */}
         <header className="mb-16 animate-in opacity-0">
           <div className="flex items-center gap-3 mb-6">
             <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">
@@ -196,17 +195,17 @@ def require_role(allowed_roles):
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">Dashboard Pro</h1>
           <p className="text-xl text-muted leading-relaxed max-w-2xl">
-            Sistemas backend robustos para una plataforma ERP de inventario y ventas. Un enfoque total en la integridad de los datos, flujos de reportes automatizados en segundo plano y control de acceso estricto basado en roles (RBAC).
+            Robust backend systems for an ERP platform covering inventory and sales. A complete focus on data integrity, automated background reporting workflows, and strict role-based access control (RBAC).
           </p>
         </header>
 
-        {/* Métricas / Stack */}
+        {/* Metrics / Stack */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20 animate-in opacity-0">
           {[
-            { label: 'Lógica Core', value: 'Python', icon: Settings },
-            { label: 'Persistencia', value: 'PostgreSQL', icon: Database },
-            { label: 'Seguridad', value: 'RBAC Auth', icon: ShieldCheck },
-            { label: 'Procesamiento', value: 'Background Jobs', icon: ActivityIcon },
+            { label: 'Core Logic', value: 'Python', icon: Settings },
+            { label: 'Persistence', value: 'PostgreSQL', icon: Database },
+            { label: 'Security', value: 'RBAC Auth', icon: ShieldCheck },
+            { label: 'Processing', value: 'Background Jobs', icon: ActivityIcon },
           ].map((item, i) => (
              <div key={i} className="glass-panel p-5 rounded-xl border border-white/5">
               <item.icon className="text-accent mb-3" size={20} />
@@ -216,33 +215,33 @@ def require_role(allowed_roles):
           ))}
         </div>
 
-        {/* --- AQUÍ REEMPLAZAMOS LA IMAGEN CON EL COMPONENTE ANIMADO --- */}
+        {/* Animated Dashboard Preview */}
         <div className="mb-20 rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] aspect-[16/10] md:aspect-video relative animate-in opacity-0">
           <AnimatedDashboard />
         </div>
 
         <section className="space-y-16">
           
-          {/* Sección 1: RBAC */}
+          {/* Section 1: RBAC */}
           <div className="animate-in opacity-0">
             <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4 flex items-center gap-3">
-              <Users className="text-accent" /> 01. Arquitectura de Datos y Permisos
+              <Users className="text-accent" /> 01. Data Architecture & Permissions
             </h2>
             <p className="text-muted text-lg leading-relaxed mb-6">
-              En sistemas ERP (Enterprise Resource Planning), un error de permisos puede significar desajustes financieros o fugas de información. Implementé un sistema de <strong>Control de Acceso Basado en Roles (RBAC)</strong> desde cero en el backend. 
+              In ERP (Enterprise Resource Planning) systems, a permissions error can mean financial discrepancies or data leaks. I implemented a <strong>Role-Based Access Control (RBAC)</strong> system from scratch on the backend.
             </p>
             <p className="text-muted text-lg leading-relaxed">
-              Esto asegura que el personal de almacén solo pueda modificar el stock, el equipo de ventas solo gestione transacciones, y la gerencia tenga acceso a vistas consolidadas, todo operando sobre la misma fuente de verdad (Single Source of Truth) en PostgreSQL.
+              This ensures warehouse staff can only modify stock, the sales team only manages transactions, and management has access to consolidated views — all operating over the same Single Source of Truth in PostgreSQL.
             </p>
           </div>
 
-          {/* Código Destacado */}
+          {/* Featured Code */}
           <div className="animate-in opacity-0">
             <h2 className="text-2xl font-bold mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
-              <Lock className="text-accent" /> Código Destacado: Middleware RBAC
+              <Lock className="text-accent" /> Featured Code: RBAC Middleware
             </h2>
             <p className="text-muted text-lg leading-relaxed mb-6">
-              Para mantener el código limpio y escalable, diseñé decoradores personalizados en Python que interceptan las peticiones a la API, validando la identidad y el rol antes de tocar la base de datos, registrando además cualquier anomalía de seguridad.
+              To keep the codebase clean and scalable, I designed custom Python decorators that intercept API requests, validating identity and role before touching the database, while logging any security anomalies.
             </p>
             
             <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl">
@@ -266,31 +265,31 @@ def require_role(allowed_roles):
             </div>
           </div>
 
-          {/* Sección 2: Automatización */}
+          {/* Section 2: Automation */}
           <div className="animate-in opacity-0">
             <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4 flex items-center gap-3">
-              <ActivityIcon className="text-accent" /> 02. Flujos de Reportes Automatizados
+              <ActivityIcon className="text-accent" /> 02. Automated Reporting Workflows
             </h2>
             <p className="text-muted text-lg leading-relaxed">
-              La gerencia no necesita ver datos crudos, necesita información procesable. En lugar de requerir exportaciones manuales diarias que colapsan la base de datos en horas pico, diseñé tareas en segundo plano (Background Jobs) que consolidan las métricas de inventario y ventas durante la madrugada, generando y distribuyendo reportes analíticos automáticamente.
+              Management doesn't need raw data — they need actionable information. Instead of requiring manual daily exports that hammer the database during peak hours, I designed background jobs that consolidate inventory and sales metrics overnight, automatically generating and distributing analytical reports.
             </p>
           </div>
 
-          {/* Impacto / Resultados */}
+          {/* Impact / Results */}
           <div className="animate-in opacity-0 glass-panel p-8 rounded-2xl border border-white/10 bg-[#0a0a0a]">
-            <h2 className="text-2xl font-bold mb-8 text-center md:text-left">03. Impacto Operativo</h2>
+            <h2 className="text-2xl font-bold mb-8 text-center md:text-left">03. Operational Impact</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
               <div>
                 <div className="text-4xl font-extrabold text-accent mb-2">100%</div>
-                <div className="text-sm text-muted">Trazabilidad en auditorías gracias al sistema de roles.</div>
+                <div className="text-sm text-muted">Full audit traceability through the role-based system.</div>
               </div>
               <div>
                 <div className="text-4xl font-extrabold text-accent mb-2">Auto</div>
-                <div className="text-sm text-muted">Generación diaria de KPIs sin intervención humana.</div>
+                <div className="text-sm text-muted">Daily KPI generation with zero human intervention.</div>
               </div>
               <div>
                 <div className="text-4xl font-extrabold text-accent mb-2">Secure</div>
-                <div className="text-sm text-muted">Arquitectura backend blindada y escalable.</div>
+                <div className="text-sm text-muted">Hardened, scalable backend architecture.</div>
               </div>
             </div>
           </div>
@@ -299,9 +298,9 @@ def require_role(allowed_roles):
 
         {/* Footer */}
         <div className="mt-24 pt-12 border-t border-white/10 text-center animate-in opacity-0">
-          <h3 className="text-xl font-bold mb-6">¿Necesitas un backend robusto para tu operación?</h3>
+          <h3 className="text-xl font-bold mb-6">Need a robust backend for your operation?</h3>
           <a href="mailto:miguelmoreno.uaq@gmail.com" className="inline-flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-xl font-bold hover:scale-105 transition-transform duration-200">
-            Hablemos de arquitectura
+            Let's talk architecture
           </a>
         </div>
 

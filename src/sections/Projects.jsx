@@ -32,8 +32,8 @@ function Projects() {
     {
       title: "Dashboard Pro",
       category: "SaaS & Backend",
-      description: "Sistemas backend para plataforma ERP de inventario y ventas. Implementación de control de acceso basado en roles (RBAC) y diseño de flujos de reportes automatizados para decisiones estratégicas.",
-      tech: ["Python", "RBAC", "Automatización", "SQL"],
+      description: "Robust backend systems for an ERP platform covering inventory and sales. Role-based access control (RBAC) implementation and automated reporting workflows designed for strategic decision-making.",
+      tech: ["Python", "RBAC", "Automation", "SQL"],
       featured: true,
       link: "/proyecto/dashboard"
     }
