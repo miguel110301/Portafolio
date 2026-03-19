@@ -40,12 +40,12 @@ function Projects() {
   ];
 
   return (
-    <section id="projects" className="py-24 relative bg-surface/30">
+    <section id="projects" className="py-32 relative bg-surface/30">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="mb-16">
+        <div className="mb-20">
           <span className="protocol-label">Deployment_Log</span>
-          <h2 className="section-title mb-4">Engineered Systems.</h2>
-          <p className="text-muted text-lg max-w-2xl">
+          <h2 className="section-title">Engineered Systems.</h2>
+          <p className="text-muted text-lg max-w-2xl mt-6">
             Projects focused on solving real operational problems, showcasing systems thinking and technical execution.
           </p>
         </div>
@@ -61,23 +61,22 @@ function Projects() {
               className={project.featured ? 'md:col-span-2' : ''}
             >
               <Tilt 
-                tiltMaxAngleX={5} 
-                tiltMaxAngleY={5} 
+                tiltMaxAngleX={3} 
+                tiltMaxAngleY={3} 
                 perspective={1000} 
-                scale={1.02} 
+                scale={1.01} 
                 transitionSpeed={2000}
-                gyroscope={true}
                 className="h-full"
               >
                 <div className="glass-panel rounded-2xl group transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] h-full shadow-lg">
-                  <Link to={project.link} className="flex flex-col h-full p-8 relative overflow-hidden outline-none">
+                  <Link to={project.link} className="flex flex-col h-full p-8 md:p-10 relative overflow-hidden outline-none">
                     
                     {project.featured && (
                       <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-[80px] rounded-full pointer-events-none transition-opacity group-hover:bg-accent/10" />
                     )}
                     
                     <div className="flex justify-between items-start mb-6 relative z-10">
-                      <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">
+                      <span className="tech-subtitle text-muted group-hover:text-accent transition-colors">
                         {project.category}
                       </span>
                       <div className="text-muted group-hover:text-accent transition-colors duration-200">
@@ -85,7 +84,7 @@ function Projects() {
                       </div>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-primary mb-3 relative z-10 group-hover:text-accent transition-colors duration-300">
+                    <h3 className="item-title mb-4 group-hover:text-accent transition-colors duration-300">
                       {project.title}
                     </h3>
                     
@@ -93,9 +92,9 @@ function Projects() {
                       {project.description}
                     </p>
 
-                    <ul className="flex flex-wrap gap-2 relative z-10">
+                    <ul className="flex flex-wrap gap-2 relative z-10 mt-auto pt-4">
                       {project.tech.map((tech, i) => (
-                        <li key={i} className="text-xs font-medium text-primary/80 bg-white/5 px-3 py-1.5 rounded-md border border-white/5">
+                        <li key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]">
                           {tech}
                         </li>
                       ))}

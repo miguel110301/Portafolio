@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { GitMerge, Terminal, Smartphone, Globe } from 'lucide-react';
-// 1. Importamos la librería aquí también
 import Tilt from 'react-parallax-tilt';
 
 function Services() {
@@ -28,12 +27,12 @@ function Services() {
   ];
 
   return (
-    <section id="services" className="py-24 relative">
+    <section id="services" className="py-32 relative">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="mb-16">
-          <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">Skills</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">What I build</h2>
-          <p className="text-muted text-lg max-w-2xl">
+        <div className="mb-20">
+          <span className="protocol-label">Technical_Skills</span>
+          <h2 className="section-title">What I build.</h2>
+          <p className="text-muted text-lg max-w-2xl mt-6">
             Systems designed to automate operations, connect platforms, and build high-level digital products.
           </p>
         </div>
@@ -47,7 +46,6 @@ function Services() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
-              {/* 2. Envolvemos la tarjeta en Tilt con una inclinación muy sutil */}
               <Tilt 
                 tiltMaxAngleX={3} 
                 tiltMaxAngleY={3} 
@@ -60,7 +58,7 @@ function Services() {
                   <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-inner">
                     {service.icon}
                   </div>
-                  <h3 className="text-xl font-semibold text-primary mb-3">{service.title}</h3>
+                  <h3 className="item-title mb-4">{service.title}</h3>
                   <p className="text-muted leading-relaxed">{service.description}</p>
                 </div>
               </Tilt>

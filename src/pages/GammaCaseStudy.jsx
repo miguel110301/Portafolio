@@ -1,4 +1,3 @@
-// src/pages/GammaCaseStudy.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Clock, Bot, Check, RefreshCw, Send, FileText } from 'lucide-react';
@@ -96,55 +95,57 @@ if (payload.message) {
 
   return (
     <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6">
         <nav className="mb-16 animate-in opacity-0">
-          <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
-            <ArrowLeft size={18} /> Back to Portfolio
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
+            <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
         <header className="mb-16 animate-in opacity-0">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">Asynchronous Automation</span>
+          <div className="mb-6">
+            <span className="protocol-label">Asynchronous_Automation</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">Gamma Agent</h1>
-          <p className="text-xl text-muted leading-relaxed max-w-2xl">
+          <h1 className="section-title mb-6">Gamma Agent.</h1>
+          <p className="text-xl text-muted leading-relaxed max-w-3xl">
             A conversational bot that ingests raw data, orchestrates presentation creation via AI, manages human approvals (Human-in-the-loop), and schedules deferred email deliveries.
           </p>
         </header>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 animate-in opacity-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in opacity-0">
           {[
             { label: 'Interface', value: 'Telegram Bot', icon: Bot },
             { label: 'Generation', value: 'Gamma API', icon: RefreshCw },
             { label: 'Approval', value: 'Interactive', icon: Check },
             { label: 'Execution', value: 'Scheduled', icon: Clock },
           ].map((item, i) => (
-            <div key={i} className="glass-panel p-5 rounded-xl border border-white/5 hover:border-white/20 transition-colors">
+            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors">
               <item.icon className="text-accent mb-3" size={20} />
-              <div className="text-xs text-muted mb-1 uppercase tracking-wider">{item.label}</div>
-              <div className="font-semibold">{item.value}</div>
+              <span className="tech-subtitle !mb-1">{item.label}</span>
+              <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
             </div>
           ))}
         </div>
 
-        <section className="space-y-16">
+        <section className="space-y-24">
           <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">01. Live Simulation: Human-in-the-Loop</h2>
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Live Simulation</h2>
             <p className="text-muted text-lg leading-relaxed mb-6">
               Instead of running fully autonomously and risking errors, the bot pauses its execution and waits for human validation. Try the interactive simulation below:
             </p>
             <TelegramSimulator />
           </div>
 
-          <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">02. State Management Architecture</h2>
-            <p className="text-muted text-lg leading-relaxed mb-6">
-              Maintaining conversation context across multiple messages separated by hours or days requires a rock-solid state design. Using n8n's <code>$getWorkflowStaticData</code>, I structured an in-memory persistence layer.
-            </p>
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative z-10">
+          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <div>
+              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. State Management</h2>
+              <p className="text-muted text-lg leading-relaxed mb-6">
+                Maintaining conversation context across multiple messages separated by hours or days requires a rock-solid state design. Using n8n's <code>$getWorkflowStaticData</code>, I structured an in-memory persistence layer.
+              </p>
+            </div>
+            <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative z-10">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
-                <span className="text-xs font-mono text-muted">state_manager.js</span>
+                <span className="tech-subtitle !mb-0 !tracking-widest">state_manager.js</span>
               </div>
               <div className="text-sm font-mono text-gray-300">
                 <SyntaxHighlighter language="javascript" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}>

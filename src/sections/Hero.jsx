@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronRight, FileText, Terminal } from 'lucide-react';
+import { ChevronRight, FileText } from 'lucide-react';
 import { useRef } from 'react';
 import TechMatrix from '../components/TechMatrix';
 
@@ -10,30 +10,31 @@ function Hero() {
     offset: ["start start", "end start"]
   });
 
-  // Efectos de scroll: El texto se desvanece y la matriz sube ligeramente
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
 
   return (
     <section ref={containerRef} id="hero" className="relative min-h-[110vh] flex items-start pt-32 md:pt-44 overflow-hidden bg-[#050505]">
-      {/* Grilla Técnica de fondo que se mueve con el scroll */}
+      {/* El error "综合" estaba aquí. Ya está corregido usando 'style' correctamente */}
       <motion.div 
-        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}
+        style={{ 
+          y: useTransform(scrollYProgress, [0, 1], [0, 200]),
+          backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', 
+          backgroundSize: '50px 50px' 
+        }}
         className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-        综合={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '50px 50px' }} 
       />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
         
-        {/* LADO IZQUIERDO: Información */}
         <motion.div style={{ opacity, y, scale }} className="lg:col-span-7 flex flex-col items-start">
-          <div className="flex items-center gap-3 px-3 py-1 rounded-sm border border-white/10 bg-white/5 mb-8">
+          <div className="flex items-center gap-3 px-3 py-1.5 rounded-sm border border-white/10 bg-white/5 mb-8">
             <span className="flex h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-            <span className="text-[9px] font-mono tracking-[0.3em] text-accent uppercase">Systems_Status: Operational</span>
+            <span className="protocol-label !mb-0 !opacity-100">Systems_Status: Operational</span>
           </div>
 
-          <h1 className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter leading-[0.9]">
+          <h1 className="section-title mb-6">
             ENGINEERING <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/50 to-transparent">
               SOLUTIONS.
@@ -41,21 +42,20 @@ function Hero() {
           </h1>
 
           <p className="text-base md:text-lg text-muted max-w-lg mb-10 font-medium leading-relaxed border-l-2 border-white/10 pl-6">
-            Como Automation & Backend Engineer, diseño arquitecturas orientadas a eventos que eliminan cuellos de botella operativos[cite: 116, 119, 168]. 
-            Especializado en orquestación con n8n y sistemas robustos en Python[cite: 123, 172, 173].
+            Como Automation & Backend Engineer, diseño arquitecturas orientadas a eventos que eliminan cuellos de botella operativos. 
+            Especializado en orquestación con n8n y sistemas robustos en Python.
           </p>
 
           <div className="flex flex-wrap gap-4">
             <a href="/#projects" className="group flex items-center gap-4 bg-white text-black px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all">
               Deployments <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="/CVAutomat.pdf" target="_blank" className="flex items-center gap-4 border border-white/20 px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white">
+            <a href="/CVAutomat.pdf" target="_blank" rel="noreferrer" className="flex items-center gap-4 border border-white/20 px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white">
               <FileText size={14} /> Documentation
             </a>
           </div>
         </motion.div>
 
-        {/* LADO DERECHO: Visual */}
         <div className="lg:col-span-5 hidden lg:block sticky top-44">
            <TechMatrix />
            <div className="mt-8 flex justify-end">
@@ -66,7 +66,6 @@ function Hero() {
         </div>
       </div>
       
-      {/* Indicador de scroll lateral */}
       <div className="absolute right-10 bottom-20 hidden md:block">
         <motion.div 
           animate={{ y: [0, 10, 0] }}

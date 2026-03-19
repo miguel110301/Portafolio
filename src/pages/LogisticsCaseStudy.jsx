@@ -186,41 +186,63 @@ class TicketIngestionView(APIView):
   return (
     <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
       <div className="max-w-5xl mx-auto px-6">
+        
+        {/* Barra de navegación de regreso */}
         <nav className="mb-16 animate-in opacity-0">
-          <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
-            <ArrowLeft size={18} /> Back to Portfolio
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
+            <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
+        {/* Encabezado del Proyecto Unificado */}
         <header className="mb-16 animate-in opacity-0">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">Architecture & Automation</span>
+          <div className="mb-6">
+            <span className="protocol-label">Architecture_&_Automation</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">LogisticsFlow AI</h1>
+          <h1 className="section-title mb-6">LogisticsFlow AI.</h1>
           <p className="text-xl text-muted leading-relaxed max-w-3xl">
             An event-driven logistics system engineered to validate evidence automatically, sync data tightly with a Django backend, and communicate via WhatsApp API in real-time.
           </p>
         </header>
 
-        <section className="space-y-20">
+        {/* Grid de Tecnologías Unificado */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in opacity-0">
+          {[
+            { label: 'Orchestrator', value: 'n8n', icon: GitBranch },
+            { label: 'Backend', value: 'Django (Python)', icon: Server },
+            { label: 'AI Engine', value: 'OpenAI Vision', icon: Activity },
+            { label: 'Interface', value: 'WhatsApp API', icon: Smartphone },
+          ].map((item, i) => (
+            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors">
+              <item.icon className="text-accent mb-3" size={20} />
+              <span className="tech-subtitle !mb-1">{item.label}</span>
+              <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
+            </div>
+          ))}
+        </div>
+
+        <section className="space-y-24">
+          {/* Sección 1 */}
           <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">01. Live Simulation: End-to-End Execution</h2>
-            <p className="text-muted text-lg leading-relaxed mb-6 max-w-3xl">
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Live Simulation</h2>
+            <p className="text-muted text-lg leading-relaxed mb-8 max-w-3xl">
               When a driver sends evidence via WhatsApp, the system doesn't just save a photo. It orchestrates a multi-step validation process autonomously and replies to the driver instantly. <strong>Click the button below to see the data flow through the architecture.</strong>
             </p>
             <EndToEndSimulation />
           </div>
 
-          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Sección 2 */}
+          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 className="text-2xl font-bold mb-4 text-accent">02. Backend Evidence</h2>
+              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. Backend Evidence</h2>
               <p className="text-muted text-lg leading-relaxed mb-6">
                 While n8n handles the routing and AI API calls, the core truth lives in the database. I built a Python/Django endpoint to receive the structured data from the workflow, ensuring ACID transactions (<code>@transaction.atomic</code>) and strict error handling to prevent corrupted states.
               </p>
             </div>
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
+            
+            <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
-                <span className="text-xs font-mono text-muted">views.py</span>
+                <span className="tech-subtitle !mb-0 !tracking-widest">views.py</span>
               </div>
               <div className="text-xs md:text-sm font-mono text-gray-300">
                 <SyntaxHighlighter language="python" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}>
@@ -230,6 +252,7 @@ class TicketIngestionView(APIView):
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );
