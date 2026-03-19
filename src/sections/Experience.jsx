@@ -1,5 +1,6 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useRef } from 'react';
+import RevealText from '../components/RevealText';
 
 function Experience() {
   const containerRef = useRef(null);
@@ -38,15 +39,14 @@ function Experience() {
     <section id="experience" className="py-32 relative bg-[#050505]">
       <div className="max-w-6xl mx-auto px-6">
         
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <span className="protocol-label">Trajectory_Log</span>
-          <h2 className="section-title">Experience.</h2>
-        </motion.div>
+        <div className="mb-20">
+          <RevealText as="span" className="protocol-label" delay={0}>
+            Trajectory_Log
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            Experience.
+          </RevealText>
+        </div>
 
         <div className="relative" ref={containerRef}>
           {/* LÍNEA DE FONDO (Gris/Apagada) */}

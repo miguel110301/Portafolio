@@ -1,5 +1,8 @@
 import { motion } from 'framer-motion';
 import { Linkedin, Send } from 'lucide-react';
+import RevealText from '../components/RevealText';
+import MagneticButton from '../components/MagneticButton';
+
 
 function Contact() {
   return (
@@ -15,21 +18,27 @@ function Contact() {
           className="glass-panel p-8 md:p-16 rounded-[2.5rem] border border-white/10 shadow-2xl flex flex-col md:flex-row gap-12"
         >
           <div className="flex-1">
-            <span className="protocol-label">Contact_Protocol</span>
-            <h2 className="section-title !text-5xl md:!text-6xl mb-8">Ready to build <br/>something useful?</h2>
+            <RevealText as="span" className="protocol-label" delay={0.1}>
+              Contact_Protocol
+            </RevealText>
+            <RevealText as="h2" className="section-title !text-5xl md:!text-6xl mb-8" delay={0.22}>
+              Ready to build <br/>something useful?
+            </RevealText>
             <p className="text-muted text-lg mb-10">
               If you need to optimize processes, build a robust API, or develop an application from scratch, let's talk. I'm currently open to new opportunities.
             </p>
             
-            <a 
-              href="https://www.linkedin.com/in/miguel-angel-moreno-sanchez" 
-              target="_blank" 
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-6 py-3 rounded-sm font-medium hover:bg-white/10 transition-colors duration-200"
-            >
-              <Linkedin size={18} className="text-[#0A66C2]" />
-              Connect on LinkedIn
-            </a>
+            <MagneticButton>
+              <a 
+                href="https://www.linkedin.com/in/miguel-angel-moreno-sanchez" 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-6 py-3 rounded-sm font-medium hover:bg-white/10 transition-colors duration-200"
+              >
+                <Linkedin size={18} className="text-[#0A66C2]" />
+                Connect on LinkedIn
+              </a>
+            </MagneticButton>
           </div>
 
           <div className="flex-1">
@@ -67,12 +76,14 @@ function Contact() {
                   placeholder="Tell me about your project..."
                 />
               </div>
-              <button 
-                type="submit" 
-                className="w-full flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-sm font-bold uppercase tracking-widest text-[10px] hover:bg-white/90 transition-all duration-200 mt-4"
-              >
-                <Send size={16} /> Send Message
-              </button>
+              <MagneticButton>
+                <button 
+                  type="submit" 
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-sm font-bold uppercase tracking-widest text-[10px] hover:bg-white/90 transition-all duration-200 mt-4"
+                >
+                  <Send size={16} /> Send Message
+                </button>
+              </MagneticButton>
             </form>
           </div>
 

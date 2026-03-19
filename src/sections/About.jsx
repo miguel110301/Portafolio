@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Webhook, Database, BrainCircuit, ChevronRight, FileJson, Code2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import RevealText from '../components/RevealText'; // ← esta línea
 
 // Tu componente intacto
 function VisualWorkflowSimulation() {
@@ -99,26 +100,31 @@ export default function About() {
       <div className="max-w-5xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="protocol-label">Identity_Module</span>
-            <h2 className="section-title mb-6">Building the engine <br/>behind the interface.</h2>
-            <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div>
+            <RevealText as="span" className="protocol-label" delay={0}>
+              Identity_Module
+            </RevealText>
+            <RevealText as="h2" className="section-title mb-6" delay={0.1}>
+              Building the engine <br/>behind the interface.
+            </RevealText>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="space-y-4 text-muted text-lg leading-relaxed"
+            >
               <p>
-                I am a Backend Developer and Automation Engineer. I build the underlying architecture that makes applications and businesses run flawlessly at peak capacity. I specialize in designing advanced event-driven workflows with <strong>n8n</strong>, orchestrating complex APIs, and managing VPS infrastructure.
+                I am a <strong className="text-white">Backend Developer</strong> and <strong className="text-white">Automation Engineer</strong>. I build the underlying architecture that makes applications and businesses run flawlessly at peak capacity. I specialize in designing advanced event-driven <strong className="text-white">workflows</strong> with <strong className="text-white">n8n</strong>, orchestrating complex <strong className="text-white">APIs</strong>, and managing <strong className="text-white">VPS</strong> infrastructure.
               </p>
               <p>
-                My core mission is connecting isolated systems so data flows automatically, securely, and with absolute precision. 
+                My core mission is connecting isolated systems so data flows <strong className="text-white">automatically</strong>, <strong className="text-white">securely</strong>, and with absolute <strong className="text-white">precision</strong>.
               </p>
               <p>
-                While my technical foundation lies in backend logic and process orchestration, I also design and implement solutions on the frontend and in native mobile environments. This allows me to deliver complete, end-to-end applications where robust server-side power translates into clean, seamless user experiences.
+                While my technical foundation lies in backend logic and process orchestration, I also design and implement <strong className="text-white">solutions</strong> on the frontend and in native mobile environments. This allows me to deliver complete, <strong className="text-white">end-to-end</strong> applications where robust server-side power translates into <strong className="text-white">clean</strong>, seamless user experiences.
               </p>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}

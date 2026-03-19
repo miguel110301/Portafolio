@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { GitMerge, Terminal, Smartphone, Globe } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
+import RevealText from '../components/RevealText';
 
 function Services() {
   const services = [
@@ -26,31 +27,64 @@ function Services() {
     }
   ];
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0,
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
+
+
   return (
     <section id="services" className="py-32 relative">
       <div className="max-w-5xl mx-auto px-6">
         <div className="mb-20">
-          <span className="protocol-label">Technical_Skills</span>
-          <h2 className="section-title">What I build.</h2>
-          <p className="text-muted text-lg max-w-2xl mt-6">
+          <RevealText as="span" className="protocol-label" delay={0}>
+            Technical_Skills
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            What I build.
+          </RevealText>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="text-muted text-lg max-w-2xl mt-6"
+          >
             Systems designed to automate operations, connect platforms, and build high-level digital products.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {services.map((service, index) => (
-            <motion.div 
+            <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              variants={itemVariants}
             >
-              <Tilt 
-                tiltMaxAngleX={3} 
-                tiltMaxAngleY={3} 
-                perspective={1000} 
-                scale={1.01} 
+              <Tilt
+                tiltMaxAngleX={3}
+                tiltMaxAngleY={3}
+                perspective={1000}
+                scale={1.01}
                 transitionSpeed={2000}
                 className="h-full"
               >
@@ -64,7 +98,7 @@ function Services() {
               </Tilt>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

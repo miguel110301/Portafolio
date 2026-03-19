@@ -1,5 +1,6 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useRef } from 'react';
+import RevealText from '../components/RevealText';
 
 function Education() {
   const containerRef = useRef(null);
@@ -19,15 +20,14 @@ function Education() {
     <section id="education" className="py-32 relative bg-[#050505]">
       <div className="max-w-6xl mx-auto px-6">
         
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <span className="protocol-label">Academic_History</span>
-          <h2 className="section-title">Education.</h2>
-        </motion.div>
+        <div className="mb-20">
+          <RevealText as="span" className="protocol-label" delay={0}>
+            Academic_History
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            Education.
+          </RevealText>
+        </div>
 
         <div className="relative" ref={containerRef}>
           <div className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-white/5" />

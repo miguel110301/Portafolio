@@ -1,14 +1,14 @@
 FILE: src/sections/About.jsx
-// src/sections/About.jsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { Webhook, Database, BrainCircuit, ChevronRight, FileJson, Code2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import RevealText from '../components/RevealText'; // ← esta línea
 
+// Tu componente intacto
 function VisualWorkflowSimulation() {
   const [activeNode, setActiveNode] = useState(0);
 
   useEffect(() => {
-    // El ciclo de vida del flujo: Avanza cada 2 segundos y se reinicia
     const interval = setInterval(() => {
       setActiveNode((prev) => (prev >= 3 ? 0 : prev + 1));
     }, 2000);
@@ -22,7 +22,6 @@ function VisualWorkflowSimulation() {
     { id: 3, title: "Postgres", desc: "Save Row", icon: Database, color: "text-blue-500", border: "border-blue-500" }
   ];
 
-  // Datos simulados que cambian según el nodo activo
   const executionData = [
     '[\n  {\n    "event": "message.received",\n    "source": "WhatsApp API",\n    "media": "receipt_892.jpg"\n  }\n]',
     '[\n  {\n    "image_url": "https://api.whatsapp/media/892",\n    "timestamp": "2026-03-18T14:30:00Z",\n    "driver_id": "DRV-004"\n  }\n]',
@@ -32,19 +31,15 @@ function VisualWorkflowSimulation() {
 
   return (
     <div className="w-full bg-[#121212] rounded-2xl border border-white/5 p-4 md:p-8 shadow-2xl relative overflow-hidden font-sans">
-      {/* Fondo de red */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px]" />
       
       <div className="relative z-10">
-        
-        {/* Nodos del Workflow */}
         <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 mb-8">
           {nodes.map((node, i) => {
             const isActive = activeNode === node.id;
             
             return (
               <div key={node.id} className="flex items-center gap-3 md:gap-4">
-                {/* Tarjeta del Nodo */}
                 <div 
                   className={`relative w-24 h-24 md:w-28 md:h-24 rounded-xl border bg-[#0a0a0a] p-3 flex flex-col items-center justify-center transition-all duration-500 ${
                     isActive ? `${node.border} shadow-[0_0_15px_rgba(255,255,255,0.1)] scale-105` : 'border-white/5 opacity-50'
@@ -54,7 +49,6 @@ function VisualWorkflowSimulation() {
                   <span className="text-[11px] md:text-xs font-bold text-white/90">{node.title}</span>
                   <span className="text-[9px] md:text-[10px] text-muted">{node.desc}</span>
 
-                  {/* Partícula de "Payload" que viaja animada de nodo en nodo usando layoutId */}
                   {isActive && (
                     <motion.div
                       layoutId="payload-particle"
@@ -66,7 +60,6 @@ function VisualWorkflowSimulation() {
                   )}
                 </div>
 
-                {/* Flecha conectora (excepto en el último) */}
                 {i < nodes.length - 1 && (
                   <ChevronRight size={20} className={`transition-colors duration-500 ${activeNode > i ? 'text-accent' : 'text-white/10'}`} />
                 )}
@@ -75,7 +68,6 @@ function VisualWorkflowSimulation() {
           })}
         </div>
 
-        {/* Consola de Datos en Vivo */}
         <div className="w-full bg-[#050505] border border-white/10 rounded-xl overflow-hidden shadow-inner">
           <div className="bg-[#1a1a1a] px-4 py-2 flex justify-between items-center border-b border-white/5">
             <span className="text-xs text-muted font-mono flex items-center gap-2">
@@ -98,7 +90,6 @@ function VisualWorkflowSimulation() {
             </AnimatePresence>
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -110,26 +101,31 @@ export default function About() {
       <div className="max-w-5xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="protocol-label">About_Me.sys</span>
-            <h2 className="section-title mb-6">Building the engine <br/>behind the interface.</h2>
-            <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div>
+            <RevealText as="span" className="protocol-label" delay={0}>
+              Identity_Module
+            </RevealText>
+            <RevealText as="h2" className="section-title mb-6" delay={0.1}>
+              Building the engine <br/>behind the interface.
+            </RevealText>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="space-y-4 text-muted text-lg leading-relaxed"
+            >
               <p>
-                I am a Backend Developer and Automation Engineer. I build the underlying architecture that makes applications and businesses run flawlessly at peak capacity. I specialize in designing advanced event-driven workflows with <strong>n8n</strong>, orchestrating complex APIs, and managing VPS infrastructure.
+                I am a <strong className="text-white">Backend Developer</strong> and <strong className="text-white">Automation Engineer</strong>. I build the underlying architecture that makes applications and businesses run flawlessly at peak capacity. I specialize in designing advanced event-driven <strong className="text-white">workflows</strong> with <strong className="text-white">n8n</strong>, orchestrating complex <strong className="text-white">APIs</strong>, and managing <strong className="text-white">VPS</strong> infrastructure.
               </p>
               <p>
-                My core mission is connecting isolated systems so data flows automatically, securely, and with absolute precision. 
+                My core mission is connecting isolated systems so data flows <strong className="text-white">automatically</strong>, <strong className="text-white">securely</strong>, and with absolute <strong className="text-white">precision</strong>.
               </p>
               <p>
-                While my technical foundation lies in backend logic and process orchestration, I also design and implement solutions on the frontend and in native mobile environments. This allows me to deliver complete, end-to-end applications where robust server-side power translates into clean, seamless user experiences.
+                While my technical foundation lies in backend logic and process orchestration, I also design and implement <strong className="text-white">solutions</strong> on the frontend and in native mobile environments. This allows me to deliver complete, <strong className="text-white">end-to-end</strong> applications where robust server-side power translates into <strong className="text-white">clean</strong>, seamless user experiences.
               </p>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -138,7 +134,7 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="w-full"
           >
-            <h3 className="text-xl font-semibold text-primary mb-4 px-2">Workflow Execution Engine</h3>
+            <h3 className="item-title mb-4 px-2">Workflow Execution Engine</h3>
             <p className="text-muted text-sm leading-relaxed mb-6 px-2">
               Visualizing how I orchestrate data: An event triggers the workflow, the payload is formatted, analyzed via external APIs, and persistently stored. Watch the data mutate in real-time.
             </p>
@@ -151,10 +147,102 @@ export default function About() {
   );
 }
 ---
+FILE: src/sections/Education.jsx
+import { motion, useScroll, useSpring } from 'framer-motion';
+import { useRef } from 'react';
+import RevealText from '../components/RevealText';
+
+function Education() {
+  const containerRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  return (
+    <section id="education" className="py-32 relative bg-[#050505]">
+      <div className="max-w-6xl mx-auto px-6">
+        
+        <div className="mb-20">
+          <RevealText as="span" className="protocol-label" delay={0}>
+            Academic_History
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            Education.
+          </RevealText>
+        </div>
+
+        <div className="relative" ref={containerRef}>
+          <div className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-white/5" />
+          
+          <motion.div 
+            style={{ scaleY, originY: 0 }} 
+            className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-white/80 shadow-[0_0_15px_rgba(255,255,255,0.4)] z-0" 
+          />
+
+          <div className="space-y-24">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
+              className="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12"
+            >
+              <div className="pl-10 md:pl-0 md:col-span-1">
+                <span className="text-xs font-bold text-muted/60 font-mono tracking-widest uppercase">2023 — Present</span>
+              </div>
+              
+              <div className="md:col-span-3 group relative">
+                <motion.div 
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2, type: "spring" }}
+                    className="absolute -left-[35px] md:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-background border-[3px] border-white/80 z-10 shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-transform group-hover:scale-150" 
+                />
+                
+                <div className="glass-panel p-6 md:p-8 rounded-sm hover:border-white/20 transition-all duration-500">
+                  <h3 className="item-title mb-1">B.S. in Software Engineering</h3>
+                  <span className="tech-subtitle mb-6 !text-white/60">Universidad Autónoma de Querétaro</span>
+                  
+                  <p className="text-muted leading-relaxed mb-8 text-lg">
+                    Currently in the 6th semester. Focused on building high-performance systems and fault-tolerant architectures.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-x-12 gap-y-4 bg-white/[0.02] p-4 rounded-sm border border-white/5">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[10px] font-mono text-muted/40 uppercase tracking-widest">Main_Focus</span>
+                      <span className="text-white/80 font-bold uppercase tracking-tighter">Database Design</span>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[10px] font-mono text-muted/40 uppercase tracking-widest">Current_Status</span>
+                      <span className="text-accent font-bold uppercase tracking-tighter animate-pulse">Executing_Cycle_06</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default Education;
+---
 FILE: src/sections/Labs.jsx
 import { motion } from 'framer-motion';
 import { Beaker, Smartphone, Activity } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
+import RevealText from '../components/RevealText';
 
 function Labs() {
   const experiments = [
@@ -176,32 +264,61 @@ function Labs() {
     }
   ];
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0,
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
+
   return (
-    <section id="labs" className="py-24 relative overflow-hidden">
-      {/* Resplandor de fondo estilo "Laboratorio" */}
+    <section id="labs" className="py-32 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
       
       <div className="max-w-5xl mx-auto px-6 relative z-10">
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <span className="text-purple-400 font-semibold tracking-wider uppercase text-sm mb-4 flex items-center gap-2">
-              <Beaker size={16} /> R&D Laboratory
+        <div className="mb-20">
+          <RevealText delay={0}>
+            <span className="protocol-label flex items-center gap-2 !text-purple-400">
+              <Beaker size={14} /> R&D_Laboratory
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Current Experiments</h2>
-            <p className="text-muted text-lg max-w-2xl">
-              What I'm building right now. Exploring native ecosystems, testing architectures, and solving complex logic in real-time.
-            </p>
-          </div>
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            Current Experiments.
+          </RevealText>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="text-muted text-lg max-w-2xl mt-6"
+          >
+            What I'm building right now. Exploring native ecosystems, testing architectures, and solving complex logic in real-time.
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
           {experiments.map((exp, index) => (
             <motion.div 
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              variants={itemVariants}
             >
               <Tilt 
                 tiltMaxAngleX={3} 
@@ -212,8 +329,7 @@ function Labs() {
                 className="h-full"
               >
                 <div className="glass-panel p-8 rounded-2xl hover:border-purple-500/30 transition-all duration-500 h-full relative overflow-hidden group">
-                  {/* Badge de estado */}
-                  <div className="absolute top-0 right-0 bg-white/5 px-4 py-1.5 rounded-bl-xl border-b border-l border-white/10 text-xs font-medium text-muted group-hover:text-purple-300 transition-colors">
+                  <div className="absolute top-0 right-0 bg-white/5 px-4 py-1.5 rounded-bl-xl border-b border-l border-white/10 text-[10px] font-mono uppercase tracking-widest text-muted group-hover:text-purple-300 transition-colors">
                     {exp.status}
                   </div>
 
@@ -221,13 +337,13 @@ function Labs() {
                     {exp.icon}
                   </div>
                   
-                  <span className="text-xs font-medium text-purple-400 mb-2 block">{exp.type}</span>
-                  <h3 className="text-2xl font-bold text-primary mb-3">{exp.title}</h3>
+                  <span className="tech-subtitle !text-purple-400 mb-2">{exp.type}</span>
+                  <h3 className="item-title mb-4">{exp.title}</h3>
                   <p className="text-muted leading-relaxed mb-8 flex-grow">{exp.description}</p>
                   
-                  <div className="flex flex-wrap gap-2 mt-auto">
+                  <div className="flex flex-wrap gap-2 mt-auto pt-4">
                     {exp.tech.map((tech, i) => (
-                      <span key={i} className="text-xs font-medium text-primary/70 bg-white/5 px-3 py-1.5 rounded-md border border-white/5">
+                      <span key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]">
                         {tech}
                       </span>
                     ))}
@@ -236,7 +352,7 @@ function Labs() {
               </Tilt>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -245,48 +361,74 @@ function Labs() {
 export default Labs;
 ---
 FILE: src/sections/Experience.jsx
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
+import { useRef } from 'react';
+import RevealText from '../components/RevealText';
 
 function Experience() {
+  const containerRef = useRef(null);
+  
+  // Magia de Framer Motion: Rastrear el scroll dentro de esta sección
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+
+  // Suavizamos el progreso para que la línea se dibuje como si fuera líquida
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   const experiences = [
     {
       year: "2025 — Present",
       role: "Backend & Automation Engineer",
       company: "Logistics Systems (Remote)",
-      description: "Arquitecto de sistemas de automatización orientados a eventos. Integración de flujos de n8n con APIs de Django y WhatsApp Business API para optimización logística.",
+      description: "Architect of event-driven automation systems. Integration of n8n workflows with Django APIs and WhatsApp Business API for logistics optimization.",
       tech: ["Python", "Django", "n8n", "WhatsApp API"]
     },
     {
       year: "2023 — Present",
       role: "Freelance Software Engineer",
       company: "Remote",
-      description: "Diseño y despliegue de microservicios backend y APIs REST. Gestión de infraestructura en entornos Linux con Nginx y Gunicorn.",
+      description: "Design and deployment of backend microservices and REST APIs. Infrastructure management in Linux environments with Nginx and Gunicorn.",
       tech: ["REST APIs", "Linux", "Docker", "Gunicorn"]
     }
   ];
 
   return (
-    <section id="experience" className="py-32 relative bg-[#050505] scroll-mt-20">
+    <section id="experience" className="py-32 relative bg-[#050505]">
       <div className="max-w-6xl mx-auto px-6">
         
-        {/* TÍTULO DE SECCIÓN */}
         <div className="mb-20">
-          <span className="text-accent font-mono text-[10px] tracking-[0.4em] uppercase block mb-4">Trajectory_Log</span>
-          <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase">Experience.</h2>
+          <RevealText as="span" className="protocol-label" delay={0}>
+            Trajectory_Log
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            Experience.
+          </RevealText>
         </div>
 
-        <div className="relative">
-          {/* LÍNEA VERTICAL DE TIEMPO (Estilo Industrial) */}
-          <div className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[1px] bg-white/10" />
+        <div className="relative" ref={containerRef}>
+          {/* LÍNEA DE FONDO (Gris/Apagada) */}
+          <div className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-white/5" />
+          
+          {/* LÍNEA ANIMADA (Azul/Accent) QUE CRECE CON EL SCROLL */}
+          <motion.div 
+            style={{ scaleY, originY: 0 }} 
+            className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-accent shadow-[0_0_15px_rgba(56,189,248,0.6)] z-0" 
+          />
 
           <div className="space-y-24">
-            {/* --- BLOQUE: EXPERIENCIA PROFESIONAL --- */}
             {experiences.map((exp, index) => (
               <motion.div 
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
                 className="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12"
               >
                 <div className="pl-10 md:pl-0 md:col-span-1">
@@ -294,58 +436,31 @@ function Experience() {
                 </div>
                 
                 <div className="md:col-span-3 group relative">
-                  {/* EL NODO (Punto de la línea de tiempo) */}
-                  <div className="absolute -left-[34px] md:-left-[54px] top-1.5 w-3 h-3 rounded-full bg-accent border-[3px] border-[#050505] z-10 transition-transform group-hover:scale-125" />
+                  {/* NODO ANIMADO */}
+                  <motion.div 
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ delay: 0.2, type: "spring" }}
+                    className="absolute -left-[35px] md:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-background border-[3px] border-accent z-10 shadow-[0_0_10px_rgba(56,189,248,0.5)] transition-transform group-hover:scale-150" 
+                  />
                   
-                  <h3 className="text-2xl font-bold text-white mb-1 uppercase tracking-tight">{exp.role}</h3>
-                  <span className="text-accent text-[11px] font-mono font-bold tracking-widest uppercase block mb-6">{exp.company}</span>
-                  <p className="text-muted text-lg leading-relaxed mb-8 max-w-2xl">{exp.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {exp.tech.map((tech, i) => (
-                      <span key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]">
-                        {tech}
-                      </span>
-                    ))}
+                  <div className="glass-panel p-6 md:p-8 rounded-sm hover:border-accent/30 transition-colors duration-500 hover:bg-white/[0.02]">
+                    <h3 className="item-title mb-1">{exp.role}</h3>
+                    <span className="tech-subtitle mb-6">{exp.company}</span>
+                    <p className="text-muted text-lg leading-relaxed mb-8 max-w-2xl">{exp.description}</p>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      {exp.tech.map((tech, i) => (
+                        <span key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02] hover:text-accent hover:border-accent/50 cursor-default transition-colors">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>
             ))}
-
-            {/* --- BLOQUE: EDUCACIÓN (IDÉNTICO A EXPERIENCIA) --- */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12"
-            >
-              <div className="pl-10 md:pl-0 md:col-span-1">
-                <span className="text-xs font-bold text-muted/60 font-mono tracking-widest uppercase">2023 — Present</span>
-              </div>
-              
-              <div className="md:col-span-3 group relative">
-                <div className="absolute -left-[34px] md:-left-[54px] top-1.5 w-3 h-3 rounded-full bg-white/20 border-[3px] border-[#050505] z-10" />
-                
-                <h3 className="text-2xl font-bold text-white mb-1 uppercase tracking-tight">B.S. in Software Engineering</h3>
-                <span className="text-accent text-[11px] font-mono font-bold tracking-widest uppercase block mb-6">
-                  Universidad Autónoma de Querétaro [cite: 209, 257]
-                </span>
-                
-                <div className="bg-white/[0.03] border border-white/5 p-6 rounded-sm">
-                  <p className="text-muted leading-relaxed mb-6">
-                    Actualmente en el 6to semestre[cite: 211, 260]. Formación sólida en estructuras de datos, arquitectura de software y desarrollo backend[cite: 212, 261].
-                  </p>
-                  <div className="flex flex-wrap gap-x-6 gap-y-2">
-                    <div className="text-[10px] font-mono text-muted/40 uppercase tracking-widest">
-                      Focus: <span className="text-white/60 ml-2">Database Design</span>
-                    </div>
-                    <div className="text-[10px] font-mono text-muted/40 uppercase tracking-widest">
-                      Status: <span className="text-white/60 ml-2">Executing_Academic_Cycle_06</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </div>
       </div>
@@ -360,6 +475,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronRight, FileText, Terminal } from 'lucide-react';
 import { useRef } from 'react';
 import TechMatrix from '../components/TechMatrix';
+import RevealText from '../components/RevealText';
+import MagneticButton from '../components/MagneticButton';
 
 function Hero() {
   const containerRef = useRef(null);
@@ -368,48 +485,57 @@ function Hero() {
     offset: ["start start", "end start"]
   });
 
-  // Efectos de scroll: El texto se desvanece y la matriz sube ligeramente
+  // Efectos de scroll
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
 
   return (
     <section ref={containerRef} id="hero" className="relative min-h-[110vh] flex items-start pt-32 md:pt-44 overflow-hidden bg-[#050505]">
-      {/* Grilla Técnica de fondo que se mueve con el scroll */}
+      {/* Grilla Técnica de fondo */}
       <motion.div 
-        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}
+        style={{ 
+          y: useTransform(scrollYProgress, [0, 1], [0, 200]),
+          backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', 
+          backgroundSize: '50px 50px' 
+        }}
         className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-        综合={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '50px 50px' }} 
       />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
         
         {/* LADO IZQUIERDO: Información */}
         <motion.div style={{ opacity, y, scale }} className="lg:col-span-7 flex flex-col items-start">
-          <div className="flex items-center gap-3 px-3 py-1 rounded-sm border border-white/10 bg-white/5 mb-8">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-            <span className="text-[9px] font-mono tracking-[0.3em] text-accent uppercase">Systems_Status: Operational</span>
-          </div>
+          <RevealText delay={0}>
+            <div className="flex items-center gap-3 px-3 py-1.5 rounded-sm border border-white/10 bg-white/5 mb-8 w-fit">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+              <span className="protocol-label !mb-0 !opacity-100">Systems_Status: Operational</span>
+            </div>
+          </RevealText>
 
-          <h1 className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter leading-[0.9]">
+          <RevealText as="h1" className="section-title mb-6 leading-[0.9]" delay={0.1}>
             ENGINEERING <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/50 to-transparent">
               SOLUTIONS.
             </span>
-          </h1>
+          </RevealText>
 
           <p className="text-base md:text-lg text-muted max-w-lg mb-10 font-medium leading-relaxed border-l-2 border-white/10 pl-6">
-            Como Automation & Backend Engineer, diseño arquitecturas orientadas a eventos que eliminan cuellos de botella operativos[cite: 116, 119, 168]. 
-            Especializado en orquestación con n8n y sistemas robustos en Python[cite: 123, 172, 173].
+            Automation & Backend Engineer specializing in event-driven architectures that eliminate operational bottlenecks. 
+            I design systems where data flows automatically, precisely, and at scale — powered by n8n orchestration and Python.
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <a href="/#projects" className="group flex items-center gap-4 bg-white text-black px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all">
-              Deployments <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a href="/CVAutomat.pdf" target="_blank" className="flex items-center gap-4 border border-white/20 px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white">
-              <FileText size={14} /> Documentation
-            </a>
+            <MagneticButton>
+              <a href="/#projects" className="group flex items-center gap-4 bg-white text-black px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all">
+                Deployments <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            </MagneticButton>
+            <MagneticButton>
+              <a href="/CVAutomat.pdf" target="_blank" rel="noreferrer" className="flex items-center gap-4 border border-white/20 px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white">
+                <FileText size={14} /> Documentation
+              </a>
+            </MagneticButton>
           </div>
         </motion.div>
 
@@ -443,100 +569,127 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Tilt from 'react-parallax-tilt';
+import RevealText from '../components/RevealText';
 
 function Projects() {
   const projects = [
-    {
-      title: "LogisticsFlow AI",
-      category: "Architecture & Automation",
-      description: "Event-driven logistics system for evidence validation (tickets, IDs) using AI. Orchestrated with n8n, strict synchronization with Django backend, audio classification with Whisper, and real-time notifications via WhatsApp API.",
-      tech: ["n8n", "Django", "OpenAI", "WhatsApp", "Firebase"],
-      featured: true,
-      link: "/proyecto/logisticsflow"
-    },
-    {
-      title: "QroData",
-      category: "Web Platform & Analytics",
-      description: "Monitoring and analytics platform with data ingestion pipelines, production-ready analytical models, and reporting workflows. Interactive interface and optimized backend.",
-      tech: ["React", "Python", "MySQL", "Data Pipelines"],
-      featured: true,
-      link: "/proyecto/qrodata"
-    },
-    {
-      title: "Gamma Agent",
-      category: "Telegram Bot & AI",
-      description: "Asynchronous bot that ingests data, orchestrates presentation generation with Gamma API, handles human approvals, and schedules deferred email deliveries.",
-      tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
-      featured: true,
-      link: "/proyecto/gamma"
-    },
-    {
-      title: "Dashboard Pro",
-      category: "SaaS & Backend",
-      description: "Sistemas backend para plataforma ERP de inventario y ventas. Implementación de control de acceso basado en roles (RBAC) y diseño de flujos de reportes automatizados para decisiones estratégicas.",
-      tech: ["Python", "RBAC", "Automatización", "SQL"],
-      featured: true,
-      link: "/proyecto/dashboard"
+  {
+    title: "LogisticsFlow AI",
+    category: "Architecture & Automation",
+    description: "End-to-end logistics validation system processing 500+ daily shipments. AI-powered evidence verification (images, audio) via Whisper & OpenAI Vision. Reduced manual validation time by 85% through n8n orchestration, Django backend, and real-time WhatsApp notifications.",
+    tech: ["n8n", "Django", "OpenAI", "WhatsApp", "Firebase"],
+    featured: true,
+    link: "/proyecto/logisticsflow"
+  },
+  {
+    title: "QroData",
+    category: "Data Engineering & Analytics",
+    description: "Social listening platform ingesting and classifying 100,000+ unstructured records per run. NLP sentiment pipeline (VADER) with vectorized Pandas operations for performance. Sub-second query response via optimized MySQL schema and bulk SQLAlchemy inserts.",
+    tech: ["React", "Python", "MySQL", "Pandas", "NLP"],
+    featured: true,
+    link: "/proyecto/qrodata"
+  },
+  {
+    title: "Gamma Agent",
+    category: "AI Orchestration",
+    description: "Fully asynchronous AI agent that ingests raw data, generates structured presentations via Gamma API, routes human-in-the-loop approvals through Telegram, and schedules deferred email delivery — zero manual intervention required.",
+    tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
+    featured: true,
+    link: "/proyecto/gamma"
+  },
+  {
+    title: "Dashboard Pro",
+    category: "ERP Backend & SaaS",
+    description: "Production ERP backend handling inventory and sales operations with role-based access control (RBAC) across multiple permission layers. Automated reporting workflows deliver scheduled decision-making reports with zero manual intervention.",
+    tech: ["Python", "RBAC", "Automation", "SQL"],
+    featured: true,
+    link: "/proyecto/dashboard"
+  }
+];
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0,
+      }
     }
-  ];
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
 
   return (
-    <section id="projects" className="py-24 relative bg-surface/30">
+    <section id="projects" className="py-32 relative bg-surface/30">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="mb-16">
-          <span className="protocol-label">Deployment_Log</span>
-          <h2 className="section-title mb-4">Engineered Systems.</h2>
-          <p className="text-muted text-lg max-w-2xl">
+        <div className="mb-20">
+          <RevealText as="span" className="protocol-label" delay={0}>
+            Deployment_Log
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            Engineered Systems.
+          </RevealText>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="text-muted text-lg max-w-2xl mt-6"
+          >
             Projects focused on solving real operational problems, showcasing systems thinking and technical execution.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
           {projects.map((project, index) => (
-            <motion.div 
+            <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              variants={itemVariants}
               className={project.featured ? 'md:col-span-2' : ''}
             >
-              <Tilt 
-                tiltMaxAngleX={5} 
-                tiltMaxAngleY={5} 
-                perspective={1000} 
-                scale={1.02} 
+              <Tilt
+                tiltMaxAngleX={3}
+                tiltMaxAngleY={3}
+                perspective={1000}
+                scale={1.01}
                 transitionSpeed={2000}
-                gyroscope={true}
                 className="h-full"
               >
                 <div className="glass-panel rounded-2xl group transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] h-full shadow-lg">
-                  <Link to={project.link} className="flex flex-col h-full p-8 relative overflow-hidden outline-none">
-                    
+                  <Link to={project.link} className="flex flex-col h-full p-8 md:p-10 relative overflow-hidden outline-none">
                     {project.featured && (
                       <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-[80px] rounded-full pointer-events-none transition-opacity group-hover:bg-accent/10" />
                     )}
-                    
                     <div className="flex justify-between items-start mb-6 relative z-10">
-                      <span className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted">
+                      <span className="tech-subtitle group-hover:text-accent transition-colors">
                         {project.category}
                       </span>
                       <div className="text-muted group-hover:text-accent transition-colors duration-200">
                         <ArrowUpRight size={22} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                       </div>
                     </div>
-
-                    <h3 className="text-2xl font-bold text-primary mb-3 relative z-10 group-hover:text-accent transition-colors duration-300">
+                    <h3 className="item-title mb-4 group-hover:text-accent transition-colors duration-300">
                       {project.title}
                     </h3>
-                    
                     <p className="text-muted mb-8 flex-grow relative z-10 leading-relaxed text-sm md:text-base">
                       {project.description}
                     </p>
-
-                    <ul className="flex flex-wrap gap-2 relative z-10">
+                    <ul className="flex flex-wrap gap-2 relative z-10 mt-auto pt-4">
                       {project.tech.map((tech, i) => (
-                        <li key={i} className="text-xs font-medium text-primary/80 bg-white/5 px-3 py-1.5 rounded-md border border-white/5">
+                        <li key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]">
                           {tech}
                         </li>
                       ))}
@@ -546,7 +699,7 @@ function Projects() {
               </Tilt>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -557,8 +710,8 @@ export default Projects;
 FILE: src/sections/Services.jsx
 import { motion } from 'framer-motion';
 import { GitMerge, Terminal, Smartphone, Globe } from 'lucide-react';
-// 1. Importamos la librería aquí también
 import Tilt from 'react-parallax-tilt';
+import RevealText from '../components/RevealText';
 
 function Services() {
   const services = [
@@ -584,32 +737,64 @@ function Services() {
     }
   ];
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0,
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
+
+
   return (
-    <section id="services" className="py-24 relative">
+    <section id="services" className="py-32 relative">
       <div className="max-w-5xl mx-auto px-6">
-        <div className="mb-16">
-          <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">Skills</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">What I build</h2>
-          <p className="text-muted text-lg max-w-2xl">
+        <div className="mb-20">
+          <RevealText as="span" className="protocol-label" delay={0}>
+            Technical_Skills
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            What I build.
+          </RevealText>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="text-muted text-lg max-w-2xl mt-6"
+          >
             Systems designed to automate operations, connect platforms, and build high-level digital products.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {services.map((service, index) => (
-            <motion.div 
+            <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              variants={itemVariants}
             >
-              {/* 2. Envolvemos la tarjeta en Tilt con una inclinación muy sutil */}
-              <Tilt 
-                tiltMaxAngleX={3} 
-                tiltMaxAngleY={3} 
-                perspective={1000} 
-                scale={1.01} 
+              <Tilt
+                tiltMaxAngleX={3}
+                tiltMaxAngleY={3}
+                perspective={1000}
+                scale={1.01}
                 transitionSpeed={2000}
                 className="h-full"
               >
@@ -617,13 +802,13 @@ function Services() {
                   <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-inner">
                     {service.icon}
                   </div>
-                  <h3 className="text-xl font-semibold text-primary mb-3">{service.title}</h3>
+                  <h3 className="item-title mb-4">{service.title}</h3>
                   <p className="text-muted leading-relaxed">{service.description}</p>
                 </div>
               </Tilt>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -634,11 +819,13 @@ export default Services;
 FILE: src/sections/Contact.jsx
 import { motion } from 'framer-motion';
 import { Linkedin, Send } from 'lucide-react';
+import RevealText from '../components/RevealText';
+import MagneticButton from '../components/MagneticButton';
+
 
 function Contact() {
   return (
     <section id="contact" className="py-32 relative overflow-hidden">
-      {/* Resplandor sutil de fondo */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 blur-[120px] rounded-full pointer-events-none" />
       
       <div className="max-w-4xl mx-auto px-6 relative z-10">
@@ -649,81 +836,124 @@ function Contact() {
           transition={{ duration: 0.6 }}
           className="glass-panel p-8 md:p-16 rounded-[2.5rem] border border-white/10 shadow-2xl flex flex-col md:flex-row gap-12"
         >
-          {/* Columna Izquierda: Texto */}
           <div className="flex-1">
-            <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">Contact</span>
-            <h2 className="text-4xl font-bold text-primary mb-6 leading-tight">Ready to build <br/>something useful?</h2>
+            <RevealText as="span" className="protocol-label" delay={0.1}>
+              Contact_Protocol
+            </RevealText>
+            <RevealText as="h2" className="section-title !text-5xl md:!text-6xl mb-8" delay={0.22}>
+              Ready to build <br/>something useful?
+            </RevealText>
             <p className="text-muted text-lg mb-10">
               If you need to optimize processes, build a robust API, or develop an application from scratch, let's talk. I'm currently open to new opportunities.
             </p>
             
-            <a 
-              href="https://www.linkedin.com/in/miguel-angel-moreno-sanchez" 
-              target="_blank" 
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-6 py-3 rounded-xl font-medium hover:bg-white/10 transition-colors duration-200"
-            >
-              <Linkedin size={18} className="text-[#0A66C2]" />
-              Connect on LinkedIn
-            </a>
+            <MagneticButton>
+              <a 
+                href="https://www.linkedin.com/in/miguel-angel-moreno-sanchez" 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-6 py-3 rounded-sm font-medium hover:bg-white/10 transition-colors duration-200"
+              >
+                <Linkedin size={18} className="text-[#0A66C2]" />
+                Connect on LinkedIn
+              </a>
+            </MagneticButton>
           </div>
 
-          {/* Columna Derecha: Formulario Real con Formspree */}
           <div className="flex-1">
             <form action="https://formspree.io/f/xaqpawbn" method="POST" className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-muted mb-2">Name</label>
+                <label htmlFor="name" className="tech-subtitle !text-muted mb-2">Name</label>
                 <input 
                   type="text" 
                   id="name"
                   name="name"
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-primary font-mono text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all"
                   placeholder="John Doe"
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-muted mb-2">Email</label>
+                <label htmlFor="email" className="tech-subtitle !text-muted mb-2">Email</label>
                 <input 
                   type="email" 
                   id="email"
                   name="email"
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-primary font-mono text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all"
                   placeholder="john@company.com"
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-muted mb-2">Message</label>
+                <label htmlFor="message" className="tech-subtitle !text-muted mb-2">Message</label>
                 <textarea 
                   id="message"
                   name="message"
                   required
                   rows="4"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all resize-none"
+                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-primary font-mono text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all resize-none"
                   placeholder="Tell me about your project..."
                 />
               </div>
-              <button 
-                type="submit" 
-                className="w-full flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-xl font-medium hover:bg-white/90 transition-all duration-200 mt-2"
-              >
-                <Send size={18} /> Send Message
-              </button>
+              <MagneticButton>
+                <button 
+                  type="submit" 
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-sm font-bold uppercase tracking-widest text-[10px] hover:bg-white/90 transition-all duration-200 mt-4"
+                >
+                  <Send size={16} /> Send Message
+                </button>
+              </MagneticButton>
             </form>
           </div>
 
         </motion.div>
-      </div>
-
-      <div className="absolute bottom-8 left-0 right-0 text-center text-sm text-muted/50">
-        <p>© {new Date().getFullYear()} Miguel Moreno. All rights reserved.</p>
       </div>
     </section>
   );
 }
 
 export default Contact;
+---
+FILE: src/components/RevealText.jsx
+import { motion } from 'framer-motion';
+
+/**
+ * RevealText — Anima cada línea con un clip-path wipe de abajo hacia arriba.
+ * 
+ * Props:
+ *  - children: string o JSX
+ *  - delay: número (segundos, default 0)
+ *  - className: clases CSS adicionales
+ *  - as: tag HTML ('h1', 'h2', 'span', etc.)
+ *  - once: boolean (default true, solo anima una vez)
+ */
+export default function RevealText({ 
+  children, 
+  delay = 0, 
+  className = '', 
+  as = 'div',
+  once = true
+}) {
+  const MotionTag = motion[as] ?? motion.div;
+
+  return (
+    <div className="overflow-hidden">
+      <MotionTag
+        className={className}
+        initial={{ clipPath: 'inset(0 0 100% 0)', opacity: 0, y: 12 }}
+        whileInView={{ clipPath: 'inset(0 0 0% 0)', opacity: 1, y: 0 }}
+        viewport={{ once }}
+        transition={{
+          duration: 0.65,
+          delay,
+          ease: [0.16, 1, 0.3, 1] // expo out — se siente muy natural
+        }}
+      >
+        {children}
+      </MotionTag>
+    </div>
+  );
+}
 ---
 FILE: src/components/NetworkBackground.jsx
 import { useCallback } from "react";
@@ -997,6 +1227,127 @@ function Labs() {
 }
 
 export default Labs;
+---
+FILE: src/components/CustomCursor.jsx
+import { useEffect, useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+
+export default function CustomCursor() {
+  const cursorRef = useRef(null);
+  const ringRef = useRef(null);
+
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
+
+  // El punto pequeño sigue el cursor casi instantáneamente
+  const dotX = useSpring(mouseX, { stiffness: 1000, damping: 50 });
+  const dotY = useSpring(mouseY, { stiffness: 1000, damping: 50 });
+
+  // El anillo tiene inercia — ese lag es el efecto premium
+  const ringX = useSpring(mouseX, { stiffness: 150, damping: 20 });
+  const ringY = useSpring(mouseY, { stiffness: 150, damping: 20 });
+
+  useEffect(() => {
+    const move = (e) => {
+      mouseX.set(e.clientX)
+      mouseY.set(e.clientY)
+    }
+    window.addEventListener('mousemove', move)
+    return () => window.removeEventListener('mousemove', move)
+  }, [])
+
+  useEffect(() => {
+    const interactiveEls = document.querySelectorAll('a, button, [data-cursor="pointer"]');
+    
+    const grow = () => {
+      cursorRef.current?.classList.add('cursor-hover');
+      ringRef.current?.classList.add('ring-hover');
+    }
+    const shrink = () => {
+      cursorRef.current?.classList.remove('cursor-hover');
+      ringRef.current?.classList.remove('ring-hover');
+    }
+
+    interactiveEls.forEach(el => {
+      el.addEventListener('mouseenter', grow)
+      el.addEventListener('mouseleave', shrink)
+    })
+
+    return () => {
+      interactiveEls.forEach(el => {
+        el.removeEventListener('mouseenter', grow)
+        el.removeEventListener('mouseleave', shrink)
+      })
+    }
+  }, [])
+
+  return (
+    <>
+      {/* Punto central — rápido */}
+      <motion.div
+        ref={cursorRef}
+        className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference
+                   w-2 h-2 bg-white rounded-full -translate-x-1/2 -translate-y-1/2
+                   transition-[width,height] duration-200
+                   [&.cursor-hover]:w-4 [&.cursor-hover]:h-4"
+        style={{ x: dotX, y: dotY }}
+      />
+
+      {/* Anillo exterior — lento, con lag */}
+      <motion.div
+        ref={ringRef}
+        className="fixed top-0 left-0 z-[9998] pointer-events-none
+                   w-8 h-8 rounded-full border border-white/40 -translate-x-1/2 -translate-y-1/2
+                   transition-[width,height,border-color] duration-200
+                   [&.ring-hover]:w-12 [&.ring-hover]:h-12 [&.ring-hover]:border-accent/70"
+        style={{ x: ringX, y: ringY }}
+      />
+    </>
+  )
+}
+---
+FILE: src/components/MagneticButton.jsx
+import { useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+
+/**
+ * Envuelve cualquier botón o link para darle efecto magnético.
+ * Uso: <MagneticButton><button>...</button></MagneticButton>
+ */
+export default function MagneticButton({ children, className = '', strength = 0.3 }) {
+  const ref = useRef(null);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springX = useSpring(x, { stiffness: 200, damping: 15 });
+  const springY = useSpring(y, { stiffness: 200, damping: 15 });
+
+  const handleMouseMove = (e) => {
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * strength);
+    y.set((e.clientY - centerY) * strength);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`inline-block ${className}`}
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </motion.div>
+  );
+}
 ---
 FILE: src/components/Navbar.jsx
 import { motion, AnimatePresence } from 'framer-motion';
@@ -1577,13 +1928,25 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import Lenis from 'lenis'
+
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+})
+
+function raf(time) {
+  lenis.raf(time)
+  requestAnimationFrame(raf)
+}
+requestAnimationFrame(raf)
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
   </StrictMode>,
 )
-
 ---
 FILE: src/App.jsx
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
@@ -1591,7 +1954,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import Experience from "./sections/Experience";
-import Services from "./sections/Services";
+import Education from "./sections/Education";
 import Projects from "./sections/Projects";
 import About from "./sections/About";
 import Contact from "./sections/Contact";
@@ -1600,6 +1963,7 @@ import GammaCaseStudy from "./pages/GammaCaseStudy";
 import QroDataCaseStudy from "./pages/QroDataCaseStudy";
 import DashboardProCaseStudy from "./pages/DashboardProCaseStudy";
 import Labs from "./sections/Labs";
+import CustomCursor from './components/CustomCursor';
 
 // 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
 function Home() {
@@ -1612,6 +1976,7 @@ function Home() {
     >
       <Hero />
       <Experience />
+      <Education />
       <Projects />
       <Labs />     {/* <-- Agregamos Labs justo aquí */}
       <About />
@@ -1674,7 +2039,7 @@ function AnimatedRoutes() {
             <DashboardProCaseStudy />
           </motion.div>
         } />
-        
+
       </Routes>
     </AnimatePresence>
   );
@@ -1684,6 +2049,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
+      <CustomCursor />
       <Navbar />
       <AnimatedRoutes />
     </Router>
@@ -1693,108 +2059,188 @@ function App() {
 export default App;
 ---
 FILE: src/pages/LogisticsCaseStudy.jsx
-// src/pages/LogisticsCaseStudy.jsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, GitBranch, Server, Database, Activity, Code2, Smartphone, CheckCheck, Webhook, BrainCircuit, ChevronRight, FileCheck2 } from 'lucide-react';
+import { ArrowLeft, GitBranch, Server, Database, Activity, Code2, Smartphone, CheckCheck, Webhook, BrainCircuit, ChevronRight, FileCheck2, Terminal } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { motion, AnimatePresence } from 'framer-motion';
 
 function EndToEndSimulation() {
-  const [phase, setPhase] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const [activePayload, setActivePayload] = useState('{\n  "status": "awaiting_event"\n}');
 
-  const runSimulation = async () => {
-    if (phase !== 0 && phase !== 6) return;
-    setPhase(1); // WhatsApp Envía
-    await new Promise(r => setTimeout(r, 1200));
-    setPhase(2); // n8n Webhook
-    await new Promise(r => setTimeout(r, 1000));
-    setPhase(3); // n8n AI (OCR)
-    await new Promise(r => setTimeout(r, 1500));
-    setPhase(4); // Django Save
-    await new Promise(r => setTimeout(r, 1000));
-    setPhase(5); // WhatsApp Responde
-    await new Promise(r => setTimeout(r, 800));
-    setPhase(6); // Terminado
+  // Definimos los payloads para cada fase
+  const payloads = [
+    '{\n  "status": "awaiting_event"\n}',
+    '{\n  "event": "message.received",\n  "media_type": "image/jpeg",\n  "size": "2.4MB"\n}',
+    '{\n  "ocr_engine": "active",\n  "extracted": "PKG-892",\n  "signature": true\n}',
+    '{\n  "db_action": "INSERT",\n  "table": "delivery_ticket",\n  "status": 201\n}',
+    '{\n  "notification": "sent",\n  "channel": "WhatsApp"\n}'
+  ];
+
+  const runSimulation = () => {
+    if (isRunning || !window.anime) return;
+    setIsRunning(true);
+
+    // Resetear opacidades y posiciones
+    window.anime.set('.wa-msg-1', { opacity: 0, translateY: 20, scale: 0.95 });
+    window.anime.set('.wa-msg-2', { opacity: 0, translateY: 20, scale: 0.95 });
+    window.anime.set('.db-row-new', { opacity: 0, translateX: -20, backgroundColor: 'rgba(34,197,94,0)' });
+    window.anime.set('.node-glow', { boxShadow: '0 0 0px rgba(0,0,0,0)', borderColor: 'rgba(255,255,255,0.1)', scale: 1 });
+
+    const tl = window.anime.timeline({
+      easing: 'easeOutExpo',
+      complete: () => setIsRunning(false)
+    });
+
+    // 1. Entra mensaje de WhatsApp
+    tl.add({
+      targets: '.wa-msg-1',
+      opacity: 1,
+      translateY: 0,
+      scale: 1,
+      duration: 800,
+      easing: 'easeOutElastic(1, .8)',
+      begin: () => setActivePayload(payloads[1])
+    });
+
+    // 2. Nodo Webhook
+    tl.add({
+      targets: '#node-webhook',
+      boxShadow: ['0 0 0px rgba(168,85,247,0)', '0 0 30px rgba(168,85,247,0.4)', '0 0 0px rgba(168,85,247,0)'],
+      borderColor: ['rgba(255,255,255,0.1)', 'rgba(168,85,247,1)', 'rgba(255,255,255,0.1)'],
+      scale: [1, 1.05, 1],
+      duration: 1000,
+    }, '+=400');
+
+    // 3. Nodo AI (Vision)
+    tl.add({
+      targets: '#node-ai',
+      boxShadow: ['0 0 0px rgba(56,189,248,0)', '0 0 30px rgba(56,189,248,0.4)', '0 0 0px rgba(56,189,248,0)'],
+      borderColor: ['rgba(255,255,255,0.1)', 'rgba(56,189,248,1)', 'rgba(255,255,255,0.1)'],
+      scale: [1, 1.05, 1],
+      duration: 1200,
+      begin: () => setActivePayload(payloads[2])
+    }, '+=200');
+
+    // 4. Nodo Django
+    tl.add({
+      targets: '#node-django',
+      boxShadow: ['0 0 0px rgba(34,197,94,0)', '0 0 30px rgba(34,197,94,0.4)', '0 0 0px rgba(34,197,94,0)'],
+      borderColor: ['rgba(255,255,255,0.1)', 'rgba(34,197,94,1)', 'rgba(255,255,255,0.1)'],
+      scale: [1, 1.05, 1],
+      duration: 1000,
+      begin: () => setActivePayload(payloads[3])
+    }, '+=200');
+
+    // 5. Inserción en Base de Datos
+    tl.add({
+      targets: '.db-row-new',
+      opacity: 1,
+      translateX: 0,
+      backgroundColor: ['rgba(34,197,94,0.3)', 'rgba(0,0,0,0)'],
+      duration: 1200,
+      easing: 'easeOutElastic(1, .8)'
+    }, '-=400');
+
+    // 6. Respuesta al celular
+    tl.add({
+      targets: '.wa-msg-2',
+      opacity: 1,
+      translateY: 0,
+      scale: 1,
+      duration: 800,
+      easing: 'easeOutElastic(1, .8)',
+      begin: () => setActivePayload(payloads[4])
+    }, '+=400');
   };
 
   return (
-    <div className="w-full bg-[#0a0a0a] rounded-3xl border border-white/10 shadow-2xl p-4 md:p-8 font-sans my-12 overflow-hidden relative">
+    <div className="w-full bg-[#0a0a0a] rounded-sm border border-white/10 shadow-2xl p-4 md:p-8 font-sans my-12 overflow-hidden relative">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px]" />
       
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
         
         {/* 1. INTERFAZ: WhatsApp */}
-        <div className="bg-[#0b141a] rounded-2xl border border-white/10 overflow-hidden flex flex-col h-[380px] shadow-lg">
+        <div className="bg-[#0b141a] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[420px] shadow-lg">
           <div className="bg-[#202c33] p-3 flex items-center gap-3 border-b border-white/5">
-            <div className="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center text-white"><Smartphone size={16}/></div>
-            <div><h4 className="font-bold text-xs text-white">Driver App</h4></div>
+            <div className="w-8 h-8 bg-emerald-600 rounded-sm flex items-center justify-center text-white"><Smartphone size={16}/></div>
+            <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">Driver_UI</h4></div>
           </div>
-          <div className="p-4 flex-1 flex flex-col gap-3 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-black/40 text-xs">
-            {phase >= 1 && (
-              <motion.div initial={{opacity:0, scale:0.9, x:20}} animate={{opacity:1, scale:1, x:0}} className="self-end bg-[#005c4b] text-[#e9edef] p-2.5 rounded-xl rounded-tr-none w-[85%] shadow-sm">
-                <div className="w-full h-16 bg-black/40 rounded flex items-center justify-center border border-white/5 mb-1 relative overflow-hidden">
-                  <FileCheck2 size={24} className="text-white/50 absolute"/>
-                  {phase >= 3 && <motion.div initial={{top:"0%"}} animate={{top:"100%"}} transition={{duration:1.5}} className="absolute left-0 right-0 h-0.5 bg-green-400 shadow-[0_0_10px_#4ade80] z-10"/>}
-                </div>
-                <p>Entrego paquete #892.</p>
-                <div className="text-[9px] text-right text-gray-400 mt-1 flex justify-end items-center gap-1">14:05 <CheckCheck size={12} className={phase >= 2 ? "text-[#53bdeb]" : "text-gray-400"}/></div>
-              </motion.div>
-            )}
-            {phase >= 5 && (
-              <motion.div initial={{opacity:0, scale:0.9, x:-20}} animate={{opacity:1, scale:1, x:0}} className="self-start bg-[#202c33] text-[#e9edef] p-2.5 rounded-xl rounded-tl-none w-[85%] shadow-sm">
-                <p>✅ <strong>Ticket validado.</strong> Paquete #892 registrado en ERP.</p>
-              </motion.div>
-            )}
+          <div className="p-4 flex-1 flex flex-col gap-3 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-black/40 text-xs overflow-y-auto">
+            
+            <div className="wa-msg-1 opacity-0 self-end bg-[#005c4b] text-[#e9edef] p-2.5 rounded-xl rounded-tr-none w-[85%] shadow-sm origin-bottom-right">
+              <div className="w-full h-16 bg-black/40 rounded-sm flex items-center justify-center border border-white/5 mb-1 relative overflow-hidden">
+                <FileCheck2 size={24} className="text-white/50"/>
+              </div>
+              <p>Entrego paquete #892.</p>
+              <div className="text-[9px] text-right text-gray-400 mt-1 flex justify-end items-center gap-1">14:05 <CheckCheck size={12} className="text-[#53bdeb]"/></div>
+            </div>
+            
+            <div className="wa-msg-2 opacity-0 self-start bg-[#202c33] text-[#e9edef] p-2.5 rounded-xl rounded-tl-none w-[85%] shadow-sm origin-bottom-left mt-auto">
+              <p>✅ <strong>Ticket validado.</strong> Paquete #892 registrado en ERP.</p>
+              <div className="text-[9px] text-right text-gray-400 mt-1">14:05</div>
+            </div>
+
           </div>
           <div className="p-3 bg-[#202c33] border-t border-white/5">
-            <button onClick={runSimulation} disabled={phase > 0 && phase < 6} className="w-full bg-emerald-600 disabled:bg-emerald-800 text-white py-2 rounded-lg font-bold text-xs hover:bg-emerald-500 transition-colors flex items-center justify-center gap-2">
-              {phase === 0 ? "Send Delivery Proof" : phase === 6 ? "Restart Demo" : "Processing..."}
+            <button onClick={runSimulation} disabled={isRunning} className="w-full bg-emerald-600 disabled:bg-emerald-800 text-white py-2 rounded-sm font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 transition-colors flex items-center justify-center gap-2">
+              {isRunning ? "Executing Flow..." : "Trigger Webhook"}
             </button>
           </div>
         </div>
 
-        {/* 2. ORQUESTADOR: n8n Flow */}
-        <div className="flex flex-col gap-4">
-          <div className="text-center mb-2"><h4 className="text-xs font-bold text-muted uppercase tracking-widest">n8n Orchestrator</h4></div>
+        {/* 2. ORQUESTADOR: n8n Flow & Payload Console */}
+        <div className="flex flex-col gap-4 h-full">
+          <div className="text-center mb-2"><h4 className="text-[10px] font-bold text-muted uppercase tracking-[0.3em]">n8n Orchestrator</h4></div>
           
-          <div className={`relative p-3 rounded-xl border transition-all duration-500 flex items-center gap-4 ${phase === 2 ? 'bg-purple-500/10 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.2)] scale-105' : 'bg-[#121212] border-white/10 opacity-60'}`}>
-            <Webhook className={phase === 2 ? "text-purple-400" : "text-white/40"} size={24}/>
+          <div id="node-webhook" className="node-glow relative p-3 rounded-sm border border-white/10 bg-[#121212] flex items-center gap-4">
+            <Webhook className="text-purple-400" size={20}/>
             <div>
-              <div className="text-xs font-bold text-white">1. Catch Webhook</div>
-              <div className="text-[10px] text-muted font-mono">{phase >= 2 ? "{ media: 'image.jpg' }" : "Waiting..."}</div>
+              <div className="text-xs font-bold text-white uppercase tracking-wider">1. Webhook</div>
+              <div className="text-[9px] text-muted font-mono">Catch Event</div>
             </div>
           </div>
 
-          <div className="flex justify-center"><ChevronRight className="text-white/20 rotate-90 lg:rotate-0" size={16}/></div>
+          <div className="flex justify-center"><ChevronRight className="text-white/10 rotate-90 lg:rotate-0" size={16}/></div>
 
-          <div className={`relative p-3 rounded-xl border transition-all duration-500 flex items-center gap-4 ${phase === 3 ? 'bg-blue-500/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)] scale-105' : 'bg-[#121212] border-white/10 opacity-60'}`}>
-            <BrainCircuit className={phase === 3 ? "text-blue-400 animate-pulse" : "text-white/40"} size={24}/>
+          <div id="node-ai" className="node-glow relative p-3 rounded-sm border border-white/10 bg-[#121212] flex items-center gap-4">
+            <BrainCircuit className="text-accent" size={20}/>
             <div>
-              <div className="text-xs font-bold text-white">2. AI Vision (OCR)</div>
-              <div className="text-[10px] text-muted font-mono">{phase >= 3 ? "Extracted: PKG-892" : "Idle"}</div>
+              <div className="text-xs font-bold text-white uppercase tracking-wider">2. AI Vision</div>
+              <div className="text-[9px] text-muted font-mono">OCR Extraction</div>
             </div>
           </div>
 
-          <div className="flex justify-center"><ChevronRight className="text-white/20 rotate-90 lg:rotate-0" size={16}/></div>
+          <div className="flex justify-center"><ChevronRight className="text-white/10 rotate-90 lg:rotate-0" size={16}/></div>
 
-          <div className={`relative p-3 rounded-xl border transition-all duration-500 flex items-center gap-4 ${phase === 4 ? 'bg-green-500/10 border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.2)] scale-105' : 'bg-[#121212] border-white/10 opacity-60'}`}>
-            <Server className={phase === 4 ? "text-green-400" : "text-white/40"} size={24}/>
+          <div id="node-django" className="node-glow relative p-3 rounded-sm border border-white/10 bg-[#121212] flex items-center gap-4">
+            <Server className="text-green-400" size={20}/>
             <div>
-              <div className="text-xs font-bold text-white">3. POST to Django</div>
-              <div className="text-[10px] text-muted font-mono">{phase >= 4 ? "Status: 201 Created" : "Idle"}</div>
+              <div className="text-xs font-bold text-white uppercase tracking-wider">3. API Request</div>
+              <div className="text-[9px] text-muted font-mono">POST /django</div>
             </div>
+          </div>
+
+          {/* Consola JSON en tiempo real */}
+          <div className="mt-auto bg-[#050505] border border-white/10 rounded-sm overflow-hidden h-28 flex flex-col shadow-inner">
+             <div className="bg-[#111] px-3 py-1 border-b border-white/5 flex items-center gap-2">
+               <Terminal size={10} className="text-accent" />
+               <span className="text-[9px] font-mono text-muted uppercase tracking-widest">Live_Payload.json</span>
+             </div>
+             <pre className="p-3 text-[9px] font-mono text-green-400 overflow-hidden">
+               {activePayload}
+             </pre>
           </div>
         </div>
 
         {/* 3. BACKEND: Base de Datos */}
-        <div className="bg-[#121212] rounded-2xl border border-white/10 overflow-hidden flex flex-col h-[380px] shadow-lg">
+        <div className="bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[420px] shadow-lg">
            <div className="bg-white/5 p-3 flex items-center gap-3 border-b border-white/5">
-            <div className="w-8 h-8 bg-blue-600/20 border border-blue-500/30 rounded-full flex items-center justify-center text-blue-400"><Database size={16}/></div>
-            <div><h4 className="font-bold text-xs text-white">PostgreSQL DB</h4></div>
+            <div className="w-8 h-8 bg-blue-600/20 border border-blue-500/30 rounded-sm flex items-center justify-center text-blue-400"><Database size={16}/></div>
+            <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">PostgreSQL</h4></div>
           </div>
-          <div className="p-4 flex-1 flex flex-col justify-center">
+          <div className="p-4 flex-1 flex flex-col justify-start overflow-hidden">
             <table className="w-full text-left text-[10px] font-mono">
               <thead>
                 <tr className="text-muted border-b border-white/10">
@@ -1804,28 +2250,27 @@ function EndToEndSimulation() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-white/5 text-white/50">
+                <tr className="border-b border-white/5 text-white/40">
                   <td className="py-3">PKG-890</td>
-                  <td className="py-3"><span className="text-green-400 bg-green-400/10 px-1 py-0.5 rounded">DELIVERED</span></td>
+                  <td className="py-3"><span className="text-green-400/50 bg-green-400/5 px-1 py-0.5 rounded-sm">DELIVERED</span></td>
                   <td className="py-3">true</td>
                 </tr>
-                <tr className="border-b border-white/5 text-white/50">
+                <tr className="border-b border-white/5 text-white/40">
                   <td className="py-3">PKG-891</td>
-                  <td className="py-3"><span className="text-green-400 bg-green-400/10 px-1 py-0.5 rounded">DELIVERED</span></td>
+                  <td className="py-3"><span className="text-green-400/50 bg-green-400/5 px-1 py-0.5 rounded-sm">DELIVERED</span></td>
                   <td className="py-3">true</td>
                 </tr>
-                <AnimatePresence>
-                  {phase >= 4 && (
-                    <motion.tr initial={{opacity:0, backgroundColor:"rgba(59,130,246,0.2)"}} animate={{opacity:1, backgroundColor:"rgba(0,0,0,0)"}} transition={{duration:1}} className="border-b border-white/5 text-white">
-                      <td className="py-3 text-accent font-bold">PKG-892</td>
-                      <td className="py-3"><span className="text-green-400 bg-green-400/10 px-1 py-0.5 rounded font-bold">DELIVERED</span></td>
-                      <td className="py-3">true</td>
-                    </motion.tr>
-                  )}
-                </AnimatePresence>
+                {/* Fila Animada */}
+                <tr className="db-row-new opacity-0 border-b border-white/5 text-white">
+                  <td className="py-3 text-accent font-bold">PKG-892</td>
+                  <td className="py-3"><span className="text-green-400 bg-green-400/10 px-1 py-0.5 rounded-sm font-bold shadow-[0_0_10px_rgba(34,197,94,0.2)]">DELIVERED</span></td>
+                  <td className="py-3 font-bold text-accent">true</td>
+                </tr>
               </tbody>
             </table>
-            {phase < 4 && <div className="text-center mt-8 text-xs text-muted">Awaiting database commit...</div>}
+            {!isRunning && activePayload === '{\n  "status": "awaiting_event"\n}' && (
+              <div className="text-center mt-12 text-[10px] text-muted font-mono uppercase tracking-widest animate-pulse">Awaiting Sync...</div>
+            )}
           </div>
         </div>
 
@@ -1837,16 +2282,6 @@ function EndToEndSimulation() {
 export default function LogisticsCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (window.anime) {
-      window.anime({
-        targets: '.animate-in',
-        translateY: [40, 0],
-        opacity: [0, 1],
-        delay: window.anime.stagger(150),
-        easing: 'easeOutExpo',
-        duration: 1000
-      });
-    }
   }, []);
 
   const djangoCode = `# Django API View handling the validated payload
@@ -1879,43 +2314,96 @@ class TicketIngestionView(APIView):
             return Response({"error": str(e)}, status=500)`;
 
   return (
-    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
-      <div className="max-w-5xl mx-auto px-6">
-        <nav className="mb-16 animate-in opacity-0">
-          <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
-            <ArrowLeft size={18} /> Back to Portfolio
+    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12 relative overflow-hidden">
+      {/* Glow de fondo para dar ambiente sci-fi sutil */}
+      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
+        
+        <nav className="mb-16">
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
+            <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
-        <header className="mb-16 animate-in opacity-0">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">Architecture & Automation</span>
+        <header className="mb-16">
+          <div className="mb-6">
+            <span className="protocol-label">Architecture_&_Automation</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">LogisticsFlow AI</h1>
+          <h1 className="section-title mb-6">LogisticsFlow AI.</h1>
           <p className="text-xl text-muted leading-relaxed max-w-3xl">
-            An event-driven logistics system engineered to validate evidence automatically, sync data tightly with a Django backend, and communicate via WhatsApp API in real-time.
+            A production event-driven system processing 500+ daily logistics validations. 
+            Designed around a strict separation of concerns: n8n handles all orchestration logic, 
+            Django owns the data model and business rules, and OpenAI Vision + Whisper handle 
+            multimodal evidence classification — keeping each layer independently testable and replaceable.
           </p>
         </header>
 
-        <section className="space-y-20">
-          <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">01. Live Simulation: End-to-End Execution</h2>
-            <p className="text-muted text-lg leading-relaxed mb-6 max-w-3xl">
-              When a driver sends evidence via WhatsApp, the system doesn't just save a photo. It orchestrates a multi-step validation process autonomously and replies to the driver instantly. <strong>Click the button below to see the data flow through the architecture.</strong>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+          {[
+            { label: 'Orchestrator', value: 'n8n', icon: GitBranch },
+            { label: 'Backend', value: 'Django (Python)', icon: Server },
+            { label: 'AI Engine', value: 'OpenAI Vision', icon: Activity },
+            { label: 'Interface', value: 'WhatsApp API', icon: Smartphone },
+          ].map((item, i) => (
+            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a]">
+              <item.icon className="text-accent mb-3" size={20} />
+              <span className="tech-subtitle !mb-1">{item.label}</span>
+              <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Agregar después del grid de tech stack, antes del primer section */}
+        <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
+          <h2 className="item-title mb-8 border-b border-white/10 pb-4">Key Engineering Decisions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                decision: "n8n over custom orchestration",
+                why: "Building a custom workflow engine would introduce maintenance overhead with no competitive advantage. n8n gave us visual debuggability, built-in retry logic, and webhook management — the team could trace failures in seconds instead of reading logs.",
+                tradeoff: "Accepted: vendor dependency and limited custom logic in complex branches."
+              },
+              {
+                decision: "Synchronous Django API over event queue",
+                why: "At 500 req/day, the operational complexity of Kafka or RabbitMQ was unjustified. A synchronous Django API with select_for_update() race condition protection gave us ACID guarantees with zero infrastructure overhead.",
+                tradeoff: "Accepted: horizontal scaling ceiling. Revisit at 10x volume."
+              },
+              {
+                decision: "WhatsApp Business API over SMS",
+                why: "100% of the logistics operators already used WhatsApp daily. Adoption cost was zero. The API provided media upload, message status webhooks, and template messaging — features SMS cannot match at the same price point.",
+                tradeoff: "Accepted: Meta platform dependency and approval process for message templates."
+              }
+            ].map((item, i) => (
+              <div key={i} className="space-y-3">
+                <h3 className="text-white font-bold text-sm uppercase tracking-tight">{item.decision}</h3>
+                <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                <p className="text-accent/60 text-xs font-mono leading-relaxed border-l border-accent/30 pl-3">{item.tradeoff}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <section className="space-y-24">
+          <div>
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Live Execution Trace</h2>
+            <p className="text-muted text-lg leading-relaxed mb-8 max-w-3xl">
+              When a driver sends evidence via WhatsApp, the system doesn't just save a photo. It orchestrates a multi-step validation process autonomously and replies to the driver instantly. <strong>Watch the payload mutate in real-time across the architecture.</strong>
             </p>
             <EndToEndSimulation />
           </div>
 
-          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 className="text-2xl font-bold mb-4 text-accent">02. Backend Evidence</h2>
+              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. Backend Evidence</h2>
               <p className="text-muted text-lg leading-relaxed mb-6">
                 While n8n handles the routing and AI API calls, the core truth lives in the database. I built a Python/Django endpoint to receive the structured data from the workflow, ensuring ACID transactions (<code>@transaction.atomic</code>) and strict error handling to prevent corrupted states.
               </p>
             </div>
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
+            
+            <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
-                <span className="text-xs font-mono text-muted">views.py</span>
+                <span className="tech-subtitle !mb-0 !tracking-widest">views.py</span>
               </div>
               <div className="text-xs md:text-sm font-mono text-gray-300">
                 <SyntaxHighlighter language="python" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}>
@@ -1925,6 +2413,7 @@ class TicketIngestionView(APIView):
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );
@@ -1934,111 +2423,95 @@ FILE: src/pages/DashboardProCaseStudy.jsx
 // src/pages/DashboardProCaseStudy.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Database, ShieldCheck, BarChart, Settings, Lock, Users, Activity as ActivityIcon, Server, TrendingUp, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Database, ShieldCheck, BarChart, Settings, Users, Activity as ActivityIcon, Server, TrendingUp, AlertCircle, RotateCcw } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion } from 'framer-motion';
 
-// --- COMPONENTE ANIMADO DEL DASHBOARD ---
 function AnimatedDashboard() {
   const [revenue, setRevenue] = useState(124500);
-  
-  // Simulación de cambio de números en vivo
+  const [isRunning, setIsRunning] = useState(false);
+
+  // TU LÓGICA ORIGINAL: Actualización cada 3 segundos
   useEffect(() => {
-    const interval = setInterval(() => {
-      setRevenue(prev => prev + Math.floor(Math.random() * 500));
-    }, 3000);
+    const interval = setInterval(() => setRevenue(prev => prev + Math.floor(Math.random() * 500)), 3000);
     return () => clearInterval(interval);
   }, []);
 
+  // Añadimos solo un feedback visual al botón para que sea interactivo
+  const runSimulation = () => {
+    setIsRunning(true);
+    setRevenue(prev => prev + Math.floor(Math.random() * 2000 + 500));
+    setTimeout(() => setIsRunning(false), 800);
+  };
+
   return (
     <div className="w-full h-full bg-[#050505] p-4 md:p-6 flex flex-col gap-4 font-sans text-white/80 select-none overflow-hidden relative">
-      {/* Grid de fondo decorativo */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4%_8%] pointer-events-none" />
       
-      {/* Header del ERP Mock */}
       <div className="flex justify-between items-center border-b border-white/10 pb-3 relative z-10">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-accent/20 flex items-center justify-center border border-accent/30">
-            <BarChart size={14} className="text-accent" />
-          </div>
-          <span className="font-bold text-sm tracking-wide">ERP System Core</span>
+          <div className="w-6 h-6 rounded-sm bg-accent/20 flex items-center justify-center border border-accent/30"><BarChart size={14} className="text-accent" /></div>
+          <span className="font-bold text-sm tracking-wide text-white">ERP System Core</span>
         </div>
-        <div className="flex items-center gap-2 bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Live Sync</span>
-        </div>
+        <button 
+          onClick={runSimulation} 
+          disabled={isRunning}
+          className="flex items-center gap-2 bg-green-500/10 hover:bg-green-500/20 px-3 py-1.5 rounded-sm border border-green-500/30 transition-colors disabled:opacity-50 cursor-pointer"
+        >
+          <RotateCcw size={12} className={`text-green-400 ${isRunning ? 'animate-spin' : ''}`} />
+          <span className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Sync Data</span>
+        </button>
       </div>
 
-      {/* Top KPIs */}
       <div className="grid grid-cols-3 gap-3 md:gap-4 relative z-10">
         {[
-          { label: "Daily Revenue", value: `$${revenue.toLocaleString()}`, icon: TrendingUp, color: "text-green-400" },
-          { label: "Active Sessions", value: "342", icon: Users, color: "text-accent" },
+          { label: "Daily Revenue", value: `$${revenue.toLocaleString()}`, icon: TrendingUp, color: "text-green-400" }, 
+          { label: "Active Sessions", value: "342", icon: Users, color: "text-accent" }, 
           { label: "DB Latency", value: "24ms", icon: Server, color: "text-purple-400" }
         ].map((kpi, i) => (
-          <div key={i} className="bg-white/5 border border-white/10 rounded-lg p-3 flex flex-col">
+          <div key={i} className="bg-white/5 border border-white/10 rounded-sm p-3 flex flex-col hover:bg-white/10 transition-colors">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] md:text-xs text-muted font-medium uppercase">{kpi.label}</span>
+              <span className="text-[10px] md:text-xs text-muted font-bold tracking-widest uppercase">{kpi.label}</span>
               <kpi.icon size={14} className={kpi.color} />
             </div>
-            <span className="text-lg md:text-2xl font-bold text-primary tabular-nums">{kpi.value}</span>
+            <span className="text-lg md:text-2xl font-bold text-white tabular-nums tracking-tighter">{kpi.value}</span>
           </div>
         ))}
       </div>
 
-      {/* Main Content Area */}
       <div className="flex-1 grid grid-cols-3 gap-3 md:gap-4 relative z-10">
-        
-        {/* Gráfico de Barras Animado */}
-        <div className="col-span-2 bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col">
-          <span className="text-xs text-muted mb-4 font-medium">Hourly Transaction Volume</span>
+        <div className="col-span-2 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col">
+          <span className="text-[10px] text-muted mb-4 font-bold tracking-widest uppercase">Hourly Transaction Volume</span>
           <div className="flex-1 flex items-end justify-between gap-1 md:gap-2">
             {[...Array(12)].map((_, i) => (
-              <div key={i} className="w-full bg-white/5 rounded-t-sm relative overflow-hidden h-full flex items-end">
+              <div key={i} className="w-full bg-white/5 rounded-t-sm relative overflow-hidden h-full flex items-end group">
                 <motion.div 
-                  className="w-full bg-accent/60 border-t border-accent"
-                  animate={{ 
-                    height: [`${Math.random() * 40 + 20}%`, `${Math.random() * 80 + 20}%`, `${Math.random() * 50 + 20}%`] 
-                  }}
-                  transition={{ 
-                    duration: 3 + Math.random() * 2, 
-                    repeat: Infinity, 
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                  }}
+                  className="w-full bg-accent/60 border-t border-accent group-hover:bg-accent transition-colors" 
+                  animate={{ height: [`${Math.random() * 40 + 20}%`, `${Math.random() * 80 + 20}%`, `${Math.random() * 50 + 20}%`] }} 
+                  transition={{ duration: 3 + Math.random() * 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Activity Feed Animado */}
-            <div className="col-span-1 bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col relative">
-            <span className="text-xs text-muted mb-3 font-medium shrink-0">Security Logs</span>
-            
-            {/* El secreto es el overflow-hidden aquí */}
-            <div className="flex-1 relative overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
-                <motion.div 
-                animate={{ y: [0, -60] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                className="absolute top-0 left-0 w-full space-y-3 pt-2"
-                >
-              {[
-                { type: "auth", msg: "User admin logged in", time: "10s ago" },
-                { type: "query", msg: "Exporting sales_Q3", time: "14s ago" },
-                { type: "warn", msg: "Failed login attempt", time: "22s ago" },
-                { type: "auth", msg: "User vendor_4 active", time: "31s ago" },
-                { type: "query", msg: "Stock updated ID:92", time: "45s ago" },
+        <div className="col-span-1 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col relative overflow-hidden">
+          <span className="text-[10px] text-muted mb-3 font-bold tracking-widest uppercase shrink-0">Security Logs</span>
+          <div className="flex-1 relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
+            <motion.div animate={{ y: [0, -80] }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} className="absolute top-0 left-0 w-full space-y-3 pt-2">
+              {[ 
+                { type: "auth", msg: "User admin logged in", time: "10s ago" }, 
+                { type: "query", msg: "Exporting sales_Q3", time: "14s ago" }, 
+                { type: "warn", msg: "Failed login attempt", time: "22s ago" }, 
+                { type: "auth", msg: "User vendor_4 active", time: "31s ago" }, 
+                { type: "query", msg: "Stock updated ID:92", time: "45s ago" }, 
                 { type: "auth", msg: "User admin logged in", time: "55s ago" },
+                { type: "query", msg: "DB Index rebuilt", time: "1m ago" }
               ].map((log, i) => (
-                <div key={i} className="flex items-start gap-2 text-[9px] md:text-[10px]">
-                  {log.type === 'warn' ? (
-                    <AlertCircle size={12} className="text-red-400 shrink-0 mt-0.5" />
-                  ) : (
-                    <ShieldCheck size={12} className="text-accent shrink-0 mt-0.5" />
-                  )}
+                <div key={i} className="flex items-start gap-2 text-[9px] md:text-[10px] font-mono hover:bg-white/5 p-1 rounded transition-colors">
+                  {log.type === 'warn' ? <AlertCircle size={12} className="text-red-400 shrink-0 mt-0.5" /> : <ShieldCheck size={12} className="text-accent shrink-0 mt-0.5" />}
                   <div>
                     <div className={log.type === 'warn' ? 'text-red-300' : 'text-gray-300'}>{log.msg}</div>
                     <div className="text-muted/50">{log.time}</div>
@@ -2046,23 +2519,17 @@ function AnimatedDashboard() {
                 </div>
               ))}
             </motion.div>
-
-            {/* Gradiente inferior para difuminar cuando el texto aparece */}
-            <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-[#111111] to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#111111] to-transparent z-10 pointer-events-none" />
           </div>
         </div>
-
       </div>
     </div>
   );
 }
-// --- FIN DEL COMPONENTE ANIMADO ---
-
 
 export default function DashboardProCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
-
     if (window.anime) {
       window.anime({
         targets: '.animate-in',
@@ -2084,249 +2551,286 @@ logger = logging.getLogger('security')
 
 def require_role(allowed_roles):
     """
-    Protege los endpoints asegurando que el usuario tenga un rol autorizado.
+    Protects endpoints by ensuring the user holds an authorized role.
     """
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
             if not request.user.is_authenticated:
-                logger.warning(f"Intento de acceso anónimo a {request.path}")
-                raise PermissionDenied("Se requiere autenticación.")
+                logger.warning(f"Anonymous access attempt on {request.path}")
+                raise PermissionDenied("Authentication required.")
             
             user_role = getattr(request.user, 'role', None)
             
             if not user_role or user_role.name not in allowed_roles:
-                logger.warning(f"Acceso denegado: Usuario {request.user.email} (Rol: {user_role})")
-                raise PermissionDenied(f"Permisos insuficientes para esta acción.")
+                logger.warning(f"Access denied: User {request.user.email}")
+                raise PermissionDenied(f"Insufficient permissions.")
                 
             return view_func(request, *args, **kwargs)
         return _wrapped_view
-    return decorator
-
-# Ejemplo de uso en el controlador de Inventario:
-# @require_role(['Admin', 'Warehouse_Manager'])
-# def update_stock(request, product_id):
-#     ...
-`;
+    return decorator`;
 
   return (
-    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
-      <div className="max-w-4xl mx-auto px-6">
+    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12 relative overflow-hidden">
+      
+      {/* Background Glow */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         
-        {/* Navegación */}
+        {/* Nav Return */}
         <nav className="mb-16 animate-in opacity-0">
-          <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
-            <ArrowLeft size={18} /> Volver al Portafolio
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
+            <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
-        {/* Header del Proyecto */}
+        {/* TIPOGRAFÍA CORREGIDA */}
         <header className="mb-16 animate-in opacity-0">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">
-              SaaS & Backend Architecture
-            </span>
+          <div className="mb-6">
+            <span className="protocol-label">SaaS_&_Backend_Architecture</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">Dashboard Pro</h1>
-          <p className="text-xl text-muted leading-relaxed max-w-2xl">
-            Sistemas backend robustos para una plataforma ERP de inventario y ventas. Un enfoque total en la integridad de los datos, flujos de reportes automatizados en segundo plano y control de acceso estricto basado en roles (RBAC).
-          </p>
+          <h1 className="section-title mb-6">Dashboard Pro.</h1>
+          <p className="text-xl text-muted leading-relaxed max-w-3xl">
+            A production ERP backend engineered for data integrity and operational security. 
+            Built a Role-Based Access Control system from scratch — warehouse staff, sales team, 
+            and management each operate in strictly isolated permission layers. 
+            Automated reporting workflows deliver scheduled decision-making reports 
+            with zero manual intervention, backed by PostgreSQL and custom Python middleware.
+            </p>
         </header>
 
-        {/* Métricas / Stack */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20 animate-in opacity-0">
+        {/* Stack Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in opacity-0">
           {[
-            { label: 'Lógica Core', value: 'Python', icon: Settings },
-            { label: 'Persistencia', value: 'PostgreSQL', icon: Database },
-            { label: 'Seguridad', value: 'RBAC Auth', icon: ShieldCheck },
-            { label: 'Procesamiento', value: 'Background Jobs', icon: ActivityIcon },
+            { label: 'Core Logic', value: 'Python', icon: Settings },
+            { label: 'Persistence', value: 'PostgreSQL', icon: Database },
+            { label: 'Security', value: 'RBAC Auth', icon: ShieldCheck },
+            { label: 'Processing', value: 'Background Jobs', icon: ActivityIcon },
           ].map((item, i) => (
-             <div key={i} className="glass-panel p-5 rounded-xl border border-white/5">
+             <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a]">
               <item.icon className="text-accent mb-3" size={20} />
-              <div className="text-xs text-muted mb-1 uppercase tracking-wider">{item.label}</div>
-              <div className="font-semibold">{item.value}</div>
+              <span className="tech-subtitle !mb-1">{item.label}</span>
+              <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
             </div>
           ))}
         </div>
 
-        {/* --- AQUÍ REEMPLAZAMOS LA IMAGEN CON EL COMPONENTE ANIMADO --- */}
-        <div className="mb-20 rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] aspect-[16/10] md:aspect-video relative animate-in opacity-0">
+        {/* Dashboard Component */}
+        <div className="mb-24 rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] aspect-[16/10] md:aspect-video relative animate-in opacity-0">
           <AnimatedDashboard />
         </div>
 
-        <section className="space-y-16">
-          
-          {/* Sección 1: RBAC */}
+        <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
+            <h2 className="item-title mb-2">Key Engineering Decisions</h2>
+            <p className="text-muted text-sm mb-8 font-mono">Why I built it this way — and what I consciously traded off.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                {
+                    decision: "Custom RBAC over Django's built-in permissions",
+                    why: "Django's default permission system operates at model level, not business role level. An ERP requires warehouse staff to be completely isolated from sales data regardless of model overlap. Custom decorators gave us named roles with explicit permission matrices, auditable in a single file.",
+                    tradeoff: "Accepted: more upfront code. Justified by the clarity and auditability of explicit role definitions over implicit permission flags."
+                },
+                {
+                    decision: "Decorator pattern over middleware",
+                    why: "Global middleware would apply permission logic to every request, requiring exemption lists that grow over time. Decorators applied at the view level make permissions explicit and co-located with the endpoint they protect — no hidden behavior, no exemption lists.",
+                    tradeoff: "Accepted: requires discipline to apply decorators consistently. Mitigated with a base view class that enforces decoration."
+                },
+                {
+                    decision: "Background jobs over synchronous reporting",
+                    why: "Generating consolidated ERP reports synchronously blocks the request thread and risks timeouts on large datasets. Background jobs decouple report generation from the HTTP cycle, allowing reports to be pre-computed and served instantly when requested.",
+                    tradeoff: "Accepted: reports may be minutes stale. Acceptable for strategic decision-making dashboards that don't require real-time precision."
+                }
+                ].map((item, i) => (
+                <div key={i} className="space-y-3">
+                    <h3 className="text-white font-bold text-sm uppercase tracking-tight border-b border-white/10 pb-3">{item.decision}</h3>
+                    <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                    <p className="text-accent/70 text-xs font-mono leading-relaxed border-l-2 border-accent/30 pl-3 mt-2">{item.tradeoff}</p>
+                </div>
+                ))}
+            </div>
+        </div>
+
+        {/* Detalles Técnicos */}
+        <section className="space-y-24">
           <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4 flex items-center gap-3">
-              <Users className="text-accent" /> 01. Arquitectura de Datos y Permisos
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">
+              01. Data Architecture
             </h2>
-            <p className="text-muted text-lg leading-relaxed mb-6">
-              En sistemas ERP (Enterprise Resource Planning), un error de permisos puede significar desajustes financieros o fugas de información. Implementé un sistema de <strong>Control de Acceso Basado en Roles (RBAC)</strong> desde cero en el backend. 
-            </p>
-            <p className="text-muted text-lg leading-relaxed">
-              Esto asegura que el personal de almacén solo pueda modificar el stock, el equipo de ventas solo gestione transacciones, y la gerencia tenga acceso a vistas consolidadas, todo operando sobre la misma fuente de verdad (Single Source of Truth) en PostgreSQL.
+            <p className="text-muted text-lg leading-relaxed mb-6 max-w-3xl">
+              In ERP systems, a permissions error can mean financial discrepancies or data leaks. I implemented a <strong>Role-Based Access Control (RBAC)</strong> system from scratch on the backend. This ensures warehouse staff can only modify stock, the sales team only manages transactions, and management has access to consolidated views.
             </p>
           </div>
 
-          {/* Código Destacado */}
-          <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
-              <Lock className="text-accent" /> Código Destacado: Middleware RBAC
-            </h2>
-            <p className="text-muted text-lg leading-relaxed mb-6">
-              Para mantener el código limpio y escalable, diseñé decoradores personalizados en Python que interceptan las peticiones a la API, validando la identidad y el rol antes de tocar la base de datos, registrando además cualquier anomalía de seguridad.
-            </p>
+          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <div>
+              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">
+                02. Security Middleware
+              </h2>
+              <p className="text-muted text-lg leading-relaxed mb-6">
+                To keep the codebase clean and scalable, I designed custom Python decorators that intercept API requests, validating identity and role before touching the database, while logging any security anomalies.
+              </p>
+            </div>
             
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl">
+            <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                </div>
-                <span className="ml-4 text-xs font-mono text-muted">security/decorators.py</span>
+                <span className="tech-subtitle !mb-0 !tracking-widest">security/decorators.py</span>
               </div>
-              <div className="text-sm font-mono text-gray-300">
-                <SyntaxHighlighter 
-                  language="python" 
-                  style={vscDarkPlus} 
-                  customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}
-                >
+              <div className="text-xs md:text-sm font-mono text-gray-300">
+                <SyntaxHighlighter language="python" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}>
                   {codeSnippet}
                 </SyntaxHighlighter>
               </div>
             </div>
           </div>
-
-          {/* Sección 2: Automatización */}
-          <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4 flex items-center gap-3">
-              <ActivityIcon className="text-accent" /> 02. Flujos de Reportes Automatizados
-            </h2>
-            <p className="text-muted text-lg leading-relaxed">
-              La gerencia no necesita ver datos crudos, necesita información procesable. En lugar de requerir exportaciones manuales diarias que colapsan la base de datos en horas pico, diseñé tareas en segundo plano (Background Jobs) que consolidan las métricas de inventario y ventas durante la madrugada, generando y distribuyendo reportes analíticos automáticamente.
-            </p>
-          </div>
-
-          {/* Impacto / Resultados */}
-          <div className="animate-in opacity-0 glass-panel p-8 rounded-2xl border border-white/10 bg-[#0a0a0a]">
-            <h2 className="text-2xl font-bold mb-8 text-center md:text-left">03. Impacto Operativo</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-              <div>
-                <div className="text-4xl font-extrabold text-accent mb-2">100%</div>
-                <div className="text-sm text-muted">Trazabilidad en auditorías gracias al sistema de roles.</div>
-              </div>
-              <div>
-                <div className="text-4xl font-extrabold text-accent mb-2">Auto</div>
-                <div className="text-sm text-muted">Generación diaria de KPIs sin intervención humana.</div>
-              </div>
-              <div>
-                <div className="text-4xl font-extrabold text-accent mb-2">Secure</div>
-                <div className="text-sm text-muted">Arquitectura backend blindada y escalable.</div>
-              </div>
-            </div>
-          </div>
-
         </section>
-
-        {/* Footer */}
-        <div className="mt-24 pt-12 border-t border-white/10 text-center animate-in opacity-0">
-          <h3 className="text-xl font-bold mb-6">¿Necesitas un backend robusto para tu operación?</h3>
-          <a href="mailto:miguelmoreno.uaq@gmail.com" className="inline-flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-xl font-bold hover:scale-105 transition-transform duration-200">
-            Hablemos de arquitectura
-          </a>
-        </div>
-
       </div>
     </div>
   );
 }
 ---
 FILE: src/pages/GammaCaseStudy.jsx
-// src/pages/GammaCaseStudy.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Bot, Check, RefreshCw, Send, FileText } from 'lucide-react';
+import { ArrowLeft, Clock, Bot, Check, RefreshCw, Send, FileText, Server, TerminalSquare, Activity } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-function TelegramSimulator() {
+function AsynchronousSimulation() {
   const [step, setStep] = useState(0);
+  const [serverState, setServerState] = useState('{\n  "sessions": 0,\n  "active_contexts": {}\n}');
 
-  useEffect(() => {
-    if (step === 1) setTimeout(() => setStep(2), 1500);
-    if (step === 3) setTimeout(() => setStep(4), 1500);
-  }, [step]);
+  const runDemo = async () => {
+    if (step > 0 && step < 5) return;
+    
+    // Step 1: User initiates
+    setStep(1);
+    setServerState('{\n  "sessions": 1,\n  "active_contexts": {\n    "chat_8821": {\n      "status": "processing_data",\n      "timestamp": "14:02:11"\n    }\n  }\n}');
+    
+    await new Promise(r => setTimeout(r, 2000));
+    
+    // Step 2: Bot replies and waits for approval
+    setStep(2);
+    setServerState('{\n  "sessions": 1,\n  "active_contexts": {\n    "chat_8821": {\n      "status": "WAITING_APPROVAL",\n      "document": "Reporte_Q3.pdf",\n      "expires_in": "24h"\n    }\n  }\n}');
+    
+    // Step 3 is triggered manually by user clicking the button
+  };
+
+  const handleApproval = async () => {
+    setStep(3);
+    setServerState('{\n  "sessions": 1,\n  "active_contexts": {\n    "chat_8821": {\n      "status": "approval_received",\n      "action": "scheduling_emails"\n    }\n  }\n}');
+    
+    await new Promise(r => setTimeout(r, 1500));
+    
+    setStep(4);
+    setServerState('{\n  "sessions": 1,\n  "active_contexts": {},\n  "scheduled_jobs": 1,\n  "next_execution": "2026-03-19T08:00:00Z"\n}');
+    
+    await new Promise(r => setTimeout(r, 2000));
+    setStep(5); // Ready to restart
+  };
 
   return (
-    <div className="w-full max-w-sm mx-auto bg-[#1c1c1e] rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative font-sans my-12">
-      <div className="bg-[#2c2c2e] p-4 flex items-center gap-3 border-b border-white/5">
-        <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-background"><Bot size={20}/></div>
-        <div><h4 className="font-bold text-sm text-white">Gamma Agent</h4><p className="text-xs text-accent">bot</p></div>
-      </div>
-      
-      <div className="p-4 space-y-4 h-[300px] overflow-y-auto flex flex-col text-sm bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-black/20">
-        {step >= 1 && (
-           <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-end bg-accent text-background p-3 rounded-2xl rounded-tr-sm max-w-[80%] font-medium">
-             Genera la presentación del Q3
-           </motion.div>
-        )}
-        {step >= 2 && (
-           <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-start bg-[#2c2c2e] text-white p-3 rounded-2xl rounded-tl-sm max-w-[85%] flex flex-col gap-2">
-             <p>¡Listo! He estructurado los datos y generado el reporte con Gamma API.</p>
-             <div className="bg-[#1c1c1e] p-2 rounded flex items-center gap-2 border border-white/5 text-xs"><FileText size={16} className="text-accent"/> Reporte_Ejecutivo_Q3.pdf</div>
-             <p className="text-xs text-muted font-mono mt-1">Status: WAITING_APPROVAL</p>
-             <p className="text-xs text-white/80">¿Apruebas el envío a los clientes?</p>
-             {step === 2 && (
-               <div className="flex gap-2 mt-2">
-                 <button onClick={() => setStep(3)} className="flex-1 bg-white/5 hover:bg-accent/20 border border-white/10 py-2 rounded text-accent font-medium transition-colors text-xs flex items-center justify-center gap-1"><Check size={14}/> Aprobar Envío</button>
-               </div>
-             )}
-           </motion.div>
-        )}
-        {step >= 3 && (
-           <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-end bg-accent text-background p-3 rounded-2xl rounded-tr-sm max-w-[80%] font-medium">
-             Aprobar Envío
-           </motion.div>
-        )}
-        {step >= 4 && (
-           <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-start bg-[#2c2c2e] text-white p-3 rounded-2xl rounded-tl-sm max-w-[80%]">
-             ✅ Acción confirmada. Emails programados para envío diferido.
-           </motion.div>
-        )}
-      </div>
+    <div className="w-full bg-[#0a0a0a] rounded-sm border border-white/10 shadow-2xl p-4 md:p-6 font-sans my-12 overflow-hidden relative">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* PANEL IZQUIERDO: Interfaz de Usuario (Telegram) */}
+        <div className="bg-[#1c1c1e] rounded-sm overflow-hidden border border-white/10 shadow-lg flex flex-col h-[400px]">
+          <div className="bg-[#2c2c2e] p-3 flex items-center justify-between border-b border-white/5">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-background"><Bot size={16}/></div>
+              <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">Gamma Agent</h4><p className="text-[9px] text-accent font-mono">online</p></div>
+            </div>
+            {step > 0 && step < 5 && <div className="text-[9px] text-muted font-mono animate-pulse flex items-center gap-1"><Activity size={10}/> sync</div>}
+          </div>
+          
+          <div className="p-4 flex-1 overflow-y-auto flex flex-col gap-4 text-xs bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-black/20">
+            <AnimatePresence>
+              {step >= 1 && (
+                <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-end bg-accent text-background p-2.5 rounded-xl rounded-tr-sm max-w-[80%] font-medium shadow-sm">
+                  Genera la presentación del Q3 con los datos de ventas.
+                </motion.div>
+              )}
+              {step >= 2 && (
+                <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} transition={{type: "spring", bounce: 0.4}} className="self-start bg-[#2c2c2e] text-white p-3 rounded-xl rounded-tl-sm max-w-[85%] flex flex-col gap-3 shadow-md">
+                  <p>¡Listo! He estructurado los datos y generado el reporte con Gamma API.</p>
+                  <div className="bg-[#1c1c1e] p-2 rounded-sm flex items-center gap-2 border border-white/5"><FileText size={14} className="text-accent"/> <span className="font-mono text-[10px]">Reporte_Ejecutivo_Q3.pdf</span></div>
+                  <div className="border-t border-white/10 pt-2">
+                    <p className="text-[10px] text-white/80 mb-2">¿Apruebas el envío programado a los clientes?</p>
+                    {step === 2 ? (
+                      <button onClick={handleApproval} className="w-full bg-white/5 hover:bg-accent/20 hover:text-accent hover:border-accent/50 border border-white/10 py-1.5 rounded-sm text-white font-bold transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-[9px]">
+                        <Check size={12}/> Confirmar & Programar
+                      </button>
+                    ) : (
+                      <div className="w-full bg-accent/10 border border-accent/20 py-1.5 rounded-sm text-accent font-bold flex items-center justify-center gap-2 uppercase tracking-wider text-[9px]">
+                        <Check size={12}/> Aprobado
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+              {step >= 4 && (
+                <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-start bg-[#2c2c2e] text-white p-3 rounded-xl rounded-tl-sm max-w-[80%] shadow-md">
+                  ✅ Flujo completado. Correos programados asíncronamente en el servidor.
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-      {step === 0 && (
-        <div className="p-4 bg-[#1c1c1e] border-t border-white/5 flex justify-center">
-          <button onClick={() => setStep(1)} className="bg-accent text-background px-6 py-2.5 rounded-full font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2">
-            <Send size={16}/> Iniciar Demo Interactiva
-          </button>
+          <div className="p-3 bg-[#1c1c1e] border-t border-white/5 flex justify-center">
+            {step === 0 || step === 5 ? (
+              <button onClick={runDemo} className="w-full bg-accent text-background py-2 rounded-sm font-bold text-[10px] uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-2">
+                <Send size={14}/> {step === 5 ? "Restart Workflow" : "Trigger Interaction"}
+              </button>
+            ) : (
+              <div className="text-[10px] font-mono text-muted animate-pulse py-1">Process running in background...</div>
+            )}
+          </div>
         </div>
-      )}
-       {step > 0 && step < 4 && (
-         <div className="p-4 bg-[#1c1c1e] border-t border-white/5 flex justify-center text-xs text-muted font-mono animate-pulse">
-           Bot is typing...
-         </div>
-       )}
+
+        {/* PANEL DERECHO: Server State Manager */}
+        <div className="bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[400px] shadow-lg relative">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 blur-[80px] rounded-full pointer-events-none" />
+          
+          <div className="bg-white/5 p-3 flex items-center gap-3 border-b border-white/5 relative z-10">
+            <div className="w-8 h-8 bg-purple-500/20 rounded-sm border border-purple-500/30 flex items-center justify-center text-purple-400"><Server size={16}/></div>
+            <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">In-Memory State</h4></div>
+          </div>
+          
+          <div className="p-4 flex-1 flex flex-col relative z-10">
+            <p className="text-muted text-[10px] mb-4 leading-relaxed">
+              To pause workflows and wait for human input without timing out, n8n relies on static data persistence. Watch the state update:
+            </p>
+            
+            <div className="flex-1 bg-[#050505] border border-white/10 rounded-sm flex flex-col shadow-inner overflow-hidden">
+              <div className="bg-[#111] px-3 py-1.5 border-b border-white/5 flex items-center gap-2">
+                <TerminalSquare size={12} className="text-purple-400" />
+                <span className="text-[9px] font-mono text-muted uppercase tracking-widest">state_manager.json</span>
+              </div>
+              <div className="p-4 flex-1 overflow-auto">
+                <AnimatePresence mode="wait">
+                  <motion.pre 
+                    key={step}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="text-[10px] md:text-xs font-mono text-purple-300"
+                  >
+                    {serverState}
+                  </motion.pre>
+                </AnimatePresence>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  )
+  );
 }
 
 export default function GammaCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (window.anime) {
-      window.anime({
-        targets: '.animate-in',
-        translateY: [40, 0],
-        opacity: [0, 1],
-        delay: window.anime.stagger(150),
-        easing: 'easeOutExpo',
-        duration: 1000
-      });
-    }
   }, []);
 
   const codeSnippet = `// State control based on memory state
@@ -2334,65 +2838,106 @@ if (payload.message) {
   const chatId = payload.message.chat.id.toString();
   const context = staticData[chatId];
   
-  if (context && context.status === 'waiting_datetime') {
-    return [{ json: { type: 'datetime', payload, context } }];
+  // Intercept the flow if we are waiting for human approval
+  if (context && context.status === 'WAITING_APPROVAL') {
+    return [{ json: { type: 'resume_workflow', payload, context } }];
   }
-  return [{ json: { type: 'message', payload } }];
+  
+  // Otherwise, start a new generation process
+  return [{ json: { type: 'new_generation', payload } }];
 }`;
 
   return (
-    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
-      <div className="max-w-4xl mx-auto px-6">
-        <nav className="mb-16 animate-in opacity-0">
-          <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
-            <ArrowLeft size={18} /> Back to Portfolio
+    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12 relative overflow-hidden">
+      
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
+        
+        <nav className="mb-16">
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
+            <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
-        <header className="mb-16 animate-in opacity-0">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">Asynchronous Automation</span>
+        <header className="mb-16">
+          <div className="mb-6">
+            <span className="protocol-label">Asynchronous_Automation</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">Gamma Agent</h1>
-          <p className="text-xl text-muted leading-relaxed max-w-2xl">
-            A conversational bot that ingests raw data, orchestrates presentation creation via AI, manages human approvals (Human-in-the-loop), and schedules deferred email deliveries.
+          <h1 className="section-title mb-6">Gamma Agent.</h1>
+          <p className="text-xl text-muted leading-relaxed max-w-3xl">
+            A fully asynchronous AI agent built around a Human-in-the-Loop pattern. 
+            The system ingests raw data, generates structured presentations via Gamma API, 
+            pauses execution to wait for human approval using in-memory state persistence, 
+            then resumes to schedule deferred email delivery — zero manual intervention at any stage.
           </p>
         </header>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 animate-in opacity-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
           {[
             { label: 'Interface', value: 'Telegram Bot', icon: Bot },
             { label: 'Generation', value: 'Gamma API', icon: RefreshCw },
             { label: 'Approval', value: 'Interactive', icon: Check },
-            { label: 'Execution', value: 'Scheduled', icon: Clock },
+            { label: 'Execution', value: 'Scheduled Jobs', icon: Clock },
           ].map((item, i) => (
-            <div key={i} className="glass-panel p-5 rounded-xl border border-white/5 hover:border-white/20 transition-colors">
+            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a]">
               <item.icon className="text-accent mb-3" size={20} />
-              <div className="text-xs text-muted mb-1 uppercase tracking-wider">{item.label}</div>
-              <div className="font-semibold">{item.value}</div>
+              <span className="tech-subtitle !mb-1">{item.label}</span>
+              <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
             </div>
           ))}
         </div>
 
-        <section className="space-y-16">
-          <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">01. Live Simulation: Human-in-the-Loop</h2>
-            <p className="text-muted text-lg leading-relaxed mb-6">
-              Instead of running fully autonomously and risking errors, the bot pauses its execution and waits for human validation. Try the interactive simulation below:
+        <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
+          <h2 className="item-title mb-2">Key Engineering Decisions</h2>
+          <p className="text-muted text-sm mb-8 font-mono">Why I built it this way — and what I consciously traded off.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                decision: "In-memory state over a database",
+                why: "Persisting approval state to a database would require a separate service, migrations, and connection management. n8n's $getWorkflowStaticData provides in-process persistence that survives between executions — zero infrastructure overhead for a single-tenant use case.",
+                tradeoff: "Accepted: state is lost if the n8n process restarts. Acceptable given the 24h approval window and low-stakes recovery cost."
+              },
+              {
+                decision: "Human-in-the-loop over full automation",
+                why: "Fully autonomous presentation delivery risks sending incorrect or misformatted content to clients. A mandatory approval checkpoint — implemented as a Telegram interaction that resumes a paused workflow — eliminates this risk with minimal friction.",
+                tradeoff: "Accepted: requires a human to be available within the approval window. By design, not a bug."
+              },
+              {
+                decision: "Deferred scheduling over immediate send",
+                why: "Sending emails immediately after approval ignores optimal delivery timing. Scheduling jobs to execute at a configured time (e.g. 8AM next business day) significantly improves open rates and gives the operator a cancellation window.",
+                tradeoff: "Accepted: added complexity in job queue management. Justified by measurable delivery performance improvement."
+              }
+            ].map((item, i) => (
+              <div key={i} className="space-y-3">
+                <h3 className="text-white font-bold text-sm uppercase tracking-tight border-b border-white/10 pb-3">{item.decision}</h3>
+                <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                <p className="text-accent/70 text-xs font-mono leading-relaxed border-l-2 border-accent/30 pl-3 mt-2">{item.tradeoff}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <section className="space-y-24">
+          <div>
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Human-in-the-Loop Simulation</h2>
+            <p className="text-muted text-lg leading-relaxed mb-6 max-w-3xl">
+              Instead of running fully autonomously and risking errors, the workflow pauses its execution entirely. It stores its state in memory and waits for a human validation webhook to resume. <strong>Try the interactive simulation below to see how the server state changes:</strong>
             </p>
-            <TelegramSimulator />
+            <AsynchronousSimulation />
           </div>
 
-          <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">02. State Management Architecture</h2>
-            <p className="text-muted text-lg leading-relaxed mb-6">
-              Maintaining conversation context across multiple messages separated by hours or days requires a rock-solid state design. Using n8n's <code>$getWorkflowStaticData</code>, I structured an in-memory persistence layer.
-            </p>
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <div>
+              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. Persistence Architecture</h2>
+              <p className="text-muted text-lg leading-relaxed mb-6">
+                Maintaining conversation context across multiple messages separated by hours or days requires a rock-solid state design. Using n8n's <code>$getWorkflowStaticData</code>, I structured an in-memory persistence layer that survives workflow executions.
+              </p>
+            </div>
+            
+            <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative z-10">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
-                <span className="text-xs font-mono text-muted">state_manager.js</span>
+                <span className="tech-subtitle !mb-0 !tracking-widest">state_interceptor.js</span>
               </div>
-              <div className="text-sm font-mono text-gray-300">
+              <div className="text-xs md:text-sm font-mono text-gray-300">
                 <SyntaxHighlighter language="javascript" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}>
                   {codeSnippet}
                 </SyntaxHighlighter>
@@ -2400,130 +2945,205 @@ if (payload.message) {
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );
 }
 ---
 FILE: src/pages/QroDataCaseStudy.jsx
-// src/pages/QroDataCaseStudy.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Database, Code2, Play, LayoutDashboard, BrainCircuit, Activity } from 'lucide-react';
+// IMPORTACIÓN CORREGIDA: Se incluyeron CheckCircle2, RefreshCw y todos los necesarios
+import { ArrowLeft, Database, Code2, Play, LayoutDashboard, BrainCircuit, Activity, LineChart, CheckCircle2, RefreshCw, BarChart3, MessageSquareText } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-function NLPDashboardSimulation() {
+function AdvancedNLPSimulation() {
   const [isRunning, setIsRunning] = useState(false);
-  const [processed, setProcessed] = useState(0);
-  const [mentions, setMentions] = useState([]);
-  const [stats, setStats] = useState({ pos: 0, neu: 0, neg: 0 });
+  const [isComplete, setIsComplete] = useState(false);
+  const [counters, setCounters] = useState({ total: 0, pos: 0, neu: 0, neg: 0 });
 
-  const rawTweets = [
-    { text: "El servicio en la sucursal centro es increíble hoy, muy rápidos!", sentiment: "pos", color: "text-green-400" },
-    { text: "Llevo 2 horas esperando respuesta, pésimo sistema.", sentiment: "neg", color: "text-red-400" },
-    { text: "Acaban de anunciar los nuevos horarios de atención.", sentiment: "neu", color: "text-gray-400" },
-    { text: "Me resolvieron el problema en 5 minutos, excelente.", sentiment: "pos", color: "text-green-400" },
-    { text: "La plataforma se cae a cada rato, imposible trabajar así.", sentiment: "neg", color: "text-red-400" },
-    { text: "¿Alguien sabe si mañana abren las oficinas?", sentiment: "neu", color: "text-gray-400" },
-    { text: "Gran mejora en la actualización de la app.", sentiment: "pos", color: "text-green-400" },
+  const mockTweets = [
+    "El servicio en la sucursal es increíble hoy...",
+    "Llevo 2 horas esperando respuesta, pésimo...",
+    "Acaban de anunciar los nuevos horarios...",
+    "Me resolvieron el problema en 5 minutos...",
+    "La plataforma se cae a cada rato...",
+    "Gran mejora en la actualización...",
+    "¿Alguien sabe si mañana abren?",
+    "Muy mala experiencia con el soporte...",
+    "Todo funcionó perfecto a la primera...",
+    "Información útil, gracias por compartir."
   ];
 
-  const startEngine = async () => {
-    if (isRunning) return;
+  const startEngine = () => {
+    if (isRunning || !window.anime) return;
     setIsRunning(true);
-    setProcessed(0);
-    setMentions([]);
-    setStats({ pos: 0, neu: 0, neg: 0 });
+    setIsComplete(false);
 
-    // Rápido incremento de contador para simular 100k
-    const totalTarget = 100000;
-    const interval = setInterval(() => {
-      setProcessed(p => {
-        if (p >= totalTarget) { clearInterval(interval); return totalTarget; }
-        return p + 4500;
-      });
-    }, 100);
-
-    // Flujo visual de tweets pasando por el modelo
-    for (let i = 0; i < rawTweets.length; i++) {
-      await new Promise(r => setTimeout(r, 600));
-      const tweet = rawTweets[i];
-      setMentions(prev => [tweet, ...prev].slice(0, 3)); // Mantener max 3 en pantalla
-      
-      setStats(prev => ({
-        ...prev,
-        [tweet.sentiment]: prev[tweet.sentiment] + 1
-      }));
-    }
+    // 1. Resetear estados iniciales
+    window.anime.set('.metric-bar', { width: '0%' });
+    window.anime.set('.stream-item', { opacity: 0, translateX: -40 });
     
-    setTimeout(() => setIsRunning(false), 1500);
+    // Creamos una línea de tiempo (Timeline) maestra en Anime.js
+    const tl = window.anime.timeline({
+      easing: 'easeOutExpo',
+      complete: () => {
+        setIsRunning(false);
+        setIsComplete(true);
+      }
+    });
+
+    // 2. Animar el "Cerebro" (Engine)
+    tl.add({
+      targets: '.nlp-brain',
+      scale: [1, 1.2, 1],
+      rotate: '1turn',
+      boxShadow: ['0 0 0px rgba(56,189,248,0)', '0 0 40px rgba(56,189,248,0.6)', '0 0 0px rgba(56,189,248,0)'],
+      duration: 2500,
+      easing: 'easeInOutSine'
+    }, 0);
+
+    // 3. Stagger (Efecto dominó) de los datos entrando
+    tl.add({
+      targets: '.stream-item',
+      opacity: [0, 1, 0],
+      translateX: [-40, 0, 40],
+      duration: 1200,
+      delay: window.anime.stagger(200), // Cada string entra 200ms después del anterior
+      easing: 'easeOutQuad'
+    }, 0);
+
+    // 4. Animar un objeto JS puro para lograr el contador de 0 a 100k fluido
+    const counterObj = { total: 0, pos: 0, neu: 0, neg: 0 };
+    window.anime({
+      targets: counterObj,
+      total: 100000,
+      pos: 62400,
+      neu: 25100,
+      neg: 12500,
+      round: 1, // Redondea a enteros
+      duration: 3000,
+      easing: 'easeOutQuart',
+      update: function() {
+         setCounters({
+           total: counterObj.total,
+           pos: counterObj.pos,
+           neu: counterObj.neu,
+           neg: counterObj.neg
+         });
+      }
+    });
+
+    // 5. Expandir las barras de resultados con un efecto elástico "Premium"
+    tl.add({
+      targets: '#bar-pos',
+      width: '62.4%',
+      duration: 1500,
+      easing: 'easeOutElastic(1, .8)'
+    }, 1500);
+    
+    tl.add({
+      targets: '#bar-neu',
+      width: '25.1%',
+      duration: 1500,
+      easing: 'easeOutElastic(1, .8)'
+    }, 1600);
+    
+    tl.add({
+      targets: '#bar-neg',
+      width: '12.5%',
+      duration: 1500,
+      easing: 'easeOutElastic(1, .8)'
+    }, 1700);
   };
 
   return (
-    <div className="w-full bg-[#0a0a0a] rounded-3xl border border-white/10 shadow-2xl overflow-hidden font-sans my-12">
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+    <div className="w-full bg-[#050505] rounded-sm border border-white/10 shadow-2xl p-4 md:p-6 font-sans my-12">
+      <div className="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
+        <div className="flex items-center gap-2">
+          <Activity size={16} className="text-accent" />
+          <span className="font-bold text-sm text-white">Social Listening NLP Pipeline</span>
+        </div>
+        <button 
+          onClick={startEngine} 
+          disabled={isRunning} 
+          className="bg-accent/10 hover:bg-accent/20 border border-accent/30 disabled:opacity-50 text-accent px-4 py-1.5 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2"
+        >
+          {isRunning ? <RefreshCw size={12} className="animate-spin" /> : <Play size={12} fill="currentColor"/>}
+          {isRunning ? "Processing 100k Rows..." : "Execute Pipeline"}
+        </button>
+      </div>
+
+      {/* 3 Columnas Visuales */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         
-        {/* Lado Izquierdo: Data Stream & Engine */}
-        <div className="p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-white/10 bg-[#121212] relative">
-          <div className="flex justify-between items-center mb-6">
-            <h4 className="text-sm font-bold text-white flex items-center gap-2"><Activity size={16} className="text-accent"/> NLP Engine Processing</h4>
-            <button onClick={startEngine} disabled={isRunning} className="bg-white/10 hover:bg-white/20 disabled:opacity-50 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-2">
-              <Play size={12} fill="currentColor"/> {isRunning ? "Processing..." : "Run Analysis"}
-            </button>
+        {/* Columna 1: Raw Stream */}
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 relative h-64 overflow-hidden">
+          <h4 className="tech-subtitle !mb-4">1. Raw_Ingestion</h4>
+          <div className="absolute top-14 left-4 right-4 flex flex-col gap-2">
+            {mockTweets.map((t, i) => (
+              <div key={i} className="stream-item opacity-0 text-[10px] text-white/60 bg-white/5 border border-white/10 p-2.5 rounded-sm font-mono truncate flex items-center gap-2 shadow-lg">
+                <MessageSquareText size={12} className="text-muted shrink-0" />
+                {t}
+              </div>
+            ))}
           </div>
-
-          <div className="h-40 relative">
-            {/* Contador de volumen */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center opacity-10">
-               <span className="text-6xl font-black font-mono">{processed.toLocaleString()}</span>
-               <span className="uppercase tracking-widest font-bold">Rows Analyzed</span>
-            </div>
-
-            {/* Stream de textos */}
-            <div className="relative z-10 flex flex-col gap-2 h-full justify-center">
-              <AnimatePresence>
-                {mentions.map((m, i) => (
-                  <motion.div 
-                    key={m.text}
-                    initial={{ opacity: 0, x: -50, scale: 0.9 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: 50, scale: 0.9 }}
-                    className="bg-black/80 backdrop-blur border border-white/10 p-3 rounded-xl flex items-center justify-between"
-                  >
-                    <span className="text-xs text-white/80 truncate w-[70%] font-mono">"{m.text}"</span>
-                    <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded bg-white/5 border border-white/5 ${m.color}`}>
-                      {m.sentiment}
-                    </span>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-              {!isRunning && mentions.length === 0 && (
-                <div className="text-center text-xs text-muted font-mono animate-pulse">Awaiting pipeline execution...</div>
-              )}
-            </div>
-          </div>
+          {!isRunning && !isComplete && <div className="absolute inset-0 flex items-center justify-center text-xs text-muted font-mono animate-pulse bg-[#121212]/80 backdrop-blur-sm z-10">Awaiting trigger...</div>}
         </div>
 
-        {/* Lado Derecho: Dashboard Results */}
-        <div className="p-6 md:p-8 flex flex-col justify-center bg-[#050505]">
-          <h4 className="text-sm font-bold text-white mb-6 flex items-center gap-2"><LayoutDashboard size={16} className="text-accent"/> Live Dashboard Output</h4>
-          
-          <div className="space-y-4">
+        {/* Columna 2: Engine */}
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col items-center justify-center h-64 relative overflow-hidden">
+          <div className="absolute inset-0 bg-accent/5 blur-3xl rounded-full" />
+          <div className="nlp-brain w-20 h-20 rounded-full bg-[#050505] border border-white/10 flex items-center justify-center mb-6 relative z-10">
+            <BrainCircuit size={32} className={isRunning ? "text-accent" : "text-muted"} />
+          </div>
+          <div className="text-4xl md:text-5xl font-black font-mono text-white tracking-tighter relative z-10">
+            {counters.total.toLocaleString()}
+          </div>
+          <div className="tech-subtitle !mt-2 relative z-10">Rows Extracted</div>
+        </div>
+
+        {/* Columna 3: Dashboard Metrics */}
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col justify-center h-64">
+          <h4 className="tech-subtitle !mb-6">2. Aggregated_Metrics</h4>
+          <div className="space-y-5 w-full">
             <div>
-              <div className="flex justify-between text-xs mb-1"><span className="text-green-400 font-bold">Positive Sentiment</span><span className="text-white">{stats.pos * 14200} mentions</span></div>
-              <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden"><motion.div className="bg-green-400 h-full" animate={{ width: `${(stats.pos / 7) * 100 || 0}%` }} transition={{duration:0.5}}/></div>
+              <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-1.5">
+                <span className="text-green-400">Positive</span>
+                <span className="text-white">{counters.pos.toLocaleString()}</span>
+              </div>
+              <div className="h-2 w-full bg-[#050505] border border-white/5 rounded-full overflow-hidden shadow-inner">
+                <div id="bar-pos" className="metric-bar h-full bg-green-400 w-0 shadow-[0_0_10px_#4ade80]"></div>
+              </div>
             </div>
             <div>
-              <div className="flex justify-between text-xs mb-1"><span className="text-gray-400 font-bold">Neutral Sentiment</span><span className="text-white">{stats.neu * 14200} mentions</span></div>
-              <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden"><motion.div className="bg-gray-400 h-full" animate={{ width: `${(stats.neu / 7) * 100 || 0}%` }} transition={{duration:0.5}}/></div>
+              <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-1.5">
+                <span className="text-gray-400">Neutral</span>
+                <span className="text-white">{counters.neu.toLocaleString()}</span>
+              </div>
+              <div className="h-2 w-full bg-[#050505] border border-white/5 rounded-full overflow-hidden shadow-inner">
+                <div id="bar-neu" className="metric-bar h-full bg-gray-400 w-0 shadow-[0_0_10px_#9ca3af]"></div>
+              </div>
             </div>
             <div>
-              <div className="flex justify-between text-xs mb-1"><span className="text-red-400 font-bold">Negative Sentiment</span><span className="text-white">{stats.neg * 14200} mentions</span></div>
-              <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden"><motion.div className="bg-red-400 h-full" animate={{ width: `${(stats.neg / 7) * 100 || 0}%` }} transition={{duration:0.5}}/></div>
+              <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-1.5">
+                <span className="text-red-400">Negative</span>
+                <span className="text-white">{counters.neg.toLocaleString()}</span>
+              </div>
+              <div className="h-2 w-full bg-[#050505] border border-white/5 rounded-full overflow-hidden shadow-inner">
+                <div id="bar-neg" className="metric-bar h-full bg-red-400 w-0 shadow-[0_0_10px_#f87171]"></div>
+              </div>
             </div>
           </div>
+          
+          {isComplete && (
+            <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} className="mt-6 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-green-400 bg-green-400/10 w-fit px-2 py-1 rounded border border-green-400/20">
+              <CheckCircle2 size={12} /> Process Complete
+            </motion.div>
+          )}
         </div>
 
       </div>
@@ -2534,16 +3154,6 @@ function NLPDashboardSimulation() {
 export default function QroDataCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (window.anime) {
-      window.anime({
-        targets: '.animate-in',
-        translateY: [40, 0],
-        opacity: [0, 1],
-        delay: window.anime.stagger(150),
-        easing: 'easeOutExpo',
-        duration: 1000
-      });
-    }
   }, []);
 
   const pythonCode = `import pandas as pd
@@ -2575,44 +3185,98 @@ def process_social_mentions(raw_data_json):
     return summary.to_dict('records')`;
 
   return (
-    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
-      <div className="max-w-5xl mx-auto px-6">
+    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12 relative overflow-hidden">
+      
+      {/* Glow de fondo */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         
-        <nav className="mb-16 animate-in opacity-0">
-          <Link to="/#projects" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors font-medium">
-            <ArrowLeft size={18} /> Back to Portfolio
+        <nav className="mb-16">
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
+            <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
-        <header className="mb-16 animate-in opacity-0">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xs font-bold tracking-widest uppercase bg-accent/10 text-accent px-3 py-1 rounded-full border border-accent/20">Data Engineering</span>
+        <header className="mb-16">
+          <div className="mb-6">
+            <span className="protocol-label">Data_Engineering</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">QroData Analytics</h1>
+          <h1 className="section-title mb-6">QroData Analytics.</h1>
           <p className="text-xl text-muted leading-relaxed max-w-3xl">
-            A social listening architecture built to ingest massive volumes of public mentions, process them via NLP scripts, and expose quantified insights to an interactive dashboard.
+            A data engineering platform ingesting and classifying 100,000+ unstructured social records per run. 
+            Built around vectorized Pandas operations for performance, VADER sentiment analysis for NLP classification, 
+            and SQLAlchemy bulk inserts with chunking to prevent database timeouts — 
+            exposing aggregated metrics to a React dashboard with sub-second query response.
           </p>
         </header>
 
-        <section className="space-y-20">
-          <div className="animate-in opacity-0">
-            <h2 className="text-2xl font-bold mb-4 border-b border-white/10 pb-4">01. Live NLP Pipeline Simulation</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
+          {[
+            { label: 'Frontend', value: 'React', icon: LayoutDashboard },
+            { label: 'Backend', value: 'Python', icon: Code2 },
+            { label: 'Database', value: 'MySQL', icon: Database },
+            { label: 'Analytics', value: 'Pandas & NLP', icon: LineChart },
+          ].map((item, i) => (
+            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a]">
+              <item.icon className="text-accent mb-3" size={20} />
+              <span className="tech-subtitle !mb-1">{item.label}</span>
+              <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
+          <h2 className="item-title mb-2">Key Engineering Decisions</h2>
+          <p className="text-muted text-sm mb-8 font-mono">Why I built it this way — and what I consciously traded off.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                decision: "Vectorized Pandas over row iteration",
+                why: "Applying sentiment analysis row-by-row on 100k+ records with .iterrows() would take minutes. Vectorized str operations and .apply() with VADER reduced processing time by ~40x — the difference between a usable and unusable pipeline.",
+                tradeoff: "Accepted: higher memory footprint. Justified given single-machine batch processing context."
+              },
+              {
+                decision: "VADER over transformer models",
+                why: "BERT or RoBERTa would achieve higher accuracy, but inference on 100k records requires GPU infrastructure that adds cost and latency. VADER runs on CPU, delivers acceptable accuracy for social media text, and processes the full dataset in seconds.",
+                tradeoff: "Accepted: ~8-12% lower accuracy vs transformer models. Revisit if precision requirements increase."
+              },
+              {
+                decision: "MySQL with bulk chunking over NoSQL",
+                why: "The data has a clear relational structure — mentions belong to campaigns, campaigns belong to clients. A document store would add query complexity. MySQL with chunksize=10000 bulk inserts prevented timeout errors while keeping the schema normalized and queryable.",
+                tradeoff: "Accepted: horizontal write scaling ceiling. Acceptable at current data volume."
+              }
+            ].map((item, i) => (
+              <div key={i} className="space-y-3">
+                <h3 className="text-white font-bold text-sm uppercase tracking-tight border-b border-white/10 pb-3">{item.decision}</h3>
+                <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                <p className="text-accent/70 text-xs font-mono leading-relaxed border-l-2 border-accent/30 pl-3 mt-2">{item.tradeoff}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <section className="space-y-24">
+          
+          <div>
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Live NLP Pipeline Simulation</h2>
             <p className="text-muted text-lg leading-relaxed mb-6 max-w-3xl">
               The main challenge is not displaying data, but cleaning and categorizing 100,000+ unstructured strings efficiently. The backend extracts text, applies sentiment analysis models, and pushes aggregated metrics to the frontend.
             </p>
-            <NLPDashboardSimulation />
+            <AdvancedNLPSimulation />
           </div>
 
-          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 className="text-2xl font-bold mb-4 text-accent">02. Backend Evidence</h2>
+              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. Backend Evidence</h2>
               <p className="text-muted text-lg leading-relaxed mb-6">
                 Below is a simplified snippet of the Python backend logic I wrote to clean the data, apply the NLP logic, and use bulk inserts (<code>chunksize=10000</code>) to prevent MySQL timeouts during persistence. 
               </p>
             </div>
-            <div className="rounded-xl overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
+            
+            <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
-                <span className="text-xs font-mono text-muted">pipeline.py</span>
+                <span className="tech-subtitle !mb-0 !tracking-widest">pipeline.py</span>
               </div>
               <div className="text-xs md:text-sm font-mono text-gray-300">
                 <SyntaxHighlighter language="python" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}>
@@ -2621,6 +3285,7 @@ def process_social_mentions(raw_data_json):
               </div>
             </div>
           </div>
+          
         </section>
       </div>
     </div>

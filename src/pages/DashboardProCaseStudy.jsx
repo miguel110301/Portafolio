@@ -170,8 +170,12 @@ def require_role(allowed_roles):
           </div>
           <h1 className="section-title mb-6">Dashboard Pro.</h1>
           <p className="text-xl text-muted leading-relaxed max-w-3xl">
-            Robust backend systems for an ERP platform covering inventory and sales. A complete focus on data integrity, automated background reporting workflows, and strict role-based access control (RBAC).
-          </p>
+            A production ERP backend engineered for data integrity and operational security. 
+            Built a Role-Based Access Control system from scratch — warehouse staff, sales team, 
+            and management each operate in strictly isolated permission layers. 
+            Automated reporting workflows deliver scheduled decision-making reports 
+            with zero manual intervention, backed by PostgreSQL and custom Python middleware.
+            </p>
         </header>
 
         {/* Stack Grid */}
@@ -193,6 +197,36 @@ def require_role(allowed_roles):
         {/* Dashboard Component */}
         <div className="mb-24 rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] aspect-[16/10] md:aspect-video relative animate-in opacity-0">
           <AnimatedDashboard />
+        </div>
+
+        <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
+            <h2 className="item-title mb-2">Key Engineering Decisions</h2>
+            <p className="text-muted text-sm mb-8 font-mono">Why I built it this way — and what I consciously traded off.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                {
+                    decision: "Custom RBAC over Django's built-in permissions",
+                    why: "Django's default permission system operates at model level, not business role level. An ERP requires warehouse staff to be completely isolated from sales data regardless of model overlap. Custom decorators gave us named roles with explicit permission matrices, auditable in a single file.",
+                    tradeoff: "Accepted: more upfront code. Justified by the clarity and auditability of explicit role definitions over implicit permission flags."
+                },
+                {
+                    decision: "Decorator pattern over middleware",
+                    why: "Global middleware would apply permission logic to every request, requiring exemption lists that grow over time. Decorators applied at the view level make permissions explicit and co-located with the endpoint they protect — no hidden behavior, no exemption lists.",
+                    tradeoff: "Accepted: requires discipline to apply decorators consistently. Mitigated with a base view class that enforces decoration."
+                },
+                {
+                    decision: "Background jobs over synchronous reporting",
+                    why: "Generating consolidated ERP reports synchronously blocks the request thread and risks timeouts on large datasets. Background jobs decouple report generation from the HTTP cycle, allowing reports to be pre-computed and served instantly when requested.",
+                    tradeoff: "Accepted: reports may be minutes stale. Acceptable for strategic decision-making dashboards that don't require real-time precision."
+                }
+                ].map((item, i) => (
+                <div key={i} className="space-y-3">
+                    <h3 className="text-white font-bold text-sm uppercase tracking-tight border-b border-white/10 pb-3">{item.decision}</h3>
+                    <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                    <p className="text-accent/70 text-xs font-mono leading-relaxed border-l-2 border-accent/30 pl-3 mt-2">{item.tradeoff}</p>
+                </div>
+                ))}
+            </div>
         </div>
 
         {/* Detalles Técnicos */}

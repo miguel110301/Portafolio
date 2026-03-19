@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Beaker, Smartphone, Activity } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
+import RevealText from '../components/RevealText';
 
 function Labs() {
   const experiments = [
@@ -22,29 +23,61 @@ function Labs() {
     }
   ];
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0,
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
+
   return (
     <section id="labs" className="py-32 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
       
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div className="mb-20">
-          <span className="protocol-label flex items-center gap-2 !text-purple-400">
-            <Beaker size={14} /> R&D_Laboratory
-          </span>
-          <h2 className="section-title">Current Experiments.</h2>
-          <p className="text-muted text-lg max-w-2xl mt-6">
+          <RevealText delay={0}>
+            <span className="protocol-label flex items-center gap-2 !text-purple-400">
+              <Beaker size={14} /> R&D_Laboratory
+            </span>
+          </RevealText>
+          <RevealText as="h2" className="section-title" delay={0.12}>
+            Current Experiments.
+          </RevealText>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="text-muted text-lg max-w-2xl mt-6"
+          >
             What I'm building right now. Exploring native ecosystems, testing architectures, and solving complex logic in real-time.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
           {experiments.map((exp, index) => (
             <motion.div 
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              variants={itemVariants}
             >
               <Tilt 
                 tiltMaxAngleX={3} 
@@ -78,7 +111,7 @@ function Labs() {
               </Tilt>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

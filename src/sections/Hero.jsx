@@ -2,6 +2,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronRight, FileText, Terminal } from 'lucide-react';
 import { useRef } from 'react';
 import TechMatrix from '../components/TechMatrix';
+import RevealText from '../components/RevealText';
+import MagneticButton from '../components/MagneticButton';
 
 function Hero() {
   const containerRef = useRef(null);
@@ -31,30 +33,36 @@ function Hero() {
         
         {/* LADO IZQUIERDO: Información */}
         <motion.div style={{ opacity, y, scale }} className="lg:col-span-7 flex flex-col items-start">
-          <div className="flex items-center gap-3 px-3 py-1.5 rounded-sm border border-white/10 bg-white/5 mb-8 w-fit">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-            <span className="protocol-label !mb-0 !opacity-100">Systems_Status: Operational</span>
-          </div>
+          <RevealText delay={0}>
+            <div className="flex items-center gap-3 px-3 py-1.5 rounded-sm border border-white/10 bg-white/5 mb-8 w-fit">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+              <span className="protocol-label !mb-0 !opacity-100">Systems_Status: Operational</span>
+            </div>
+          </RevealText>
 
-          <h1 className="section-title mb-6 leading-[0.9]">
+          <RevealText as="h1" className="section-title mb-6 leading-[0.9]" delay={0.1}>
             ENGINEERING <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/50 to-transparent">
               SOLUTIONS.
             </span>
-          </h1>
+          </RevealText>
 
           <p className="text-base md:text-lg text-muted max-w-lg mb-10 font-medium leading-relaxed border-l-2 border-white/10 pl-6">
-            Como Automation & Backend Engineer, diseño arquitecturas orientadas a eventos que eliminan cuellos de botella operativos. 
-            Especializado en orquestación con n8n y sistemas robustos en Python.
+            Automation & Backend Engineer specializing in event-driven architectures that eliminate operational bottlenecks. 
+            I design systems where data flows automatically, precisely, and at scale — powered by n8n orchestration and Python.
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <a href="/#projects" className="group flex items-center gap-4 bg-white text-black px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all">
-              Deployments <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a href="/CVAutomat.pdf" target="_blank" rel="noreferrer" className="flex items-center gap-4 border border-white/20 px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white">
-              <FileText size={14} /> Documentation
-            </a>
+            <MagneticButton>
+              <a href="/#projects" className="group flex items-center gap-4 bg-white text-black px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all">
+                Deployments <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            </MagneticButton>
+            <MagneticButton>
+              <a href="/CVAutomat.pdf" target="_blank" rel="noreferrer" className="flex items-center gap-4 border border-white/20 px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white">
+                <FileText size={14} /> Documentation
+              </a>
+            </MagneticButton>
           </div>
         </motion.div>
 

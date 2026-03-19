@@ -12,6 +12,7 @@ import GammaCaseStudy from "./pages/GammaCaseStudy";
 import QroDataCaseStudy from "./pages/QroDataCaseStudy";
 import DashboardProCaseStudy from "./pages/DashboardProCaseStudy";
 import Labs from "./sections/Labs";
+import CustomCursor from './components/CustomCursor';
 
 // 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
 function Home() {
@@ -97,6 +98,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
+      <CustomCursor />
       <Navbar />
       <AnimatedRoutes />
     </Router>

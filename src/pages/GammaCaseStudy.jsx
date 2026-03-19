@@ -172,7 +172,10 @@ if (payload.message) {
           </div>
           <h1 className="section-title mb-6">Gamma Agent.</h1>
           <p className="text-xl text-muted leading-relaxed max-w-3xl">
-            A conversational bot that ingests raw data, orchestrates presentation creation via AI, manages human approvals (Human-in-the-loop), and schedules deferred email deliveries.
+            A fully asynchronous AI agent built around a Human-in-the-Loop pattern. 
+            The system ingests raw data, generates structured presentations via Gamma API, 
+            pauses execution to wait for human approval using in-memory state persistence, 
+            then resumes to schedule deferred email delivery — zero manual intervention at any stage.
           </p>
         </header>
 
@@ -189,6 +192,36 @@ if (payload.message) {
               <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
             </div>
           ))}
+        </div>
+
+        <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
+          <h2 className="item-title mb-2">Key Engineering Decisions</h2>
+          <p className="text-muted text-sm mb-8 font-mono">Why I built it this way — and what I consciously traded off.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                decision: "In-memory state over a database",
+                why: "Persisting approval state to a database would require a separate service, migrations, and connection management. n8n's $getWorkflowStaticData provides in-process persistence that survives between executions — zero infrastructure overhead for a single-tenant use case.",
+                tradeoff: "Accepted: state is lost if the n8n process restarts. Acceptable given the 24h approval window and low-stakes recovery cost."
+              },
+              {
+                decision: "Human-in-the-loop over full automation",
+                why: "Fully autonomous presentation delivery risks sending incorrect or misformatted content to clients. A mandatory approval checkpoint — implemented as a Telegram interaction that resumes a paused workflow — eliminates this risk with minimal friction.",
+                tradeoff: "Accepted: requires a human to be available within the approval window. By design, not a bug."
+              },
+              {
+                decision: "Deferred scheduling over immediate send",
+                why: "Sending emails immediately after approval ignores optimal delivery timing. Scheduling jobs to execute at a configured time (e.g. 8AM next business day) significantly improves open rates and gives the operator a cancellation window.",
+                tradeoff: "Accepted: added complexity in job queue management. Justified by measurable delivery performance improvement."
+              }
+            ].map((item, i) => (
+              <div key={i} className="space-y-3">
+                <h3 className="text-white font-bold text-sm uppercase tracking-tight border-b border-white/10 pb-3">{item.decision}</h3>
+                <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                <p className="text-accent/70 text-xs font-mono leading-relaxed border-l-2 border-accent/30 pl-3 mt-2">{item.tradeoff}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <section className="space-y-24">

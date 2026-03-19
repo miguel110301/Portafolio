@@ -271,7 +271,10 @@ class TicketIngestionView(APIView):
           </div>
           <h1 className="section-title mb-6">LogisticsFlow AI.</h1>
           <p className="text-xl text-muted leading-relaxed max-w-3xl">
-            An event-driven logistics system engineered to validate evidence automatically, sync data tightly with a Django backend, and communicate via WhatsApp API in real-time.
+            A production event-driven system processing 500+ daily logistics validations. 
+            Designed around a strict separation of concerns: n8n handles all orchestration logic, 
+            Django owns the data model and business rules, and OpenAI Vision + Whisper handle 
+            multimodal evidence classification — keeping each layer independently testable and replaceable.
           </p>
         </header>
 
@@ -288,6 +291,36 @@ class TicketIngestionView(APIView):
               <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
             </div>
           ))}
+        </div>
+
+        {/* Agregar después del grid de tech stack, antes del primer section */}
+        <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
+          <h2 className="item-title mb-8 border-b border-white/10 pb-4">Key Engineering Decisions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                decision: "n8n over custom orchestration",
+                why: "Building a custom workflow engine would introduce maintenance overhead with no competitive advantage. n8n gave us visual debuggability, built-in retry logic, and webhook management — the team could trace failures in seconds instead of reading logs.",
+                tradeoff: "Accepted: vendor dependency and limited custom logic in complex branches."
+              },
+              {
+                decision: "Synchronous Django API over event queue",
+                why: "At 500 req/day, the operational complexity of Kafka or RabbitMQ was unjustified. A synchronous Django API with select_for_update() race condition protection gave us ACID guarantees with zero infrastructure overhead.",
+                tradeoff: "Accepted: horizontal scaling ceiling. Revisit at 10x volume."
+              },
+              {
+                decision: "WhatsApp Business API over SMS",
+                why: "100% of the logistics operators already used WhatsApp daily. Adoption cost was zero. The API provided media upload, message status webhooks, and template messaging — features SMS cannot match at the same price point.",
+                tradeoff: "Accepted: Meta platform dependency and approval process for message templates."
+              }
+            ].map((item, i) => (
+              <div key={i} className="space-y-3">
+                <h3 className="text-white font-bold text-sm uppercase tracking-tight">{item.decision}</h3>
+                <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                <p className="text-accent/60 text-xs font-mono leading-relaxed border-l border-accent/30 pl-3">{item.tradeoff}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <section className="space-y-24">
