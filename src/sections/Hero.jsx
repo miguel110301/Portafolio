@@ -1,69 +1,78 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, FileText } from 'lucide-react';
-import NetworkBackground from '../components/NetworkBackground';
-import TechMatrix from '../components/TechMatrix'; // <-- Tu nuevo componente 100% código
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ChevronRight, FileText, Terminal } from 'lucide-react';
+import { useRef } from 'react';
+import TechMatrix from '../components/TechMatrix';
 
 function Hero() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  // Efectos de scroll: El texto se desvanece y la matriz sube ligeramente
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
+
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-12 overflow-hidden">
-      <NetworkBackground />
-      <div className="absolute inset-0 bg-glow-gradient pointer-events-none z-0" />
+    <section ref={containerRef} id="hero" className="relative min-h-[110vh] flex items-start pt-32 md:pt-44 overflow-hidden bg-[#050505]">
+      {/* Grilla Técnica de fondo que se mueve con el scroll */}
+      <motion.div 
+        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}
+        className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+        综合={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '50px 50px' }} 
+      />
 
-      <div className="max-w-5xl mx-auto px-6 relative z-10 w-full flex flex-col md:flex-row items-center text-center md:text-left mt-10 gap-12">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
         
-        {/* LADO IZQUIERDO: TEXTO */}
-        <div className="flex-1 flex flex-col items-center md:items-start">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 shadow-sm"
-          >
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs font-semibold tracking-wide text-primary uppercase">Accepting high-impact roles</span>
-          </motion.div>
+        {/* LADO IZQUIERDO: Información */}
+        <motion.div style={{ opacity, y, scale }} className="lg:col-span-7 flex flex-col items-start">
+          <div className="flex items-center gap-3 px-3 py-1 rounded-sm border border-white/10 bg-white/5 mb-8">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+            <span className="text-[9px] font-mono tracking-[0.3em] text-accent uppercase">Systems_Status: Operational</span>
+          </div>
 
-          <motion.h1 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-primary mb-6 leading-[1.1]"
-          >
-            I architect systems that <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-purple-400">
-              scale businesses.
+          <h1 className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter leading-[0.9]">
+            ENGINEERING <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/50 to-transparent">
+              SOLUTIONS.
             </span>
-          </motion.h1>
+          </h1>
 
-          <motion.p 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-lg md:text-xl text-muted max-w-xl mb-10 leading-relaxed font-light"
-          >
-            Senior-level execution in event-driven automation, resilient backend infrastructure, and native ecosystem development. I don't just write code; I solve operational bottlenecks.
-          </motion.p>
+          <p className="text-base md:text-lg text-muted max-w-lg mb-10 font-medium leading-relaxed border-l-2 border-white/10 pl-6">
+            Como Automation & Backend Engineer, diseño arquitecturas orientadas a eventos que eliminan cuellos de botella operativos[cite: 116, 119, 168]. 
+            Especializado en orquestación con n8n y sistemas robustos en Python[cite: 123, 172, 173].
+          </p>
 
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
-          >
-            <a href="/#projects" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-xl font-bold hover:scale-105 transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-              Explore Architecture <ArrowRight size={18} strokeWidth={2.5} />
+          <div className="flex flex-wrap gap-4">
+            <a href="/#projects" className="group flex items-center gap-4 bg-white text-black px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all">
+              Deployments <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="/CV_Miguel_Moreno.pdf" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-8 py-3.5 rounded-xl font-semibold hover:bg-white/10 transition-colors duration-200">
-              <FileText size={18} /> View Resume
+            <a href="/CVAutomat.pdf" target="_blank" className="flex items-center gap-4 border border-white/20 px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white">
+              <FileText size={14} /> Documentation
             </a>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
-        {/* LADO DERECHO: LA MATRIZ DE ANIME.JS */}
-        <div className="flex-1 w-full">
-          <TechMatrix />
+        {/* LADO DERECHO: Visual */}
+        <div className="lg:col-span-5 hidden lg:block sticky top-44">
+           <TechMatrix />
+           <div className="mt-8 flex justify-end">
+              <div className="text-[9px] font-mono text-muted/40 uppercase tracking-[0.4em] rotate-90 origin-right translate-y-12">
+                Dev_Stack.v2026
+              </div>
+           </div>
         </div>
-
+      </div>
+      
+      {/* Indicador de scroll lateral */}
+      <div className="absolute right-10 bottom-20 hidden md:block">
+        <motion.div 
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="w-[1px] h-16 bg-gradient-to-b from-accent to-transparent"
+        />
       </div>
     </section>
   );

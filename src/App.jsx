@@ -10,6 +10,7 @@ import Contact from "./sections/Contact";
 import LogisticsCaseStudy from "./pages/LogisticsCaseStudy";
 import GammaCaseStudy from "./pages/GammaCaseStudy";
 import QroDataCaseStudy from "./pages/QroDataCaseStudy";
+import DashboardProCaseStudy from "./pages/DashboardProCaseStudy";
 import Labs from "./sections/Labs";
 
 // 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
@@ -74,6 +75,18 @@ function AnimatedRoutes() {
             <QroDataCaseStudy />
           </motion.div>
         } />
+
+        <Route path="/proyecto/dashboard" element={
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -20 }} 
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <DashboardProCaseStudy />
+          </motion.div>
+        } />
+        
       </Routes>
     </AnimatePresence>
   );

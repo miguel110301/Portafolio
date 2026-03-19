@@ -28,6 +28,14 @@ function Projects() {
       tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
       featured: true,
       link: "/proyecto/gamma"
+    },
+    {
+      title: "Dashboard Pro",
+      category: "SaaS & Backend",
+      description: "Sistemas backend para plataforma ERP de inventario y ventas. Implementación de control de acceso basado en roles (RBAC) y diseño de flujos de reportes automatizados para decisiones estratégicas.",
+      tech: ["Python", "RBAC", "Automatización", "SQL"],
+      featured: true,
+      link: "/proyecto/dashboard"
     }
   ];
 

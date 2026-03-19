@@ -4,22 +4,63 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
-    background-color: #0a0a0a;
+    background-color: #050505;
+    /* Un negro más profundo */
     color: #f8fafc;
   }
 
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  /* Títulos con peso industrial y tracking negativo */
+  h1 {
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    text-transform: uppercase;
+    /* Opcional: Da un aire más arquitectónico */
+  }
+
+  /* Mejoramos la legibilidad del cuerpo */
+  p {
+    line-height: 1.6;
+    letter-spacing: -0.01em;
   }
 }
 
-/* Un efecto de cristal muy sutil que usaremos mucho */
-.glass-panel {
-  background: rgba(18, 18, 18, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+html {
+  /* Desplazamiento suave nativo */
+  scroll-behavior: smooth;
+}
+
+/* Añadimos un margen superior de desplazamiento a todas las secciones 
+   para que el Navbar fijo no tape el contenido al navegar.
+*/
+section {
+  scroll-margin-top: 80px;
+}
+
+/* Ajuste fino para la tipografía profesional */
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer base {
+
+  /* Títulos de Sección (Estilo Experience) */
+  .section-title {
+    @apply text-5xl md:text-7xl font-black tracking-tighter uppercase text-white;
+  }
+
+  /* Etiquetas de Protocolo (El texto pequeñito arriba de los títulos) */
+  .protocol-label {
+    @apply font-mono text-[10px] tracking-[0.4em] uppercase text-accent mb-4 block;
+  }
+
+  /* Títulos de Proyectos/Items */
+  .item-title {
+    @apply text-2xl font-bold uppercase tracking-tight text-white;
+  }
+
+  /* Subtítulos Técnicos */
+  .tech-subtitle {
+    @apply text-accent text-[11px] font-mono font-bold tracking-widest uppercase block;
+  }
 }

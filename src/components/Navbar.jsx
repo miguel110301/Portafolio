@@ -1,63 +1,98 @@
-import { motion } from 'framer-motion';
-import { Terminal as TerminalIcon } from 'lucide-react';
-import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Terminal as TerminalIcon, ChevronRight, Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import Terminal from './Terminal';
 
 function Navbar() {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: 'Career', href: '/#experience' },
+    { name: 'Engineered', href: '/#projects' },
+    { name: 'About', href: '/#about' }
+  ];
 
   return (
     <>
       <motion.header 
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 glass-panel border-b-0"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       >
-        <div className="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
-          <a href="/#hero" className="text-primary font-medium tracking-wide flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center border border-white/5">
-              <span className="text-sm font-bold text-white">M</span>
-            </div>
-            Miguel Moreno
-          </a>
-
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
-            <a href="/#experience" className="hover:text-primary transition-colors duration-200">Experience</a>
-            <a href="/#projects" className="hover:text-primary transition-colors duration-200">Work</a>
-            <a href="/#about" className="hover:text-primary transition-colors duration-200">About</a>
-          </nav>
-
-          <div className="flex items-center gap-4">
+        <div className={`mx-auto transition-all duration-500 ${scrolled ? 'max-w-4xl mt-4 px-4' : 'max-w-7xl mt-0 px-0'}`}>
+          <div className={`px-6 md:px-8 h-14 flex items-center justify-between transition-all duration-300 ${
+            scrolled 
+              ? 'bg-black/90 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl' 
+              : 'bg-transparent border-b border-white/5 rounded-none'
+          }`}>
             
-            {/* EL BOTÓN DEL EASTER EGG */}
-            <button 
-              onClick={() => setIsTerminalOpen(true)}
-              className="text-muted hover:text-accent transition-colors duration-200 p-2 rounded-lg hover:bg-white/5"
-              title="Open Terminal"
-            >
-              <TerminalIcon size={20} />
-            </button>
+            {/* Logo */}
+            <a href="/#hero" className="flex flex-col group">
+              <span className="text-white font-black tracking-tighter text-lg md:text-xl leading-none uppercase">
+                Miguel Moreno
+              </span>
+            </a>
 
-            <a 
-              href="/CV_Miguel_Moreno.pdf" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:block text-sm font-medium text-muted hover:text-primary transition-colors duration-200"
-            >
-              View CV
-            </a>
-            <a 
-              href="/#contact" 
-              className="text-sm font-medium text-background bg-primary px-5 py-2.5 rounded-full hover:bg-white/90 transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-            >
-              Contact
-            </a>
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center gap-10">
+              {navLinks.map((link) => (
+                <a key={link.name} href={link.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-4">
+              <button onClick={() => setIsTerminalOpen(true)} className="hidden sm:flex items-center gap-2 text-[10px] font-mono text-muted hover:text-accent transition-colors">
+                <TerminalIcon size={14} />
+                <span className="opacity-50">terminal</span>
+              </button>
+
+              <a href="/#contact" className="group hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white border-b-2 border-accent pb-0.5 hover:text-accent transition-all">
+                Inquiry <ChevronRight size={12} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+
+              {/* Botón Menú Móvil */}
+              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-white p-1">
+                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Menú Móvil Desplegable */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-[#0a0a0a] border-b border-white/10 overflow-hidden"
+            >
+              <div className="flex flex-col p-6 gap-6">
+                {navLinks.map((link) => (
+                  <a 
+                    key={link.name} 
+                    href={link.href} 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-xs font-bold uppercase tracking-[0.2em] text-muted"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+                <a href="/#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-xs font-black uppercase text-accent">Inquiry</a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
 
-      {/* RENDERIZAMOS LA TERMINAL OCULTA */}
       <Terminal isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
     </>
   );
