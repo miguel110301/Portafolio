@@ -76,7 +76,7 @@ function Projects() {
                     )}
                     
                     <div className="flex justify-between items-start mb-6 relative z-10">
-                      <span className="tech-subtitle text-muted group-hover:text-accent transition-colors">
+                      <span className="tech-subtitle group-hover:text-accent transition-colors">
                         {project.category}
                       </span>
                       <div className="text-muted group-hover:text-accent transition-colors duration-200">

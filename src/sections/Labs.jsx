@@ -28,7 +28,7 @@ function Labs() {
       
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div className="mb-20">
-          <span className="protocol-label flex items-center gap-2 text-purple-400">
+          <span className="protocol-label flex items-center gap-2 !text-purple-400">
             <Beaker size={14} /> R&D_Laboratory
           </span>
           <h2 className="section-title">Current Experiments.</h2>
@@ -63,7 +63,7 @@ function Labs() {
                     {exp.icon}
                   </div>
                   
-                  <span className="tech-subtitle text-purple-400 mb-2">{exp.type}</span>
+                  <span className="tech-subtitle !text-purple-400 mb-2">{exp.type}</span>
                   <h3 className="item-title mb-4">{exp.title}</h3>
                   <p className="text-muted leading-relaxed mb-8 flex-grow">{exp.description}</p>
                   

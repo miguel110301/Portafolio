@@ -16,7 +16,6 @@ function Contact() {
         >
           <div className="flex-1">
             <span className="protocol-label">Contact_Protocol</span>
-            {/* Ajustamos ligeramente el tamaño aquí para que entre perfecto en la tarjeta */}
             <h2 className="section-title !text-5xl md:!text-6xl mb-8">Ready to build <br/>something useful?</h2>
             <p className="text-muted text-lg mb-10">
               If you need to optimize processes, build a robust API, or develop an application from scratch, let's talk. I'm currently open to new opportunities.
@@ -78,10 +77,6 @@ function Contact() {
           </div>
 
         </motion.div>
-      </div>
-
-      <div className="absolute bottom-8 left-0 right-0 text-center text-[10px] font-mono tracking-widest text-muted/50 uppercase">
-        <p>© {new Date().getFullYear()} Miguel Moreno. All rights reserved.</p>
       </div>
     </section>
   );

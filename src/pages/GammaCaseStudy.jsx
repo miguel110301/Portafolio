@@ -1,85 +1,144 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Bot, Check, RefreshCw, Send, FileText } from 'lucide-react';
+import { ArrowLeft, Clock, Bot, Check, RefreshCw, Send, FileText, Server, TerminalSquare, Activity } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-function TelegramSimulator() {
+function AsynchronousSimulation() {
   const [step, setStep] = useState(0);
+  const [serverState, setServerState] = useState('{\n  "sessions": 0,\n  "active_contexts": {}\n}');
 
-  useEffect(() => {
-    if (step === 1) setTimeout(() => setStep(2), 1500);
-    if (step === 3) setTimeout(() => setStep(4), 1500);
-  }, [step]);
+  const runDemo = async () => {
+    if (step > 0 && step < 5) return;
+    
+    // Step 1: User initiates
+    setStep(1);
+    setServerState('{\n  "sessions": 1,\n  "active_contexts": {\n    "chat_8821": {\n      "status": "processing_data",\n      "timestamp": "14:02:11"\n    }\n  }\n}');
+    
+    await new Promise(r => setTimeout(r, 2000));
+    
+    // Step 2: Bot replies and waits for approval
+    setStep(2);
+    setServerState('{\n  "sessions": 1,\n  "active_contexts": {\n    "chat_8821": {\n      "status": "WAITING_APPROVAL",\n      "document": "Reporte_Q3.pdf",\n      "expires_in": "24h"\n    }\n  }\n}');
+    
+    // Step 3 is triggered manually by user clicking the button
+  };
+
+  const handleApproval = async () => {
+    setStep(3);
+    setServerState('{\n  "sessions": 1,\n  "active_contexts": {\n    "chat_8821": {\n      "status": "approval_received",\n      "action": "scheduling_emails"\n    }\n  }\n}');
+    
+    await new Promise(r => setTimeout(r, 1500));
+    
+    setStep(4);
+    setServerState('{\n  "sessions": 1,\n  "active_contexts": {},\n  "scheduled_jobs": 1,\n  "next_execution": "2026-03-19T08:00:00Z"\n}');
+    
+    await new Promise(r => setTimeout(r, 2000));
+    setStep(5); // Ready to restart
+  };
 
   return (
-    <div className="w-full max-w-sm mx-auto bg-[#1c1c1e] rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative font-sans my-12">
-      <div className="bg-[#2c2c2e] p-4 flex items-center gap-3 border-b border-white/5">
-        <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-background"><Bot size={20}/></div>
-        <div><h4 className="font-bold text-sm text-white">Gamma Agent</h4><p className="text-xs text-accent">bot</p></div>
-      </div>
-      
-      <div className="p-4 space-y-4 h-[300px] overflow-y-auto flex flex-col text-sm bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-black/20">
-        {step >= 1 && (
-           <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-end bg-accent text-background p-3 rounded-2xl rounded-tr-sm max-w-[80%] font-medium">
-             Genera la presentación del Q3
-           </motion.div>
-        )}
-        {step >= 2 && (
-           <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-start bg-[#2c2c2e] text-white p-3 rounded-2xl rounded-tl-sm max-w-[85%] flex flex-col gap-2">
-             <p>¡Listo! He estructurado los datos y generado el reporte con Gamma API.</p>
-             <div className="bg-[#1c1c1e] p-2 rounded flex items-center gap-2 border border-white/5 text-xs"><FileText size={16} className="text-accent"/> Reporte_Ejecutivo_Q3.pdf</div>
-             <p className="text-xs text-muted font-mono mt-1">Status: WAITING_APPROVAL</p>
-             <p className="text-xs text-white/80">¿Apruebas el envío a los clientes?</p>
-             {step === 2 && (
-               <div className="flex gap-2 mt-2">
-                 <button onClick={() => setStep(3)} className="flex-1 bg-white/5 hover:bg-accent/20 border border-white/10 py-2 rounded text-accent font-medium transition-colors text-xs flex items-center justify-center gap-1"><Check size={14}/> Aprobar Envío</button>
-               </div>
-             )}
-           </motion.div>
-        )}
-        {step >= 3 && (
-           <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-end bg-accent text-background p-3 rounded-2xl rounded-tr-sm max-w-[80%] font-medium">
-             Aprobar Envío
-           </motion.div>
-        )}
-        {step >= 4 && (
-           <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-start bg-[#2c2c2e] text-white p-3 rounded-2xl rounded-tl-sm max-w-[80%]">
-             ✅ Acción confirmada. Emails programados para envío diferido.
-           </motion.div>
-        )}
-      </div>
+    <div className="w-full bg-[#0a0a0a] rounded-sm border border-white/10 shadow-2xl p-4 md:p-6 font-sans my-12 overflow-hidden relative">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* PANEL IZQUIERDO: Interfaz de Usuario (Telegram) */}
+        <div className="bg-[#1c1c1e] rounded-sm overflow-hidden border border-white/10 shadow-lg flex flex-col h-[400px]">
+          <div className="bg-[#2c2c2e] p-3 flex items-center justify-between border-b border-white/5">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-background"><Bot size={16}/></div>
+              <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">Gamma Agent</h4><p className="text-[9px] text-accent font-mono">online</p></div>
+            </div>
+            {step > 0 && step < 5 && <div className="text-[9px] text-muted font-mono animate-pulse flex items-center gap-1"><Activity size={10}/> sync</div>}
+          </div>
+          
+          <div className="p-4 flex-1 overflow-y-auto flex flex-col gap-4 text-xs bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-black/20">
+            <AnimatePresence>
+              {step >= 1 && (
+                <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-end bg-accent text-background p-2.5 rounded-xl rounded-tr-sm max-w-[80%] font-medium shadow-sm">
+                  Genera la presentación del Q3 con los datos de ventas.
+                </motion.div>
+              )}
+              {step >= 2 && (
+                <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} transition={{type: "spring", bounce: 0.4}} className="self-start bg-[#2c2c2e] text-white p-3 rounded-xl rounded-tl-sm max-w-[85%] flex flex-col gap-3 shadow-md">
+                  <p>¡Listo! He estructurado los datos y generado el reporte con Gamma API.</p>
+                  <div className="bg-[#1c1c1e] p-2 rounded-sm flex items-center gap-2 border border-white/5"><FileText size={14} className="text-accent"/> <span className="font-mono text-[10px]">Reporte_Ejecutivo_Q3.pdf</span></div>
+                  <div className="border-t border-white/10 pt-2">
+                    <p className="text-[10px] text-white/80 mb-2">¿Apruebas el envío programado a los clientes?</p>
+                    {step === 2 ? (
+                      <button onClick={handleApproval} className="w-full bg-white/5 hover:bg-accent/20 hover:text-accent hover:border-accent/50 border border-white/10 py-1.5 rounded-sm text-white font-bold transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-[9px]">
+                        <Check size={12}/> Confirmar & Programar
+                      </button>
+                    ) : (
+                      <div className="w-full bg-accent/10 border border-accent/20 py-1.5 rounded-sm text-accent font-bold flex items-center justify-center gap-2 uppercase tracking-wider text-[9px]">
+                        <Check size={12}/> Aprobado
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+              {step >= 4 && (
+                <motion.div initial={{opacity:0, scale:0.9, y:10}} animate={{opacity:1, scale:1, y:0}} className="self-start bg-[#2c2c2e] text-white p-3 rounded-xl rounded-tl-sm max-w-[80%] shadow-md">
+                  ✅ Flujo completado. Correos programados asíncronamente en el servidor.
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-      {step === 0 && (
-        <div className="p-4 bg-[#1c1c1e] border-t border-white/5 flex justify-center">
-          <button onClick={() => setStep(1)} className="bg-accent text-background px-6 py-2.5 rounded-full font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2">
-            <Send size={16}/> Iniciar Demo Interactiva
-          </button>
+          <div className="p-3 bg-[#1c1c1e] border-t border-white/5 flex justify-center">
+            {step === 0 || step === 5 ? (
+              <button onClick={runDemo} className="w-full bg-accent text-background py-2 rounded-sm font-bold text-[10px] uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-2">
+                <Send size={14}/> {step === 5 ? "Restart Workflow" : "Trigger Interaction"}
+              </button>
+            ) : (
+              <div className="text-[10px] font-mono text-muted animate-pulse py-1">Process running in background...</div>
+            )}
+          </div>
         </div>
-      )}
-       {step > 0 && step < 4 && (
-         <div className="p-4 bg-[#1c1c1e] border-t border-white/5 flex justify-center text-xs text-muted font-mono animate-pulse">
-           Bot is typing...
-         </div>
-       )}
+
+        {/* PANEL DERECHO: Server State Manager */}
+        <div className="bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[400px] shadow-lg relative">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 blur-[80px] rounded-full pointer-events-none" />
+          
+          <div className="bg-white/5 p-3 flex items-center gap-3 border-b border-white/5 relative z-10">
+            <div className="w-8 h-8 bg-purple-500/20 rounded-sm border border-purple-500/30 flex items-center justify-center text-purple-400"><Server size={16}/></div>
+            <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">In-Memory State</h4></div>
+          </div>
+          
+          <div className="p-4 flex-1 flex flex-col relative z-10">
+            <p className="text-muted text-[10px] mb-4 leading-relaxed">
+              To pause workflows and wait for human input without timing out, n8n relies on static data persistence. Watch the state update:
+            </p>
+            
+            <div className="flex-1 bg-[#050505] border border-white/10 rounded-sm flex flex-col shadow-inner overflow-hidden">
+              <div className="bg-[#111] px-3 py-1.5 border-b border-white/5 flex items-center gap-2">
+                <TerminalSquare size={12} className="text-purple-400" />
+                <span className="text-[9px] font-mono text-muted uppercase tracking-widest">state_manager.json</span>
+              </div>
+              <div className="p-4 flex-1 overflow-auto">
+                <AnimatePresence mode="wait">
+                  <motion.pre 
+                    key={step}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="text-[10px] md:text-xs font-mono text-purple-300"
+                  >
+                    {serverState}
+                  </motion.pre>
+                </AnimatePresence>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  )
+  );
 }
 
 export default function GammaCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (window.anime) {
-      window.anime({
-        targets: '.animate-in',
-        translateY: [40, 0],
-        opacity: [0, 1],
-        delay: window.anime.stagger(150),
-        easing: 'easeOutExpo',
-        duration: 1000
-      });
-    }
   }, []);
 
   const codeSnippet = `// State control based on memory state
@@ -87,22 +146,27 @@ if (payload.message) {
   const chatId = payload.message.chat.id.toString();
   const context = staticData[chatId];
   
-  if (context && context.status === 'waiting_datetime') {
-    return [{ json: { type: 'datetime', payload, context } }];
+  // Intercept the flow if we are waiting for human approval
+  if (context && context.status === 'WAITING_APPROVAL') {
+    return [{ json: { type: 'resume_workflow', payload, context } }];
   }
-  return [{ json: { type: 'message', payload } }];
+  
+  // Otherwise, start a new generation process
+  return [{ json: { type: 'new_generation', payload } }];
 }`;
 
   return (
-    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12">
-      <div className="max-w-5xl mx-auto px-6">
-        <nav className="mb-16 animate-in opacity-0">
+    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12 relative overflow-hidden">
+      
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
+        
+        <nav className="mb-16">
           <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
             <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
-        <header className="mb-16 animate-in opacity-0">
+        <header className="mb-16">
           <div className="mb-6">
             <span className="protocol-label">Asynchronous_Automation</span>
           </div>
@@ -112,14 +176,14 @@ if (payload.message) {
           </p>
         </header>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in opacity-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
           {[
             { label: 'Interface', value: 'Telegram Bot', icon: Bot },
             { label: 'Generation', value: 'Gamma API', icon: RefreshCw },
             { label: 'Approval', value: 'Interactive', icon: Check },
-            { label: 'Execution', value: 'Scheduled', icon: Clock },
+            { label: 'Execution', value: 'Scheduled Jobs', icon: Clock },
           ].map((item, i) => (
-            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors">
+            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a]">
               <item.icon className="text-accent mb-3" size={20} />
               <span className="tech-subtitle !mb-1">{item.label}</span>
               <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
@@ -128,26 +192,27 @@ if (payload.message) {
         </div>
 
         <section className="space-y-24">
-          <div className="animate-in opacity-0">
-            <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Live Simulation</h2>
-            <p className="text-muted text-lg leading-relaxed mb-6">
-              Instead of running fully autonomously and risking errors, the bot pauses its execution and waits for human validation. Try the interactive simulation below:
+          <div>
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Human-in-the-Loop Simulation</h2>
+            <p className="text-muted text-lg leading-relaxed mb-6 max-w-3xl">
+              Instead of running fully autonomously and risking errors, the workflow pauses its execution entirely. It stores its state in memory and waits for a human validation webhook to resume. <strong>Try the interactive simulation below to see how the server state changes:</strong>
             </p>
-            <TelegramSimulator />
+            <AsynchronousSimulation />
           </div>
 
-          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. State Management</h2>
+              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. Persistence Architecture</h2>
               <p className="text-muted text-lg leading-relaxed mb-6">
-                Maintaining conversation context across multiple messages separated by hours or days requires a rock-solid state design. Using n8n's <code>$getWorkflowStaticData</code>, I structured an in-memory persistence layer.
+                Maintaining conversation context across multiple messages separated by hours or days requires a rock-solid state design. Using n8n's <code>$getWorkflowStaticData</code>, I structured an in-memory persistence layer that survives workflow executions.
               </p>
             </div>
+            
             <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative z-10">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
-                <span className="tech-subtitle !mb-0 !tracking-widest">state_manager.js</span>
+                <span className="tech-subtitle !mb-0 !tracking-widest">state_interceptor.js</span>
               </div>
-              <div className="text-sm font-mono text-gray-300">
+              <div className="text-xs md:text-sm font-mono text-gray-300">
                 <SyntaxHighlighter language="javascript" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1.5rem', margin: 0 }}>
                   {codeSnippet}
                 </SyntaxHighlighter>
@@ -155,6 +220,7 @@ if (payload.message) {
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );
