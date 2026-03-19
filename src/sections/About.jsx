@@ -115,8 +115,8 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">About Me</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">Building the engine <br/>behind the interface.</h2>
+            <span className="protocol-label">About_Me.sys</span>
+            <h2 className="section-title mb-6">Building the engine <br/>behind the interface.</h2>
             <div className="space-y-4 text-muted text-lg leading-relaxed">
               <p>
                 I am a Backend Developer and Automation Engineer. I build the underlying architecture that makes applications and businesses run flawlessly at peak capacity. I specialize in designing advanced event-driven workflows with <strong>n8n</strong>, orchestrating complex APIs, and managing VPS infrastructure.

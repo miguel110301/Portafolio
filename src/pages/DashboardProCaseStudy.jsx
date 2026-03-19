@@ -81,20 +81,17 @@ function AnimatedDashboard() {
         </div>
 
         {/* Activity Feed Animado */}
-        <div className="col-span-1 bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col relative">
-          <span className="text-xs text-muted mb-3 font-medium shrink-0">Security Logs</span>
-          
-          {/* El secreto está aquí: overflow-hidden en el contenedor interno */}
-          <div className="flex-1 relative overflow-hidden">
+            <div className="col-span-1 bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col relative">
+            <span className="text-xs text-muted mb-3 font-medium shrink-0">Security Logs</span>
             
-            {/* Gradiente superior para difuminar cuando el texto sube */}
-            <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
-            
-            <motion.div 
-              animate={{ y: [0, -60] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-              className="absolute top-0 left-0 w-full space-y-3 pt-2"
-            >
+            {/* El secreto es el overflow-hidden aquí */}
+            <div className="flex-1 relative overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
+                <motion.div 
+                animate={{ y: [0, -60] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                className="absolute top-0 left-0 w-full space-y-3 pt-2"
+                >
               {[
                 { type: "auth", msg: "User admin logged in", time: "10s ago" },
                 { type: "query", msg: "Exporting sales_Q3", time: "14s ago" },

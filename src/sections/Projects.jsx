@@ -43,8 +43,8 @@ function Projects() {
     <section id="projects" className="py-24 relative bg-surface/30">
       <div className="max-w-5xl mx-auto px-6">
         <div className="mb-16">
-          <span className="text-accent font-semibold tracking-wider uppercase text-sm mb-4 block">Portfolio</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Featured Work</h2>
+          <span className="protocol-label">Deployment_Log</span>
+          <h2 className="section-title mb-4">Engineered Systems.</h2>
           <p className="text-muted text-lg max-w-2xl">
             Projects focused on solving real operational problems, showcasing systems thinking and technical execution.
           </p>
