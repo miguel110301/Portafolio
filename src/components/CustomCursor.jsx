@@ -8,11 +8,9 @@ export default function CustomCursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // El punto pequeño sigue el cursor casi instantáneamente
   const dotX = useSpring(mouseX, { stiffness: 1000, damping: 50 });
   const dotY = useSpring(mouseY, { stiffness: 1000, damping: 50 });
 
-  // El anillo tiene inercia — ese lag es el efecto premium
   const ringX = useSpring(mouseX, { stiffness: 150, damping: 20 });
   const ringY = useSpring(mouseY, { stiffness: 150, damping: 20 });
 
@@ -27,7 +25,6 @@ export default function CustomCursor() {
 
   useEffect(() => {
     const interactiveEls = document.querySelectorAll('a, button, [data-cursor="pointer"]');
-    
     const grow = () => {
       cursorRef.current?.classList.add('cursor-hover');
       ringRef.current?.classList.add('ring-hover');
@@ -36,12 +33,10 @@ export default function CustomCursor() {
       cursorRef.current?.classList.remove('cursor-hover');
       ringRef.current?.classList.remove('ring-hover');
     }
-
     interactiveEls.forEach(el => {
       el.addEventListener('mouseenter', grow)
       el.addEventListener('mouseleave', shrink)
     })
-
     return () => {
       interactiveEls.forEach(el => {
         el.removeEventListener('mouseenter', grow)
@@ -52,7 +47,6 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Punto central — rápido */}
       <motion.div
         ref={cursorRef}
         className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference
@@ -61,8 +55,6 @@ export default function CustomCursor() {
                    [&.cursor-hover]:w-4 [&.cursor-hover]:h-4"
         style={{ x: dotX, y: dotY }}
       />
-
-      {/* Anillo exterior — lento, con lag */}
       <motion.div
         ref={ringRef}
         className="fixed top-0 left-0 z-[9998] pointer-events-none

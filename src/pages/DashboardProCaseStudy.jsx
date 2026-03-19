@@ -58,8 +58,8 @@ function AnimatedDashboard() {
         ))}
       </div>
 
-      <div className="flex-1 grid grid-cols-3 gap-3 md:gap-4 relative z-10">
-        <div className="col-span-2 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 relative z-10">
+        <div className="md:col-span-2 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col">
           <span className="text-[10px] text-muted mb-4 font-bold tracking-widest uppercase">Hourly Transaction Volume</span>
           <div className="flex-1 flex items-end justify-between gap-1 md:gap-2">
             {[...Array(12)].map((_, i) => (
@@ -74,7 +74,7 @@ function AnimatedDashboard() {
           </div>
         </div>
 
-        <div className="col-span-1 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col relative overflow-hidden">
+        <div className="md:col-span-1 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col relative overflow-hidden">
           <span className="text-[10px] text-muted mb-3 font-bold tracking-widest uppercase shrink-0">Security Logs</span>
           <div className="flex-1 relative overflow-hidden">
             <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
@@ -157,14 +157,14 @@ def require_role(allowed_roles):
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         
         {/* Nav Return */}
-        <nav className="mb-16 animate-in opacity-0">
+        <nav className="mb-16 animate-in">
           <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
             <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
         {/* TIPOGRAFÍA CORREGIDA */}
-        <header className="mb-16 animate-in opacity-0">
+        <header className="mb-16 animate-in">
           <div className="mb-6">
             <span className="protocol-label">SaaS_&_Backend_Architecture</span>
           </div>
@@ -179,14 +179,14 @@ def require_role(allowed_roles):
         </header>
 
         {/* Stack Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in opacity-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in">
           {[
             { label: 'Core Logic', value: 'Python', icon: Settings },
             { label: 'Persistence', value: 'PostgreSQL', icon: Database },
             { label: 'Security', value: 'RBAC Auth', icon: ShieldCheck },
             { label: 'Processing', value: 'Background Jobs', icon: ActivityIcon },
           ].map((item, i) => (
-             <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a]">
+             <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a] min-h-[100px]">
               <item.icon className="text-accent mb-3" size={20} />
               <span className="tech-subtitle !mb-1">{item.label}</span>
               <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
@@ -195,7 +195,7 @@ def require_role(allowed_roles):
         </div>
 
         {/* Dashboard Component */}
-        <div className="mb-24 rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] aspect-[16/10] md:aspect-video relative animate-in opacity-0">
+        <div className="mb-24 rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] h-[500px] md:aspect-video md:h-auto relative animate-in">
           <AnimatedDashboard />
         </div>
 
@@ -231,7 +231,7 @@ def require_role(allowed_roles):
 
         {/* Detalles Técnicos */}
         <section className="space-y-24">
-          <div className="animate-in opacity-0">
+          <div className="animate-in">
             <h2 className="item-title mb-6 border-b border-white/10 pb-4">
               01. Data Architecture
             </h2>
@@ -240,7 +240,7 @@ def require_role(allowed_roles):
             </p>
           </div>
 
-          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          <div className="animate-in grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
               <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">
                 02. Security Middleware

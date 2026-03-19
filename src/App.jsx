@@ -13,6 +13,7 @@ import QroDataCaseStudy from "./pages/QroDataCaseStudy";
 import DashboardProCaseStudy from "./pages/DashboardProCaseStudy";
 import Labs from "./sections/Labs";
 import CustomCursor from './components/CustomCursor';
+import Services from "./sections/Services";
 
 // 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
 function Home() {
@@ -27,6 +28,7 @@ function Home() {
       <Experience />
       <Education />
       <Projects />
+      <Services />
       <Labs />     {/* <-- Agregamos Labs justo aquí */}
       <About />
       <Contact />

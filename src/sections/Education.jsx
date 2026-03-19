@@ -17,7 +17,7 @@ function Education() {
   });
 
   return (
-    <section id="education" className="py-32 relative bg-[#050505]">
+    <section id="education" className="py-16 md:py-32 relative bg-[#050505]">
       <div className="max-w-6xl mx-auto px-6">
         
         <div className="mb-20">
@@ -37,7 +37,7 @@ function Education() {
             className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-white/80 shadow-[0_0_15px_rgba(255,255,255,0.4)] z-0" 
           />
 
-          <div className="space-y-24">
+          <div className="space-y-12 md:space-y-24">
             <motion.div 
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}

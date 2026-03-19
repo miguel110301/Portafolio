@@ -313,7 +313,7 @@ function Labs() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           {experiments.map((exp, index) => (
             <motion.div 
@@ -343,9 +343,14 @@ function Labs() {
                   
                   <div className="flex flex-wrap gap-2 mt-auto pt-4">
                     {exp.tech.map((tech, i) => (
-                      <span key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]">
+                      <motion.span
+                        key={i}
+                        whileHover={{ scale: 1.08, color: '#38bdf8', borderColor: 'rgba(56,189,248,0.4)' }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                        className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]"
+                      >
                         {tech}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
@@ -472,11 +477,82 @@ export default Experience;
 ---
 FILE: src/sections/Hero.jsx
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronRight, FileText, Terminal } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { ChevronRight, FileText, Terminal, Webhook, Database, Server, Cpu, Cloud, Code, Smartphone } from 'lucide-react';
 import TechMatrix from '../components/TechMatrix';
 import RevealText from '../components/RevealText';
 import MagneticButton from '../components/MagneticButton';
+
+function MobileStack() {
+  const [selected, setSelected] = useState(null);
+
+  const stack = [
+    { name: 'Python',  color: '#FBBF24', icon: Terminal,   desc: "Architecting resilient backend logic, data pipelines, and scalable APIs." },
+    { name: 'n8n',     color: '#F97316', icon: Webhook,    desc: "Designing complex, event-driven workflows and system orchestrations." },
+    { name: 'Django',  color: '#22C55E', icon: Database,   desc: "Building robust, secure, and highly scalable web applications." },
+    { name: 'Swift',   color: '#F97316', icon: Smartphone, desc: "Crafting performant, native iOS experiences with local-first architectures." },
+    { name: 'Linux',   color: '#E2E8F0', icon: Server,     desc: "Managing server environments, deployments, and shell scripting." },
+    { name: 'APIs',    color: '#60A5FA', icon: Cloud,      desc: "Designing, consuming, and securing RESTful architectures." },
+    { name: 'React',   color: '#22D3EE', icon: Code,       desc: "Developing interactive, state-driven frontends with modern hooks." },
+    { name: 'MySQL',   color: '#3B82F6', icon: Database,   desc: "Structuring relational databases for high-concurrency environments." },
+    { name: 'VPS',     color: '#A855F7', icon: Cpu,        desc: "Configuring, deploying, and maintaining private server infrastructure." },
+  ];
+
+  return (
+    <div className="w-full">
+      <div className="grid grid-cols-3 gap-3 mb-4">
+        {stack.map((item, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setSelected(selected?.name === item.name ? null : item)}
+            className="w-full h-20 rounded-2xl flex flex-col items-center justify-center border bg-[#121212] cursor-pointer transition-all duration-300"
+            style={{
+              borderColor: selected?.name === item.name ? item.color + '80' : 'rgba(255,255,255,0.1)',
+              background: selected?.name === item.name ? 'rgba(18,18,18,0.9)' : '#121212',
+              boxShadow: selected?.name === item.name 
+                ? `-4px 4px 0px ${item.color}30` 
+                : '-4px 4px 0px rgba(0,0,0,0.5)',
+            }}
+          >
+            <item.icon color={selected?.name === item.name ? item.color : item.color + '99'} size={22} className="mb-1.5" />
+            <span className="text-[9px] font-bold tracking-wider text-white/80 uppercase">
+              {item.name}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Tooltip de descripción */}
+      <div className="h-12 flex items-center justify-center">
+        {selected ? (
+          <motion.p
+            key={selected.name}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center text-sm"
+          >
+            <strong className="text-white mr-1">{selected.name}:</strong>
+            <span className="text-muted/90">{selected.desc}</span>
+          </motion.p>
+        ) : (
+          <p className="text-muted/40 text-xs font-mono animate-pulse">
+            Tap a module to view capabilities
+          </p>
+        )}
+      </div>
+
+      <div className="mt-1 text-right">
+        <span className="text-[9px] font-mono text-muted/40 uppercase tracking-[0.4em]">
+          Dev_Stack.v2026
+        </span>
+      </div>
+    </div>
+  );
+}
 
 function Hero() {
   const containerRef = useRef(null);
@@ -521,18 +597,19 @@ function Hero() {
           </RevealText>
 
           <p className="text-base md:text-lg text-muted max-w-lg mb-10 font-medium leading-relaxed border-l-2 border-white/10 pl-6">
-            Automation & Backend Engineer specializing in event-driven architectures that eliminate operational bottlenecks. 
-            I design systems where data flows automatically, precisely, and at scale — powered by n8n orchestration and Python.
+            I build AI-powered automation systems that replace manual workflows entirely. 
+            Specializing in event-driven architectures with n8n, Python, and LLM integrations — 
+            designed for production, fault-tolerant, and built to scale.
           </p>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-row gap-3 w-full">
             <MagneticButton>
-              <a href="/#projects" className="group flex items-center gap-4 bg-white text-black px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all">
+              <a href="/#projects" className="group flex items-center justify-center gap-2 bg-white text-black px-4 py-3 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all flex-1">
                 Deployments <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </a>
             </MagneticButton>
             <MagneticButton>
-              <a href="/CVAutomat.pdf" target="_blank" rel="noreferrer" className="flex items-center gap-4 border border-white/20 px-6 py-3.5 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white">
+              <a href="/CV_Miguel_Moreno.pdf" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border border-white/20 px-4 py-3 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white flex-1">
                 <FileText size={14} /> Documentation
               </a>
             </MagneticButton>
@@ -541,14 +618,19 @@ function Hero() {
 
         {/* LADO DERECHO: Visual */}
         <div className="lg:col-span-5 hidden lg:block sticky top-44">
-           <TechMatrix />
-           <div className="mt-8 flex justify-end">
-              <div className="text-[9px] font-mono text-muted/40 uppercase tracking-[0.4em] rotate-90 origin-right translate-y-12">
-                Dev_Stack.v2026
-              </div>
-           </div>
+        <TechMatrix />
+        <div className="mt-8 flex justify-end">
+          <div className="text-[9px] font-mono text-muted/40 uppercase tracking-[0.4em] rotate-90 origin-right translate-y-12">
+            Dev_Stack.v2026
+          </div>
         </div>
       </div>
+
+      {/* STACK MÓVIL */}
+      <div className="lg:hidden col-span-1 mt-8">
+        <MobileStack />
+      </div>
+    </div>
       
       {/* Indicador de scroll lateral */}
       <div className="absolute right-10 bottom-20 hidden md:block">
@@ -618,11 +700,11 @@ function Projects() {
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
     }
   }
 
@@ -652,7 +734,7 @@ function Projects() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           {projects.map((project, index) => (
             <motion.div
@@ -689,9 +771,14 @@ function Projects() {
                     </p>
                     <ul className="flex flex-wrap gap-2 relative z-10 mt-auto pt-4">
                       {project.tech.map((tech, i) => (
-                        <li key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]">
+                        <motion.li
+                          key={i}
+                          whileHover={{ scale: 1.08, color: '#38bdf8', borderColor: 'rgba(56,189,248,0.4)' }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                          className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]"
+                        >
                           {tech}
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
                   </Link>
@@ -709,60 +796,68 @@ export default Projects;
 ---
 FILE: src/sections/Services.jsx
 import { motion } from 'framer-motion';
-import { GitMerge, Terminal, Smartphone, Globe } from 'lucide-react';
-import Tilt from 'react-parallax-tilt';
+import { Zap, ShieldCheck, GitMerge, Brain } from 'lucide-react';
 import RevealText from '../components/RevealText';
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.15, delayChildren: 0 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1, y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+  }
+}
+
 function Services() {
-  const services = [
-    {
-      icon: <GitMerge size={24} className="text-accent" />,
-      title: "Advanced Automation",
-      description: "n8n workflows with intelligent routing, webhooks, retries, and real-time operational state management."
-    },
-    {
-      icon: <Terminal size={24} className="text-accent" />,
-      title: "Backend Systems",
-      description: "Development of robust APIs and business logic using Python and Django for production operations."
-    },
-    {
-      icon: <Smartphone size={24} className="text-accent" />,
-      title: "iOS Development",
-      description: "Creation of native applications using Swift, focused on performance, scalability, and smooth user experiences."
-    },
-    {
-      icon: <Globe size={24} className="text-accent" />,
-      title: "Web Applications",
-      description: "Dynamic and modern interfaces built with React and Vite, perfectly integrated with backend architectures."
-    }
+
+  const metrics = [
+    { value: "8+",     label: "Production Systems Deployed" },
+    { value: "500k+",  label: "Records Processed Per Pipeline" },
+    { value: "85%",    label: "Reduction in Manual Intervention" },
+    { value: "4+",     label: "External APIs Orchestrated Per System" },
   ];
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0,
-      }
+  const capabilities = [
+    {
+      icon: <Brain size={24} className="text-accent" />,
+      title: "AI-Powered Automation",
+      description: "End-to-end workflows combining LLMs, Vision APIs, and Whisper for multimodal data processing. Systems that don't just route data — they understand it.",
+      tags: ["OpenAI", "n8n", "Webhooks", "Whisper"]
+    },
+    {
+      icon: <GitMerge size={24} className="text-accent" />,
+      title: "Event-Driven Orchestration",
+      description: "Production-grade n8n workflows with intelligent routing, conditional logic, retries, and fallbacks. Built for fault tolerance, not just the happy path.",
+      tags: ["n8n", "Retry Logic", "State Management", "Error Handling"]
+    },
+    {
+      icon: <ShieldCheck size={24} className="text-accent" />,
+      title: "Backend Systems & APIs",
+      description: "Django REST APIs with RBAC, ACID transactions, and background job processing. Architected for reliability — race condition protection included by default.",
+      tags: ["Django", "Python", "PostgreSQL", "RBAC"]
+    },
+    {
+      icon: <Zap size={24} className="text-accent" />,
+      title: "Systems Integration",
+      description: "Connecting CRMs, WhatsApp Business API, Telegram, and third-party platforms into unified operational pipelines with consistent error handling across every boundary.",
+      tags: ["WhatsApp API", "REST", "Webhooks", "CRM"]
     }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
-    }
-  }
-
+  ];
 
   return (
     <section id="services" className="py-32 relative">
       <div className="max-w-5xl mx-auto px-6">
+
+        {/* Header */}
         <div className="mb-20">
           <RevealText as="span" className="protocol-label" delay={0}>
-            Technical_Skills
+            Capabilities_Matrix
           </RevealText>
           <RevealText as="h2" className="section-title" delay={0.12}>
             What I build.
@@ -774,10 +869,36 @@ function Services() {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="text-muted text-lg max-w-2xl mt-6"
           >
-            Systems designed to automate operations, connect platforms, and build high-level digital products.
+            AI-powered automation systems that replace manual workflows entirely — 
+            built for production, not prototypes.
           </motion.p>
         </div>
 
+        {/* Métricas */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          {metrics.map((metric, i) => (
+            <motion.div
+              key={i}
+              variants={itemVariants}
+              className="glass-panel p-6 rounded-sm border border-white/5 hover:border-accent/30 transition-colors duration-300 group"
+            >
+              <div className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-2 group-hover:text-accent transition-colors duration-300">
+                {metric.value}
+              </div>
+              <div className="text-[10px] font-mono text-muted uppercase tracking-widest leading-relaxed">
+                {metric.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Capabilities */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
           variants={containerVariants}
@@ -785,30 +906,28 @@ function Services() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          {services.map((service, index) => (
+          {capabilities.map((cap, i) => (
             <motion.div
-              key={index}
+              key={i}
               variants={itemVariants}
+              className="glass-panel p-8 rounded-sm border border-white/5 hover:border-white/20 hover:bg-white/[0.03] transition-all duration-300 group"
             >
-              <Tilt
-                tiltMaxAngleX={3}
-                tiltMaxAngleY={3}
-                perspective={1000}
-                scale={1.01}
-                transitionSpeed={2000}
-                className="h-full"
-              >
-                <div className="glass-panel p-8 rounded-2xl hover:bg-white/[0.04] transition-colors duration-300 h-full shadow-lg border border-white/5 hover:border-white/10">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-inner">
-                    {service.icon}
-                  </div>
-                  <h3 className="item-title mb-4">{service.title}</h3>
-                  <p className="text-muted leading-relaxed">{service.description}</p>
-                </div>
-              </Tilt>
+              <div className="w-12 h-12 rounded-sm bg-accent/10 border border-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors duration-300">
+                {cap.icon}
+              </div>
+              <h3 className="item-title mb-3">{cap.title}</h3>
+              <p className="text-muted leading-relaxed mb-6 text-sm md:text-base">{cap.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {cap.tags.map((tag, j) => (
+                  <span key={j} className="text-[10px] font-bold text-accent/60 border border-accent/20 px-3 py-1 rounded-sm uppercase tracking-tighter bg-accent/5">
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </motion.div>
           ))}
         </motion.div>
+
       </div>
     </section>
   );
@@ -1239,11 +1358,9 @@ export default function CustomCursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // El punto pequeño sigue el cursor casi instantáneamente
   const dotX = useSpring(mouseX, { stiffness: 1000, damping: 50 });
   const dotY = useSpring(mouseY, { stiffness: 1000, damping: 50 });
 
-  // El anillo tiene inercia — ese lag es el efecto premium
   const ringX = useSpring(mouseX, { stiffness: 150, damping: 20 });
   const ringY = useSpring(mouseY, { stiffness: 150, damping: 20 });
 
@@ -1258,7 +1375,6 @@ export default function CustomCursor() {
 
   useEffect(() => {
     const interactiveEls = document.querySelectorAll('a, button, [data-cursor="pointer"]');
-    
     const grow = () => {
       cursorRef.current?.classList.add('cursor-hover');
       ringRef.current?.classList.add('ring-hover');
@@ -1267,12 +1383,10 @@ export default function CustomCursor() {
       cursorRef.current?.classList.remove('cursor-hover');
       ringRef.current?.classList.remove('ring-hover');
     }
-
     interactiveEls.forEach(el => {
       el.addEventListener('mouseenter', grow)
       el.addEventListener('mouseleave', shrink)
     })
-
     return () => {
       interactiveEls.forEach(el => {
         el.removeEventListener('mouseenter', grow)
@@ -1283,7 +1397,6 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Punto central — rápido */}
       <motion.div
         ref={cursorRef}
         className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference
@@ -1292,8 +1405,6 @@ export default function CustomCursor() {
                    [&.cursor-hover]:w-4 [&.cursor-hover]:h-4"
         style={{ x: dotX, y: dotY }}
       />
-
-      {/* Anillo exterior — lento, con lag */}
       <motion.div
         ref={ringRef}
         className="fixed top-0 left-0 z-[9998] pointer-events-none
@@ -1964,6 +2075,7 @@ import QroDataCaseStudy from "./pages/QroDataCaseStudy";
 import DashboardProCaseStudy from "./pages/DashboardProCaseStudy";
 import Labs from "./sections/Labs";
 import CustomCursor from './components/CustomCursor';
+import Services from "./sections/Services";
 
 // 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
 function Home() {
@@ -1978,6 +2090,7 @@ function Home() {
       <Experience />
       <Education />
       <Projects />
+      <Services />
       <Labs />     {/* <-- Agregamos Labs justo aquí */}
       <About />
       <Contact />
@@ -2162,7 +2275,7 @@ function EndToEndSimulation() {
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
         
         {/* 1. INTERFAZ: WhatsApp */}
-        <div className="bg-[#0b141a] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[420px] shadow-lg">
+        <div className="bg-[#0b141a] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[360px] md:h-[420px] shadow-lg">
           <div className="bg-[#202c33] p-3 flex items-center gap-3 border-b border-white/5">
             <div className="w-8 h-8 bg-emerald-600 rounded-sm flex items-center justify-center text-white"><Smartphone size={16}/></div>
             <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">Driver_UI</h4></div>
@@ -2191,7 +2304,7 @@ function EndToEndSimulation() {
         </div>
 
         {/* 2. ORQUESTADOR: n8n Flow & Payload Console */}
-        <div className="flex flex-col gap-4 h-full">
+        <div className="hidden lg:flex flex-col gap-4 h-full">
           <div className="text-center mb-2"><h4 className="text-[10px] font-bold text-muted uppercase tracking-[0.3em]">n8n Orchestrator</h4></div>
           
           <div id="node-webhook" className="node-glow relative p-3 rounded-sm border border-white/10 bg-[#121212] flex items-center gap-4">
@@ -2235,7 +2348,7 @@ function EndToEndSimulation() {
         </div>
 
         {/* 3. BACKEND: Base de Datos */}
-        <div className="bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[420px] shadow-lg">
+        <div className="hidden lg:flex flex-col h-[420px] rounded-sm border border-white/10 overflow-hidden shadow-lg bg-[#121212]">
            <div className="bg-white/5 p-3 flex items-center gap-3 border-b border-white/5">
             <div className="w-8 h-8 bg-blue-600/20 border border-blue-500/30 rounded-sm flex items-center justify-center text-blue-400"><Database size={16}/></div>
             <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">PostgreSQL</h4></div>
@@ -2480,8 +2593,8 @@ function AnimatedDashboard() {
         ))}
       </div>
 
-      <div className="flex-1 grid grid-cols-3 gap-3 md:gap-4 relative z-10">
-        <div className="col-span-2 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 relative z-10">
+        <div className="md:col-span-2 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col">
           <span className="text-[10px] text-muted mb-4 font-bold tracking-widest uppercase">Hourly Transaction Volume</span>
           <div className="flex-1 flex items-end justify-between gap-1 md:gap-2">
             {[...Array(12)].map((_, i) => (
@@ -2496,7 +2609,7 @@ function AnimatedDashboard() {
           </div>
         </div>
 
-        <div className="col-span-1 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col relative overflow-hidden">
+        <div className="md:col-span-1 bg-white/5 border border-white/10 rounded-sm p-4 flex flex-col relative overflow-hidden">
           <span className="text-[10px] text-muted mb-3 font-bold tracking-widest uppercase shrink-0">Security Logs</span>
           <div className="flex-1 relative overflow-hidden">
             <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
@@ -2579,14 +2692,14 @@ def require_role(allowed_roles):
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         
         {/* Nav Return */}
-        <nav className="mb-16 animate-in opacity-0">
+        <nav className="mb-16 animate-in">
           <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
             <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
         {/* TIPOGRAFÍA CORREGIDA */}
-        <header className="mb-16 animate-in opacity-0">
+        <header className="mb-16 animate-in">
           <div className="mb-6">
             <span className="protocol-label">SaaS_&_Backend_Architecture</span>
           </div>
@@ -2601,14 +2714,14 @@ def require_role(allowed_roles):
         </header>
 
         {/* Stack Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in opacity-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in">
           {[
             { label: 'Core Logic', value: 'Python', icon: Settings },
             { label: 'Persistence', value: 'PostgreSQL', icon: Database },
             { label: 'Security', value: 'RBAC Auth', icon: ShieldCheck },
             { label: 'Processing', value: 'Background Jobs', icon: ActivityIcon },
           ].map((item, i) => (
-             <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a]">
+             <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a] min-h-[100px]">
               <item.icon className="text-accent mb-3" size={20} />
               <span className="tech-subtitle !mb-1">{item.label}</span>
               <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
@@ -2617,7 +2730,7 @@ def require_role(allowed_roles):
         </div>
 
         {/* Dashboard Component */}
-        <div className="mb-24 rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] aspect-[16/10] md:aspect-video relative animate-in opacity-0">
+        <div className="mb-24 rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] h-[500px] md:aspect-video md:h-auto relative animate-in">
           <AnimatedDashboard />
         </div>
 
@@ -2653,7 +2766,7 @@ def require_role(allowed_roles):
 
         {/* Detalles Técnicos */}
         <section className="space-y-24">
-          <div className="animate-in opacity-0">
+          <div className="animate-in">
             <h2 className="item-title mb-6 border-b border-white/10 pb-4">
               01. Data Architecture
             </h2>
@@ -2662,7 +2775,7 @@ def require_role(allowed_roles):
             </p>
           </div>
 
-          <div className="animate-in opacity-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          <div className="animate-in grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
               <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">
                 02. Security Middleware
@@ -2735,7 +2848,7 @@ function AsynchronousSimulation() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* PANEL IZQUIERDO: Interfaz de Usuario (Telegram) */}
-        <div className="bg-[#1c1c1e] rounded-sm overflow-hidden border border-white/10 shadow-lg flex flex-col h-[400px]">
+        <div className="bg-[#1c1c1e] rounded-sm overflow-hidden border border-white/10 shadow-lg flex flex-col h-[360px] md:h-[400px]">
           <div className="bg-[#2c2c2e] p-3 flex items-center justify-between border-b border-white/5">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-background"><Bot size={16}/></div>
@@ -2789,7 +2902,7 @@ function AsynchronousSimulation() {
         </div>
 
         {/* PANEL DERECHO: Server State Manager */}
-        <div className="bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[400px] shadow-lg relative">
+        <div className="hidden md:flex bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex-col h-[400px] shadow-lg relative">
           <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 blur-[80px] rounded-full pointer-events-none" />
           
           <div className="bg-white/5 p-3 flex items-center gap-3 border-b border-white/5 relative z-10">
@@ -3081,7 +3194,7 @@ function AdvancedNLPSimulation() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         
         {/* Columna 1: Raw Stream */}
-        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 relative h-64 overflow-hidden">
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 relative h-48 md:h-64 overflow-hidden">
           <h4 className="tech-subtitle !mb-4">1. Raw_Ingestion</h4>
           <div className="absolute top-14 left-4 right-4 flex flex-col gap-2">
             {mockTweets.map((t, i) => (
@@ -3095,7 +3208,7 @@ function AdvancedNLPSimulation() {
         </div>
 
         {/* Columna 2: Engine */}
-        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col items-center justify-center h-64 relative overflow-hidden">
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col items-center justify-center h-48 md:h-64 relative overflow-hidden">
           <div className="absolute inset-0 bg-accent/5 blur-3xl rounded-full" />
           <div className="nlp-brain w-20 h-20 rounded-full bg-[#050505] border border-white/10 flex items-center justify-center mb-6 relative z-10">
             <BrainCircuit size={32} className={isRunning ? "text-accent" : "text-muted"} />
@@ -3107,7 +3220,7 @@ function AdvancedNLPSimulation() {
         </div>
 
         {/* Columna 3: Dashboard Metrics */}
-        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col justify-center h-64">
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col justify-center h-48 md:h-64">
           <h4 className="tech-subtitle !mb-6">2. Aggregated_Metrics</h4>
           <div className="space-y-5 w-full">
             <div>

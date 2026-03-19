@@ -127,7 +127,7 @@ function AdvancedNLPSimulation() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         
         {/* Columna 1: Raw Stream */}
-        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 relative h-64 overflow-hidden">
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 relative h-48 md:h-64 overflow-hidden">
           <h4 className="tech-subtitle !mb-4">1. Raw_Ingestion</h4>
           <div className="absolute top-14 left-4 right-4 flex flex-col gap-2">
             {mockTweets.map((t, i) => (
@@ -141,7 +141,7 @@ function AdvancedNLPSimulation() {
         </div>
 
         {/* Columna 2: Engine */}
-        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col items-center justify-center h-64 relative overflow-hidden">
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col items-center justify-center h-48 md:h-64 relative overflow-hidden">
           <div className="absolute inset-0 bg-accent/5 blur-3xl rounded-full" />
           <div className="nlp-brain w-20 h-20 rounded-full bg-[#050505] border border-white/10 flex items-center justify-center mb-6 relative z-10">
             <BrainCircuit size={32} className={isRunning ? "text-accent" : "text-muted"} />
@@ -153,7 +153,7 @@ function AdvancedNLPSimulation() {
         </div>
 
         {/* Columna 3: Dashboard Metrics */}
-        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col justify-center h-64">
+        <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col justify-center h-48 md:h-64">
           <h4 className="tech-subtitle !mb-6">2. Aggregated_Metrics</h4>
           <div className="space-y-5 w-full">
             <div>

@@ -43,7 +43,7 @@ function AsynchronousSimulation() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* PANEL IZQUIERDO: Interfaz de Usuario (Telegram) */}
-        <div className="bg-[#1c1c1e] rounded-sm overflow-hidden border border-white/10 shadow-lg flex flex-col h-[400px]">
+        <div className="bg-[#1c1c1e] rounded-sm overflow-hidden border border-white/10 shadow-lg flex flex-col h-[360px] md:h-[400px]">
           <div className="bg-[#2c2c2e] p-3 flex items-center justify-between border-b border-white/5">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-background"><Bot size={16}/></div>
@@ -97,7 +97,7 @@ function AsynchronousSimulation() {
         </div>
 
         {/* PANEL DERECHO: Server State Manager */}
-        <div className="bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[400px] shadow-lg relative">
+        <div className="hidden md:flex bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex-col h-[400px] shadow-lg relative">
           <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 blur-[80px] rounded-full pointer-events-none" />
           
           <div className="bg-white/5 p-3 flex items-center gap-3 border-b border-white/5 relative z-10">

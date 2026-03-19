@@ -16,7 +16,7 @@ function Navbar() {
 
   const navLinks = [
     { name: 'Career', href: '/#experience' },
-    { name: 'Engineered', href: '/#projects' },
+    { name: 'Projects', href: '/#projects' },
     { name: 'About', href: '/#about' }
   ];
 
@@ -41,11 +41,8 @@ function Navbar() {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-10">
-              {navLinks.map((link) => (
-                <a key={link.name} href={link.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
-                  {link.name}
-                </a>
-              ))}
+            {navLinks.map((link) => (<a key={link.name} href={link.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors hover:underline underline-offset-4 decoration-accent">{link.name}</a>))}
+
             </nav>
 
             <div className="flex items-center gap-4">

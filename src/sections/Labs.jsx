@@ -72,7 +72,7 @@ function Labs() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           {experiments.map((exp, index) => (
             <motion.div 
@@ -102,9 +102,14 @@ function Labs() {
                   
                   <div className="flex flex-wrap gap-2 mt-auto pt-4">
                     {exp.tech.map((tech, i) => (
-                      <span key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]">
+                      <motion.span
+                        key={i}
+                        whileHover={{ scale: 1.08, color: '#38bdf8', borderColor: 'rgba(56,189,248,0.4)' }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                        className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]"
+                      >
                         {tech}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>

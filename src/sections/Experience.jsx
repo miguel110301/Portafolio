@@ -36,7 +36,7 @@ function Experience() {
   ];
 
   return (
-    <section id="experience" className="py-32 relative bg-[#050505]">
+    <section id="experience" className="py-16 md:py-32 relative bg-[#050505]">
       <div className="max-w-6xl mx-auto px-6">
         
         <div className="mb-20">
@@ -58,7 +58,7 @@ function Experience() {
             className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-accent shadow-[0_0_15px_rgba(56,189,248,0.6)] z-0" 
           />
 
-          <div className="space-y-24">
+          <div className="space-y-12 md:space-y-24">
             {experiences.map((exp, index) => (
               <motion.div 
                 key={index}

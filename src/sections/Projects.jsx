@@ -51,11 +51,11 @@ function Projects() {
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
     }
   }
 
@@ -85,7 +85,7 @@ function Projects() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           {projects.map((project, index) => (
             <motion.div
@@ -122,9 +122,14 @@ function Projects() {
                     </p>
                     <ul className="flex flex-wrap gap-2 relative z-10 mt-auto pt-4">
                       {project.tech.map((tech, i) => (
-                        <li key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]">
+                        <motion.li
+                          key={i}
+                          whileHover={{ scale: 1.08, color: '#38bdf8', borderColor: 'rgba(56,189,248,0.4)' }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                          className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]"
+                        >
                           {tech}
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
                   </Link>

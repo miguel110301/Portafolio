@@ -101,7 +101,7 @@ function EndToEndSimulation() {
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
         
         {/* 1. INTERFAZ: WhatsApp */}
-        <div className="bg-[#0b141a] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[420px] shadow-lg">
+        <div className="bg-[#0b141a] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[360px] md:h-[420px] shadow-lg">
           <div className="bg-[#202c33] p-3 flex items-center gap-3 border-b border-white/5">
             <div className="w-8 h-8 bg-emerald-600 rounded-sm flex items-center justify-center text-white"><Smartphone size={16}/></div>
             <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">Driver_UI</h4></div>
@@ -130,7 +130,7 @@ function EndToEndSimulation() {
         </div>
 
         {/* 2. ORQUESTADOR: n8n Flow & Payload Console */}
-        <div className="flex flex-col gap-4 h-full">
+        <div className="hidden lg:flex flex-col gap-4 h-full">
           <div className="text-center mb-2"><h4 className="text-[10px] font-bold text-muted uppercase tracking-[0.3em]">n8n Orchestrator</h4></div>
           
           <div id="node-webhook" className="node-glow relative p-3 rounded-sm border border-white/10 bg-[#121212] flex items-center gap-4">
@@ -174,7 +174,7 @@ function EndToEndSimulation() {
         </div>
 
         {/* 3. BACKEND: Base de Datos */}
-        <div className="bg-[#121212] rounded-sm border border-white/10 overflow-hidden flex flex-col h-[420px] shadow-lg">
+        <div className="hidden lg:flex flex-col h-[420px] rounded-sm border border-white/10 overflow-hidden shadow-lg bg-[#121212]">
            <div className="bg-white/5 p-3 flex items-center gap-3 border-b border-white/5">
             <div className="w-8 h-8 bg-blue-600/20 border border-blue-500/30 rounded-sm flex items-center justify-center text-blue-400"><Database size={16}/></div>
             <div><h4 className="font-bold text-xs text-white uppercase tracking-wider">PostgreSQL</h4></div>
