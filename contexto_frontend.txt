@@ -167,7 +167,7 @@ function Education() {
   });
 
   return (
-    <section id="education" className="py-32 relative bg-[#050505]">
+    <section id="education" className="py-16 md:py-32 relative bg-[#050505]">
       <div className="max-w-6xl mx-auto px-6">
         
         <div className="mb-20">
@@ -187,7 +187,7 @@ function Education() {
             className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-white/80 shadow-[0_0_15px_rgba(255,255,255,0.4)] z-0" 
           />
 
-          <div className="space-y-24">
+          <div className="space-y-12 md:space-y-24">
             <motion.div 
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -404,7 +404,7 @@ function Experience() {
   ];
 
   return (
-    <section id="experience" className="py-32 relative bg-[#050505]">
+    <section id="experience" className="py-16 md:py-32 relative bg-[#050505]">
       <div className="max-w-6xl mx-auto px-6">
         
         <div className="mb-20">
@@ -426,7 +426,7 @@ function Experience() {
             className="absolute left-[11px] md:left-[calc(25%-33px)] top-2 bottom-0 w-[2px] bg-accent shadow-[0_0_15px_rgba(56,189,248,0.6)] z-0" 
           />
 
-          <div className="space-y-24">
+          <div className="space-y-12 md:space-y-24">
             {experiences.map((exp, index) => (
               <motion.div 
                 key={index}
@@ -567,7 +567,8 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
 
   return (
-    <section ref={containerRef} id="hero" className="relative min-h-[110vh] flex items-start pt-32 md:pt-44 overflow-hidden bg-[#050505]">
+    <section ref={containerRef} id="hero" className="relative flex items-start pt-24 md:pt-44 pb-16 md:pb-32 overflow-hidden bg-[#050505]">
+
       {/* Grilla Técnica de fondo */}
       <motion.div 
         style={{ 
@@ -1479,7 +1480,7 @@ function Navbar() {
 
   const navLinks = [
     { name: 'Career', href: '/#experience' },
-    { name: 'Engineered', href: '/#projects' },
+    { name: 'Projects', href: '/#projects' },
     { name: 'About', href: '/#about' }
   ];
 
@@ -1504,11 +1505,8 @@ function Navbar() {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-10">
-              {navLinks.map((link) => (
-                <a key={link.name} href={link.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
-                  {link.name}
-                </a>
-              ))}
+            {navLinks.map((link) => (<a key={link.name} href={link.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors hover:underline underline-offset-4 decoration-accent">{link.name}</a>))}
+
             </nav>
 
             <div className="flex items-center gap-4">
