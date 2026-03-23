@@ -14,6 +14,7 @@ import DashboardProCaseStudy from "./pages/DashboardProCaseStudy";
 import Labs from "./sections/Labs";
 import CustomCursor from './components/CustomCursor';
 import Services from "./sections/Services";
+import ValanceCaseStudy from './pages/ValanceCaseStudy';
 
 // 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
 function Home() {
@@ -91,6 +92,16 @@ function AnimatedRoutes() {
           </motion.div>
         } />
 
+        <Route path="/proyecto/valance" element={
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -20 }} 
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <ValanceCaseStudy />
+          </motion.div>
+        } />
       </Routes>
     </AnimatePresence>
   );

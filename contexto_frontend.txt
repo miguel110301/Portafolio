@@ -656,58 +656,57 @@ import RevealText from '../components/RevealText';
 
 function Projects() {
   const projects = [
-  {
-    title: "LogisticsFlow AI",
-    category: "Architecture & Automation",
-    description: "End-to-end logistics validation system processing 500+ daily shipments. AI-powered evidence verification (images, audio) via Whisper & OpenAI Vision. Reduced manual validation time by 85% through n8n orchestration, Django backend, and real-time WhatsApp notifications.",
-    tech: ["n8n", "Django", "OpenAI", "WhatsApp", "Firebase"],
-    featured: true,
-    link: "/proyecto/logisticsflow"
-  },
-  {
-    title: "QroData",
-    category: "Data Engineering & Analytics",
-    description: "Social listening platform ingesting and classifying 100,000+ unstructured records per run. NLP sentiment pipeline (VADER) with vectorized Pandas operations for performance. Sub-second query response via optimized MySQL schema and bulk SQLAlchemy inserts.",
-    tech: ["React", "Python", "MySQL", "Pandas", "NLP"],
-    featured: true,
-    link: "/proyecto/qrodata"
-  },
-  {
-    title: "Gamma Agent",
-    category: "AI Orchestration",
-    description: "Fully asynchronous AI agent that ingests raw data, generates structured presentations via Gamma API, routes human-in-the-loop approvals through Telegram, and schedules deferred email delivery — zero manual intervention required.",
-    tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
-    featured: true,
-    link: "/proyecto/gamma"
-  },
-  {
-    title: "Dashboard Pro",
-    category: "ERP Backend & SaaS",
-    description: "Production ERP backend handling inventory and sales operations with role-based access control (RBAC) across multiple permission layers. Automated reporting workflows deliver scheduled decision-making reports with zero manual intervention.",
-    tech: ["Python", "RBAC", "Automation", "SQL"],
-    featured: true,
-    link: "/proyecto/dashboard"
-  }
-];
+    {
+      title: "LogisticsFlow AI",
+      category: "Architecture & Automation",
+      description: "Production event-driven system processing 500+ daily logistics validations. Eliminated 9 hours/day of manual coordination across operations teams. AI-powered evidence verification (images, audio) via Whisper & OpenAI Vision, orchestrated by n8n with Django handling ACID transactions and WhatsApp as the operator interface.",
+      tech: ["n8n", "Django", "OpenAI", "WhatsApp", "Firebase"],
+      featured: true,
+      link: "/proyecto/logisticsflow"
+    },
+    {
+      title: "QroData",
+      category: "Data Engineering & Analytics",
+      description: "Social listening platform reducing manual reporting from ~2 hours to under 30 seconds per campaign run. Ingests and classifies 100,000+ unstructured records via a vectorized Pandas + VADER NLP pipeline. Sub-second query response via optimized MySQL schema and bulk SQLAlchemy inserts with chunksize=10000.",
+      tech: ["React", "Python", "MySQL", "Pandas", "NLP"],
+      featured: true,
+      link: "/proyecto/qrodata"
+    },
+    {
+      title: "Gamma Agent",
+      category: "AI Orchestration",
+      description: "Fully asynchronous AI agent with Human-in-the-Loop approval pattern. Ingests raw data, generates structured presentations via Gamma API, pauses execution for Telegram-based human approval, then resumes to schedule deferred email delivery — zero manual intervention at any stage.",
+      tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
+      featured: true,
+      link: "/proyecto/gamma"
+    },
+    {
+      title: "Dashboard Pro",
+      category: "ERP Backend & SaaS",
+      description: "Production ERP backend with custom Role-Based Access Control (RBAC) built from scratch. Three isolated permission layers — warehouse, sales, management — with zero unauthorized access incidents across all production usage. Automated reporting workflows eliminate manual report generation entirely.",
+      tech: ["Python", "RBAC", "Automation", "SQL"],
+      featured: false,
+      link: "/proyecto/dashboard"
+    },
+    {
+      title: "Valance",
+      category: "iOS Native Development",
+      description: "Local-first personal finance app for the Apple ecosystem. Tracks real liquidity by combining debit accounts, credit card debt with cut/pay date modeling, and a physical cash counter (Arqueo de Caja). All data lives on-device via CoreData behind FaceID biometric authentication. Zero network requests.",
+      tech: ["Swift", "CoreData", "FaceID", "iOS"],
+      featured: false,
+      link: "/proyecto/valance"
+    }
+  ];
 
   const containerVariants = {
     hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0,
-      }
-    }
-  }
+    visible: { transition: { staggerChildren: 0.15, delayChildren: 0 } }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
-    }
-  }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+  };
 
   return (
     <section id="projects" className="py-32 relative bg-surface/30">
@@ -1033,6 +1032,152 @@ function Contact() {
 }
 
 export default Contact;
+---
+FILE: src/components/EvidenceCarousel.jsx
+import { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Images } from 'lucide-react';
+
+/**
+ * EvidenceCarousel
+ * Props:
+ *   images  — string[]  — array of public paths, e.g. ['/proyectos/qrodata/1.png', ...]
+ *   labels  — string[]  — optional captions for each image
+ *   title   — string    — section label shown above the carousel (default: "Evidence Gallery")
+ */
+export default function EvidenceCarousel({ images = [], labels = [], title = 'Evidence Gallery' }) {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
+  const total = images.length;
+
+  const go = useCallback((idx) => {
+    setDirection(idx > current ? 1 : -1);
+    setCurrent(idx);
+  }, [current]);
+
+  const prev = useCallback(() => {
+    const idx = (current - 1 + total) % total;
+    setDirection(-1);
+    setCurrent(idx);
+  }, [current, total]);
+
+  const next = useCallback(() => {
+    const idx = (current + 1) % total;
+    setDirection(1);
+    setCurrent(idx);
+  }, [current, total]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowLeft')  prev();
+      if (e.key === 'ArrowRight') next();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [prev, next]);
+
+  if (!total) return null;
+
+  const variants = {
+    enter:  (dir) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit:   (dir) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
+  };
+
+  return (
+    <div className="w-full">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/10">
+        <div className="flex items-center gap-3">
+          <Images size={16} className="text-accent" />
+          <h2 className="item-title !mb-0">{title}</h2>
+        </div>
+        <span className="text-xs font-mono text-white/30 tabular-nums">
+          {String(current + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+        </span>
+      </div>
+
+      {/* Carousel container */}
+      <div className="relative w-full rounded-sm overflow-hidden border border-white/10 bg-[#050505] shadow-2xl"
+           style={{ aspectRatio: '16/9' }}>
+
+        {/* Image */}
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.img
+            key={current}
+            src={images[current]}
+            alt={labels[current] ?? `Evidence ${current + 1}`}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="absolute inset-0 w-full h-full object-contain"
+          />
+        </AnimatePresence>
+
+        {/* Gradient overlay bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+
+        {/* Caption */}
+        {labels[current] && (
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={`label-${current}`}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ duration: 0.2 }}
+              className="absolute bottom-4 left-5 text-xs font-mono text-white/60"
+            >
+              {labels[current]}
+            </motion.span>
+          </AnimatePresence>
+        )}
+
+        {/* Prev / Next buttons */}
+        {total > 1 && (
+          <>
+            <button
+              onClick={prev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/30 hover:bg-black/80 transition-all backdrop-blur-sm"
+              aria-label="Previous"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              onClick={next}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/30 hover:bg-black/80 transition-all backdrop-blur-sm"
+              aria-label="Next"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Dot indicators */}
+      {total > 1 && (
+        <div className="flex items-center justify-center gap-1.5 mt-4">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => go(i)}
+              className={`transition-all duration-300 rounded-full ${
+                i === current
+                  ? 'w-5 h-1.5 bg-accent'
+                  : 'w-1.5 h-1.5 bg-white/20 hover:bg-white/40'
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 ---
 FILE: src/components/RevealText.jsx
 import { motion } from 'framer-motion';
@@ -1479,23 +1624,21 @@ function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Career', href: '/#experience' },
+    { name: 'Career',   href: '/#experience' },
     { name: 'Projects', href: '/#projects' },
-    { name: 'About', href: '/#about' }
+    { name: 'About',    href: '/#about' },
   ];
 
   return (
     <>
-      <motion.header 
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-      >
+      <motion.header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
         <div className={`mx-auto transition-all duration-500 ${scrolled ? 'max-w-4xl mt-4 px-4' : 'max-w-7xl mt-0 px-0'}`}>
           <div className={`px-6 md:px-8 h-14 flex items-center justify-between transition-all duration-300 ${
-            scrolled 
-              ? 'bg-black/90 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl' 
+            scrolled
+              ? 'bg-black/90 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl'
               : 'bg-transparent border-b border-white/5 rounded-none'
           }`}>
-            
+
             {/* Logo */}
             <a href="/#hero" className="flex flex-col group">
               <span className="text-white font-black tracking-tighter text-lg md:text-xl leading-none uppercase">
@@ -1505,32 +1648,58 @@ function Navbar() {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (<a key={link.name} href={link.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors hover:underline underline-offset-4 decoration-accent">{link.name}</a>))}
-
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors hover:underline underline-offset-4 decoration-accent"
+                >
+                  {link.name}
+                </a>
+              ))}
             </nav>
 
             <div className="flex items-center gap-4">
-              <button onClick={() => setIsTerminalOpen(true)} className="hidden sm:flex items-center gap-2 text-[10px] font-mono text-muted hover:text-accent transition-colors">
+
+              {/* ── AVAILABILITY BADGE ── */}
+              <a
+                href="/#contact"
+                className="hidden sm:flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-green-400/80 hover:text-green-400 transition-colors border border-green-500/20 hover:border-green-500/40 rounded-full px-3 py-1 bg-green-500/5 hover:bg-green-500/10"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                Available
+              </a>
+
+              <button
+                onClick={() => setIsTerminalOpen(true)}
+                className="hidden sm:flex items-center gap-2 text-[10px] font-mono text-muted hover:text-accent transition-colors"
+              >
                 <TerminalIcon size={14} />
                 <span className="opacity-50">terminal</span>
               </button>
 
-              <a href="/#contact" className="group hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white border-b-2 border-accent pb-0.5 hover:text-accent transition-all">
+              <a
+                href="/#contact"
+                className="group hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white border-b-2 border-accent pb-0.5 hover:text-accent transition-all"
+              >
                 Inquiry <ChevronRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </a>
 
-              {/* Botón Menú Móvil */}
-              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-white p-1">
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden text-white p-1"
+              >
                 {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Menú Móvil Desplegable */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -1538,16 +1707,27 @@ function Navbar() {
             >
               <div className="flex flex-col p-6 gap-6">
                 {navLinks.map((link) => (
-                  <a 
-                    key={link.name} 
-                    href={link.href} 
+                  <a
+                    key={link.name}
+                    href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="text-xs font-bold uppercase tracking-[0.2em] text-muted"
                   >
                     {link.name}
                   </a>
                 ))}
-                <a href="/#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-xs font-black uppercase text-accent">Inquiry</a>
+                {/* Availability in mobile menu */}
+                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-green-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                  Available for freelance & remote
+                </div>
+                <a
+                  href="/#contact"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-xs font-black uppercase text-accent"
+                >
+                  Inquiry
+                </a>
               </div>
             </motion.div>
           )}
@@ -2074,6 +2254,7 @@ import DashboardProCaseStudy from "./pages/DashboardProCaseStudy";
 import Labs from "./sections/Labs";
 import CustomCursor from './components/CustomCursor';
 import Services from "./sections/Services";
+import ValanceCaseStudy from './pages/ValanceCaseStudy';
 
 // 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
 function Home() {
@@ -2151,6 +2332,16 @@ function AnimatedRoutes() {
           </motion.div>
         } />
 
+        <Route path="/proyecto/valance" element={
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -20 }} 
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <ValanceCaseStudy />
+          </motion.div>
+        } />
       </Routes>
     </AnimatePresence>
   );
@@ -2530,6 +2721,174 @@ class TicketIngestionView(APIView):
   );
 }
 ---
+FILE: src/pages/ValanceCaseStudy.jsx
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, Smartphone, Database, ShieldCheck, CreditCard, Wallet, BarChart2 } from 'lucide-react';
+import EvidenceCarousel from '../components/EvidenceCarousel';
+
+const VALANCE_IMAGES = [
+  '/proyectos/valance/1.png',
+  '/proyectos/valance/2.png',
+  '/proyectos/valance/3.png',
+  '/proyectos/valance/4.png',
+  '/proyectos/valance/5.png',
+  '/proyectos/valance/6.png',
+  '/proyectos/valance/7.png',
+  '/proyectos/valance/8.png',
+  '/proyectos/valance/9.png',
+  '/proyectos/valance/10.png',
+  '/proyectos/valance/11.png',
+  '/proyectos/valance/12.png',
+  '/proyectos/valance/13.png',
+];
+
+const VALANCE_LABELS = [
+  'Home screen — Valance installed on device',
+  'Lock screen — FaceID biometric protection',
+  'Onboarding — User profile setup',
+  'Onboarding — Debit account registration',
+  'Onboarding — Cash count (Arqueo de Caja)',
+  'Onboarding — Credit card setup with cut/pay dates',
+  'Dashboard — Net worth overview with real liquidity',
+  'Accounts — Multi-account portfolio view',
+  'Accounts — Add account action sheet',
+  'Expense registration — Cash arqueo flow',
+  'Transaction — Expense form with payment method',
+  'Transaction — Income registration form',
+  'Accounts — Detailed Arqueo de Caja breakdown',
+];
+
+export default function ValanceCaseStudy() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12 relative overflow-hidden">
+
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
+
+        <nav className="mb-16">
+          <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
+            <ArrowLeft size={14} /> System_Return
+          </Link>
+        </nav>
+
+        <header className="mb-16">
+          <div className="mb-6">
+            <span className="protocol-label" style={{ color: '#a855f7' }}>iOS_Native_Development</span>
+          </div>
+          <h1 className="section-title mb-6">Valance.</h1>
+          <p className="text-xl text-muted leading-relaxed max-w-3xl">
+            A local-first personal finance application built natively for the Apple ecosystem.
+            Valance tracks real liquidity — not just bank balances — by combining debit accounts,
+            credit card debt with cut/pay dates, and a physical cash count system (Arqueo de Caja).
+            All data lives on-device via CoreData, protected behind FaceID biometric authentication.
+            Zero network requests. Zero subscriptions. Zero data exposure.
+          </p>
+        </header>
+
+        {/* Evidence Carousel */}
+        <div className="mb-24">
+          <EvidenceCarousel
+            images={VALANCE_IMAGES}
+            labels={VALANCE_LABELS}
+            title="App Screenshots"
+          />
+        </div>
+
+        {/* Stack */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
+          {[
+            { label: 'Language',      value: 'Swift',          icon: Smartphone  },
+            { label: 'Persistence',   value: 'CoreData',       icon: Database    },
+            { label: 'Auth',          value: 'FaceID / LocalAuth', icon: ShieldCheck },
+            { label: 'Architecture',  value: 'Local-First',    icon: BarChart2   },
+          ].map((item, i) => (
+            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-purple-500/30 transition-colors bg-[#0a0a0a]">
+              <item.icon className="mb-3" size={20} style={{ color: '#a855f7' }} />
+              <span className="tech-subtitle !mb-1">{item.label}</span>
+              <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Key Engineering Decisions */}
+        <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
+          <h2 className="item-title mb-2">Key Engineering Decisions</h2>
+          <p className="text-muted text-sm mb-8 font-mono">Why I built it this way — and what I consciously traded off.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                decision: "Local-First over cloud sync",
+                why: "Financial data is the most sensitive data a person carries. Sending net worth, debt levels, and spending patterns to a server — even encrypted — creates a liability. CoreData on-device gives sub-millisecond reads, works offline, and makes a data breach structurally impossible.",
+                tradeoff: "Accepted: no cross-device sync. Revisit with CloudKit if user demand justifies it. Privacy is a feature, not a limitation."
+              },
+              {
+                decision: "Cash count as a first-class feature",
+                why: "Existing finance apps treat cash as an afterthought — a manual input field. Real liquidity requires counting physical bills. I built a denomination-based cash counter that calculates total liquid MXN from bills and coins, making cash a real asset class in the portfolio.",
+                tradeoff: "Accepted: requires manual count update. The discipline of counting cash is intentional UX, not a bug."
+              },
+              {
+                decision: "Credit card cut/pay date modeling",
+                why: "Balance ≠ real debt. A $9,000 balance on a card with a cut date of the 15th and a pay date of the 5th behaves completely differently from the same balance on a card due tomorrow. Valance models this explicitly, showing days-to-pay per card instead of just a balance number.",
+                tradeoff: "Accepted: more complex onboarding. The tradeoff is accurate financial picture vs simpler setup — accuracy wins."
+              }
+            ].map((item, i) => (
+              <div key={i} className="space-y-3">
+                <h3 className="text-white font-bold text-sm uppercase tracking-tight border-b border-white/10 pb-3">{item.decision}</h3>
+                <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                <p className="text-xs font-mono leading-relaxed border-l-2 pl-3 mt-2" style={{ color: '#a855f7', borderColor: '#a855f750' }}>{item.tradeoff}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Feature breakdown */}
+        <section className="space-y-16">
+          <div>
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">Core Feature Architecture</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                {
+                  icon: ShieldCheck,
+                  title: "Biometric Lock Layer",
+                  desc: "LocalAuthentication framework with FaceID as primary and device passcode as fallback. The app renders a lock screen component on foreground restoration, preventing shoulder-surfing and unauthorized access even when the device is unlocked."
+                },
+                {
+                  icon: Wallet,
+                  title: "Real Liquidity Engine",
+                  desc: "Net worth = (sum of debit accounts) + (cash from Arqueo) − (total credit card debt). Valance computes this in real-time from CoreData fetch requests, giving a single number that reflects actual available money — not accounting fiction."
+                },
+                {
+                  icon: CreditCard,
+                  title: "Credit Card Intelligence",
+                  desc: "Each card stores limit, current debt, cut day, and pay day. The app calculates days-remaining-to-pay per card and sorts them by urgency, so users always know which debt is most time-sensitive."
+                },
+                {
+                  icon: Database,
+                  title: "CoreData Persistence",
+                  desc: "Entities: Account, CreditCard, Transaction, CashCount. Relationships are normalized with cascade delete rules. All writes go through a single NSManagedObjectContext on the main thread, eliminating concurrency bugs common in multi-context setups."
+                },
+              ].map((item, i) => (
+                <div key={i} className="glass-panel p-6 rounded-sm border border-white/5 hover:border-purple-500/20 transition-colors bg-[#0a0a0a]">
+                  <item.icon className="mb-4" size={20} style={{ color: '#a855f7' }} />
+                  <h3 className="font-bold text-white text-sm uppercase tracking-tight mb-3">{item.title}</h3>
+                  <p className="text-muted text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  );
+}
+---
 FILE: src/pages/DashboardProCaseStudy.jsx
 // src/pages/DashboardProCaseStudy.jsx
 import { useEffect, useState } from 'react';
@@ -2538,18 +2897,27 @@ import { ArrowLeft, Database, ShieldCheck, BarChart, Settings, Users, Activity a
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion } from 'framer-motion';
+import EvidenceCarousel from '../components/EvidenceCarousel';
 
+// ─── EVIDENCE IMAGES ──────────────────────────────────────────────────────────
+const DASHBOARD_IMAGES = [
+  '/proyectos/dashboardpro/1.png',
+  '/proyectos/dashboardpro/2.png',
+  '/proyectos/dashboardpro/3.png',
+  '/proyectos/dashboardpro/4.png',
+  '/proyectos/dashboardpro/5.png',
+];
+
+// ─── ANIMATED DASHBOARD ───────────────────────────────────────────────────────
 function AnimatedDashboard() {
   const [revenue, setRevenue] = useState(124500);
   const [isRunning, setIsRunning] = useState(false);
 
-  // TU LÓGICA ORIGINAL: Actualización cada 3 segundos
   useEffect(() => {
     const interval = setInterval(() => setRevenue(prev => prev + Math.floor(Math.random() * 500)), 3000);
     return () => clearInterval(interval);
   }, []);
 
-  // Añadimos solo un feedback visual al botón para que sea interactivo
   const runSimulation = () => {
     setIsRunning(true);
     setRevenue(prev => prev + Math.floor(Math.random() * 2000 + 500));
@@ -2559,14 +2927,16 @@ function AnimatedDashboard() {
   return (
     <div className="w-full h-full bg-[#050505] p-4 md:p-6 flex flex-col gap-4 font-sans text-white/80 select-none overflow-hidden relative">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4%_8%] pointer-events-none" />
-      
+
       <div className="flex justify-between items-center border-b border-white/10 pb-3 relative z-10">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-sm bg-accent/20 flex items-center justify-center border border-accent/30"><BarChart size={14} className="text-accent" /></div>
+          <div className="w-6 h-6 rounded-sm bg-accent/20 flex items-center justify-center border border-accent/30">
+            <BarChart size={14} className="text-accent" />
+          </div>
           <span className="font-bold text-sm tracking-wide text-white">ERP System Core</span>
         </div>
-        <button 
-          onClick={runSimulation} 
+        <button
+          onClick={runSimulation}
           disabled={isRunning}
           className="flex items-center gap-2 bg-green-500/10 hover:bg-green-500/20 px-3 py-1.5 rounded-sm border border-green-500/30 transition-colors disabled:opacity-50 cursor-pointer"
         >
@@ -2577,9 +2947,9 @@ function AnimatedDashboard() {
 
       <div className="grid grid-cols-3 gap-3 md:gap-4 relative z-10">
         {[
-          { label: "Daily Revenue", value: `$${revenue.toLocaleString()}`, icon: TrendingUp, color: "text-green-400" }, 
-          { label: "Active Sessions", value: "342", icon: Users, color: "text-accent" }, 
-          { label: "DB Latency", value: "24ms", icon: Server, color: "text-purple-400" }
+          { label: "Daily Revenue",    value: `$${revenue.toLocaleString()}`, icon: TrendingUp, color: "text-green-400" },
+          { label: "Active Sessions",  value: "342",                          icon: Users,      color: "text-accent" },
+          { label: "DB Latency",       value: "24ms",                         icon: Server,     color: "text-purple-400" }
         ].map((kpi, i) => (
           <div key={i} className="bg-white/5 border border-white/10 rounded-sm p-3 flex flex-col hover:bg-white/10 transition-colors">
             <div className="flex items-center justify-between mb-2">
@@ -2597,9 +2967,9 @@ function AnimatedDashboard() {
           <div className="flex-1 flex items-end justify-between gap-1 md:gap-2">
             {[...Array(12)].map((_, i) => (
               <div key={i} className="w-full bg-white/5 rounded-t-sm relative overflow-hidden h-full flex items-end group">
-                <motion.div 
-                  className="w-full bg-accent/60 border-t border-accent group-hover:bg-accent transition-colors" 
-                  animate={{ height: [`${Math.random() * 40 + 20}%`, `${Math.random() * 80 + 20}%`, `${Math.random() * 50 + 20}%`] }} 
+                <motion.div
+                  className="w-full bg-accent/60 border-t border-accent group-hover:bg-accent transition-colors"
+                  animate={{ height: [`${Math.random() * 40 + 20}%`, `${Math.random() * 80 + 20}%`, `${Math.random() * 50 + 20}%`] }}
                   transition={{ duration: 3 + Math.random() * 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
               </div>
@@ -2611,18 +2981,24 @@ function AnimatedDashboard() {
           <span className="text-[10px] text-muted mb-3 font-bold tracking-widest uppercase shrink-0">Security Logs</span>
           <div className="flex-1 relative overflow-hidden">
             <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-[#111111] to-transparent z-10 pointer-events-none" />
-            <motion.div animate={{ y: [0, -80] }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} className="absolute top-0 left-0 w-full space-y-3 pt-2">
-              {[ 
-                { type: "auth", msg: "User admin logged in", time: "10s ago" }, 
-                { type: "query", msg: "Exporting sales_Q3", time: "14s ago" }, 
-                { type: "warn", msg: "Failed login attempt", time: "22s ago" }, 
-                { type: "auth", msg: "User vendor_4 active", time: "31s ago" }, 
-                { type: "query", msg: "Stock updated ID:92", time: "45s ago" }, 
-                { type: "auth", msg: "User admin logged in", time: "55s ago" },
-                { type: "query", msg: "DB Index rebuilt", time: "1m ago" }
+            <motion.div
+              animate={{ y: [0, -80] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              className="absolute top-0 left-0 w-full space-y-3 pt-2"
+            >
+              {[
+                { type: "auth",  msg: "User admin logged in",    time: "10s ago" },
+                { type: "query", msg: "Exporting sales_Q3",      time: "14s ago" },
+                { type: "warn",  msg: "Failed login attempt",    time: "22s ago" },
+                { type: "auth",  msg: "User vendor_4 active",    time: "31s ago" },
+                { type: "query", msg: "Stock updated ID:92",     time: "45s ago" },
+                { type: "auth",  msg: "User admin logged in",    time: "55s ago" },
+                { type: "query", msg: "DB Index rebuilt",        time: "1m ago"  },
               ].map((log, i) => (
                 <div key={i} className="flex items-start gap-2 text-[9px] md:text-[10px] font-mono hover:bg-white/5 p-1 rounded transition-colors">
-                  {log.type === 'warn' ? <AlertCircle size={12} className="text-red-400 shrink-0 mt-0.5" /> : <ShieldCheck size={12} className="text-accent shrink-0 mt-0.5" />}
+                  {log.type === 'warn'
+                    ? <AlertCircle size={12} className="text-red-400 shrink-0 mt-0.5" />
+                    : <ShieldCheck size={12} className="text-accent shrink-0 mt-0.5" />}
                   <div>
                     <div className={log.type === 'warn' ? 'text-red-300' : 'text-gray-300'}>{log.msg}</div>
                     <div className="text-muted/50">{log.time}</div>
@@ -2638,19 +3014,10 @@ function AnimatedDashboard() {
   );
 }
 
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function DashboardProCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (window.anime) {
-      window.anime({
-        targets: '.animate-in',
-        translateY: [40, 0],
-        opacity: [0, 1],
-        delay: window.anime.stagger(150),
-        easing: 'easeOutExpo',
-        duration: 1000
-      });
-    }
   }, []);
 
   const codeSnippet = `# decorators.py - Custom RBAC Implementation
@@ -2683,43 +3050,44 @@ def require_role(allowed_roles):
 
   return (
     <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12 relative overflow-hidden">
-      
-      {/* Background Glow */}
+
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
-        
-        {/* Nav Return */}
+
         <nav className="mb-16 animate-in">
           <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
             <ArrowLeft size={14} /> System_Return
           </Link>
         </nav>
 
-        {/* TIPOGRAFÍA CORREGIDA */}
         <header className="mb-16 animate-in">
           <div className="mb-6">
             <span className="protocol-label">SaaS_&_Backend_Architecture</span>
           </div>
           <h1 className="section-title mb-6">Dashboard Pro.</h1>
           <p className="text-xl text-muted leading-relaxed max-w-3xl">
-            A production ERP backend engineered for data integrity and operational security. 
-            Built a Role-Based Access Control system from scratch — warehouse staff, sales team, 
-            and management each operate in strictly isolated permission layers. 
-            Automated reporting workflows deliver scheduled decision-making reports 
+            A production ERP backend engineered for data integrity and operational security.
+            Built a Role-Based Access Control system from scratch — warehouse staff, sales team,
+            and management each operate in strictly isolated permission layers.
+            Automated reporting workflows deliver scheduled decision-making reports
             with zero manual intervention, backed by PostgreSQL and custom Python middleware.
-            </p>
+          </p>
         </header>
 
-        {/* Stack Grid */}
+        {/* ── EVIDENCE CAROUSEL ── */}
+        <div className="mb-16 animate-in">
+          <EvidenceCarousel images={DASHBOARD_IMAGES} title="Project Evidence" />
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 animate-in">
           {[
-            { label: 'Core Logic', value: 'Python', icon: Settings },
-            { label: 'Persistence', value: 'PostgreSQL', icon: Database },
-            { label: 'Security', value: 'RBAC Auth', icon: ShieldCheck },
-            { label: 'Processing', value: 'Background Jobs', icon: ActivityIcon },
+            { label: 'Core Logic',   value: 'Python',          icon: Settings      },
+            { label: 'Persistence',  value: 'PostgreSQL',       icon: Database      },
+            { label: 'Security',     value: 'RBAC Auth',        icon: ShieldCheck   },
+            { label: 'Processing',   value: 'Background Jobs',  icon: ActivityIcon  },
           ].map((item, i) => (
-             <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a] min-h-[100px]">
+            <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a] min-h-[100px]">
               <item.icon className="text-accent mb-3" size={20} />
               <span className="tech-subtitle !mb-1">{item.label}</span>
               <div className="font-bold text-white uppercase tracking-tight">{item.value}</div>
@@ -2727,47 +3095,43 @@ def require_role(allowed_roles):
           ))}
         </div>
 
-        {/* Dashboard Component */}
         <div className="mb-24 rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] h-[500px] md:aspect-video md:h-auto relative animate-in">
           <AnimatedDashboard />
         </div>
 
         <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">
-            <h2 className="item-title mb-2">Key Engineering Decisions</h2>
-            <p className="text-muted text-sm mb-8 font-mono">Why I built it this way — and what I consciously traded off.</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {[
-                {
-                    decision: "Custom RBAC over Django's built-in permissions",
-                    why: "Django's default permission system operates at model level, not business role level. An ERP requires warehouse staff to be completely isolated from sales data regardless of model overlap. Custom decorators gave us named roles with explicit permission matrices, auditable in a single file.",
-                    tradeoff: "Accepted: more upfront code. Justified by the clarity and auditability of explicit role definitions over implicit permission flags."
-                },
-                {
-                    decision: "Decorator pattern over middleware",
-                    why: "Global middleware would apply permission logic to every request, requiring exemption lists that grow over time. Decorators applied at the view level make permissions explicit and co-located with the endpoint they protect — no hidden behavior, no exemption lists.",
-                    tradeoff: "Accepted: requires discipline to apply decorators consistently. Mitigated with a base view class that enforces decoration."
-                },
-                {
-                    decision: "Background jobs over synchronous reporting",
-                    why: "Generating consolidated ERP reports synchronously blocks the request thread and risks timeouts on large datasets. Background jobs decouple report generation from the HTTP cycle, allowing reports to be pre-computed and served instantly when requested.",
-                    tradeoff: "Accepted: reports may be minutes stale. Acceptable for strategic decision-making dashboards that don't require real-time precision."
-                }
-                ].map((item, i) => (
-                <div key={i} className="space-y-3">
-                    <h3 className="text-white font-bold text-sm uppercase tracking-tight border-b border-white/10 pb-3">{item.decision}</h3>
-                    <p className="text-muted text-sm leading-relaxed">{item.why}</p>
-                    <p className="text-accent/70 text-xs font-mono leading-relaxed border-l-2 border-accent/30 pl-3 mt-2">{item.tradeoff}</p>
-                </div>
-                ))}
-            </div>
+          <h2 className="item-title mb-2">Key Engineering Decisions</h2>
+          <p className="text-muted text-sm mb-8 font-mono">Why I built it this way — and what I consciously traded off.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                decision: "Custom RBAC over Django's built-in permissions",
+                why: "Django's default permission system operates at model level, not business role level. An ERP requires warehouse staff to be completely isolated from sales data regardless of model overlap. Custom decorators gave us named roles with explicit permission matrices, auditable in a single file.",
+                tradeoff: "Accepted: more upfront code. Justified by the clarity and auditability of explicit role definitions over implicit permission flags."
+              },
+              {
+                decision: "Decorator pattern over middleware",
+                why: "Global middleware would apply permission logic to every request, requiring exemption lists that grow over time. Decorators applied at the view level make permissions explicit and co-located with the endpoint they protect — no hidden behavior, no exemption lists.",
+                tradeoff: "Accepted: requires discipline to apply decorators consistently. Mitigated with a base view class that enforces decoration."
+              },
+              {
+                decision: "Background jobs over synchronous reporting",
+                why: "Generating consolidated ERP reports synchronously blocks the request thread and risks timeouts on large datasets. Background jobs decouple report generation from the HTTP cycle, allowing reports to be pre-computed and served instantly when requested.",
+                tradeoff: "Accepted: reports may be minutes stale. Acceptable for strategic decision-making dashboards that don't require real-time precision."
+              }
+            ].map((item, i) => (
+              <div key={i} className="space-y-3">
+                <h3 className="text-white font-bold text-sm uppercase tracking-tight border-b border-white/10 pb-3">{item.decision}</h3>
+                <p className="text-muted text-sm leading-relaxed">{item.why}</p>
+                <p className="text-accent/70 text-xs font-mono leading-relaxed border-l-2 border-accent/30 pl-3 mt-2">{item.tradeoff}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Detalles Técnicos */}
         <section className="space-y-24">
           <div className="animate-in">
-            <h2 className="item-title mb-6 border-b border-white/10 pb-4">
-              01. Data Architecture
-            </h2>
+            <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Data Architecture</h2>
             <p className="text-muted text-lg leading-relaxed mb-6 max-w-3xl">
               In ERP systems, a permissions error can mean financial discrepancies or data leaks. I implemented a <strong>Role-Based Access Control (RBAC)</strong> system from scratch on the backend. This ensures warehouse staff can only modify stock, the sales team only manages transactions, and management has access to consolidated views.
             </p>
@@ -2775,14 +3139,11 @@ def require_role(allowed_roles):
 
           <div className="animate-in grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">
-                02. Security Middleware
-              </h2>
+              <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. Security Middleware</h2>
               <p className="text-muted text-lg leading-relaxed mb-6">
                 To keep the codebase clean and scalable, I designed custom Python decorators that intercept API requests, validating identity and role before touching the database, while logging any security anomalies.
               </p>
             </div>
-            
             <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
                 <span className="tech-subtitle !mb-0 !tracking-widest">security/decorators.py</span>
@@ -2795,6 +3156,7 @@ def require_role(allowed_roles):
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );
@@ -3065,12 +3427,30 @@ if (payload.message) {
 FILE: src/pages/QroDataCaseStudy.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// IMPORTACIÓN CORREGIDA: Se incluyeron CheckCircle2, RefreshCw y todos los necesarios
-import { ArrowLeft, Database, Code2, Play, LayoutDashboard, BrainCircuit, Activity, LineChart, CheckCircle2, RefreshCw, BarChart3, MessageSquareText } from 'lucide-react';
+import { ArrowLeft, Database, Code2, Play, LayoutDashboard, BrainCircuit, Activity, LineChart, CheckCircle2, RefreshCw, MessageSquareText } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion } from 'framer-motion';
+import EvidenceCarousel from '../components/EvidenceCarousel';
 
+// ─── EVIDENCE IMAGES ──────────────────────────────────────────────────────────
+const QRODATA_IMAGES = [
+  '/proyectos/qrodata/1.png',
+  '/proyectos/qrodata/2.png',
+  '/proyectos/qrodata/3.png',
+  '/proyectos/qrodata/4.png',
+  '/proyectos/qrodata/5.png',
+  '/proyectos/qrodata/6.png',
+  '/proyectos/qrodata/7.png',
+  '/proyectos/qrodata/8.png',
+  '/proyectos/qrodata/9.png',
+  '/proyectos/qrodata/10.png',
+  '/proyectos/qrodata/11.png',
+  '/proyectos/qrodata/12.png',
+  '/proyectos/qrodata/13.png',
+];
+
+// ─── NLP SIMULATION ───────────────────────────────────────────────────────────
 function AdvancedNLPSimulation() {
   const [isRunning, setIsRunning] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -3094,11 +3474,9 @@ function AdvancedNLPSimulation() {
     setIsRunning(true);
     setIsComplete(false);
 
-    // 1. Resetear estados iniciales
     window.anime.set('.metric-bar', { width: '0%' });
     window.anime.set('.stream-item', { opacity: 0, translateX: -40 });
-    
-    // Creamos una línea de tiempo (Timeline) maestra en Anime.js
+
     const tl = window.anime.timeline({
       easing: 'easeOutExpo',
       complete: () => {
@@ -3107,7 +3485,6 @@ function AdvancedNLPSimulation() {
       }
     });
 
-    // 2. Animar el "Cerebro" (Engine)
     tl.add({
       targets: '.nlp-brain',
       scale: [1, 1.2, 1],
@@ -3117,17 +3494,15 @@ function AdvancedNLPSimulation() {
       easing: 'easeInOutSine'
     }, 0);
 
-    // 3. Stagger (Efecto dominó) de los datos entrando
     tl.add({
       targets: '.stream-item',
       opacity: [0, 1, 0],
       translateX: [-40, 0, 40],
       duration: 1200,
-      delay: window.anime.stagger(200), // Cada string entra 200ms después del anterior
+      delay: window.anime.stagger(200),
       easing: 'easeOutQuad'
     }, 0);
 
-    // 4. Animar un objeto JS puro para lograr el contador de 0 a 100k fluido
     const counterObj = { total: 0, pos: 0, neu: 0, neg: 0 };
     window.anime({
       targets: counterObj,
@@ -3135,40 +3510,17 @@ function AdvancedNLPSimulation() {
       pos: 62400,
       neu: 25100,
       neg: 12500,
-      round: 1, // Redondea a enteros
+      round: 1,
       duration: 3000,
       easing: 'easeOutQuart',
       update: function() {
-         setCounters({
-           total: counterObj.total,
-           pos: counterObj.pos,
-           neu: counterObj.neu,
-           neg: counterObj.neg
-         });
+        setCounters({ total: counterObj.total, pos: counterObj.pos, neu: counterObj.neu, neg: counterObj.neg });
       }
     });
 
-    // 5. Expandir las barras de resultados con un efecto elástico "Premium"
-    tl.add({
-      targets: '#bar-pos',
-      width: '62.4%',
-      duration: 1500,
-      easing: 'easeOutElastic(1, .8)'
-    }, 1500);
-    
-    tl.add({
-      targets: '#bar-neu',
-      width: '25.1%',
-      duration: 1500,
-      easing: 'easeOutElastic(1, .8)'
-    }, 1600);
-    
-    tl.add({
-      targets: '#bar-neg',
-      width: '12.5%',
-      duration: 1500,
-      easing: 'easeOutElastic(1, .8)'
-    }, 1700);
+    tl.add({ targets: '#bar-pos', width: '62.4%', duration: 1500, easing: 'easeOutElastic(1, .8)' }, 1500);
+    tl.add({ targets: '#bar-neu', width: '25.1%', duration: 1500, easing: 'easeOutElastic(1, .8)' }, 1600);
+    tl.add({ targets: '#bar-neg', width: '12.5%', duration: 1500, easing: 'easeOutElastic(1, .8)' }, 1700);
   };
 
   return (
@@ -3178,20 +3530,17 @@ function AdvancedNLPSimulation() {
           <Activity size={16} className="text-accent" />
           <span className="font-bold text-sm text-white">Social Listening NLP Pipeline</span>
         </div>
-        <button 
-          onClick={startEngine} 
-          disabled={isRunning} 
+        <button
+          onClick={startEngine}
+          disabled={isRunning}
           className="bg-accent/10 hover:bg-accent/20 border border-accent/30 disabled:opacity-50 text-accent px-4 py-1.5 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2"
         >
-          {isRunning ? <RefreshCw size={12} className="animate-spin" /> : <Play size={12} fill="currentColor"/>}
+          {isRunning ? <RefreshCw size={12} className="animate-spin" /> : <Play size={12} fill="currentColor" />}
           {isRunning ? "Processing 100k Rows..." : "Execute Pipeline"}
         </button>
       </div>
 
-      {/* 3 Columnas Visuales */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        
-        {/* Columna 1: Raw Stream */}
         <div className="bg-[#121212] border border-white/5 rounded-sm p-4 relative h-48 md:h-64 overflow-hidden">
           <h4 className="tech-subtitle !mb-4">1. Raw_Ingestion</h4>
           <div className="absolute top-14 left-4 right-4 flex flex-col gap-2">
@@ -3202,10 +3551,13 @@ function AdvancedNLPSimulation() {
               </div>
             ))}
           </div>
-          {!isRunning && !isComplete && <div className="absolute inset-0 flex items-center justify-center text-xs text-muted font-mono animate-pulse bg-[#121212]/80 backdrop-blur-sm z-10">Awaiting trigger...</div>}
+          {!isRunning && !isComplete && (
+            <div className="absolute inset-0 flex items-center justify-center text-xs text-muted font-mono animate-pulse bg-[#121212]/80 backdrop-blur-sm z-10">
+              Awaiting trigger...
+            </div>
+          )}
         </div>
 
-        {/* Columna 2: Engine */}
         <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col items-center justify-center h-48 md:h-64 relative overflow-hidden">
           <div className="absolute inset-0 bg-accent/5 blur-3xl rounded-full" />
           <div className="nlp-brain w-20 h-20 rounded-full bg-[#050505] border border-white/10 flex items-center justify-center mb-6 relative z-10">
@@ -3217,51 +3569,41 @@ function AdvancedNLPSimulation() {
           <div className="tech-subtitle !mt-2 relative z-10">Rows Extracted</div>
         </div>
 
-        {/* Columna 3: Dashboard Metrics */}
         <div className="bg-[#121212] border border-white/5 rounded-sm p-4 flex flex-col justify-center h-48 md:h-64">
           <h4 className="tech-subtitle !mb-6">2. Aggregated_Metrics</h4>
           <div className="space-y-5 w-full">
-            <div>
-              <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-1.5">
-                <span className="text-green-400">Positive</span>
-                <span className="text-white">{counters.pos.toLocaleString()}</span>
+            {[
+              { id: 'bar-pos', label: 'Positive', color: 'text-green-400', bg: 'bg-green-400', shadow: 'shadow-[0_0_10px_#4ade80]', count: counters.pos },
+              { id: 'bar-neu', label: 'Neutral',  color: 'text-gray-400',  bg: 'bg-gray-400',  shadow: 'shadow-[0_0_10px_#9ca3af]', count: counters.neu },
+              { id: 'bar-neg', label: 'Negative', color: 'text-red-400',   bg: 'bg-red-400',   shadow: 'shadow-[0_0_10px_#f87171]', count: counters.neg },
+            ].map(bar => (
+              <div key={bar.id}>
+                <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-1.5">
+                  <span className={bar.color}>{bar.label}</span>
+                  <span className="text-white">{bar.count.toLocaleString()}</span>
+                </div>
+                <div className="h-2 w-full bg-[#050505] border border-white/5 rounded-full overflow-hidden shadow-inner">
+                  <div id={bar.id} className={`metric-bar h-full ${bar.bg} w-0 ${bar.shadow}`} />
+                </div>
               </div>
-              <div className="h-2 w-full bg-[#050505] border border-white/5 rounded-full overflow-hidden shadow-inner">
-                <div id="bar-pos" className="metric-bar h-full bg-green-400 w-0 shadow-[0_0_10px_#4ade80]"></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-1.5">
-                <span className="text-gray-400">Neutral</span>
-                <span className="text-white">{counters.neu.toLocaleString()}</span>
-              </div>
-              <div className="h-2 w-full bg-[#050505] border border-white/5 rounded-full overflow-hidden shadow-inner">
-                <div id="bar-neu" className="metric-bar h-full bg-gray-400 w-0 shadow-[0_0_10px_#9ca3af]"></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-1.5">
-                <span className="text-red-400">Negative</span>
-                <span className="text-white">{counters.neg.toLocaleString()}</span>
-              </div>
-              <div className="h-2 w-full bg-[#050505] border border-white/5 rounded-full overflow-hidden shadow-inner">
-                <div id="bar-neg" className="metric-bar h-full bg-red-400 w-0 shadow-[0_0_10px_#f87171]"></div>
-              </div>
-            </div>
+            ))}
           </div>
-          
           {isComplete && (
-            <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} className="mt-6 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-green-400 bg-green-400/10 w-fit px-2 py-1 rounded border border-green-400/20">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-6 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-green-400 bg-green-400/10 w-fit px-2 py-1 rounded border border-green-400/20"
+            >
               <CheckCircle2 size={12} /> Process Complete
             </motion.div>
           )}
         </div>
-
       </div>
     </div>
   );
 }
 
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function QroDataCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -3297,12 +3639,11 @@ def process_social_mentions(raw_data_json):
 
   return (
     <div className="min-h-screen bg-background text-primary selection:bg-accent/30 font-sans pb-24 pt-12 relative overflow-hidden">
-      
-      {/* Glow de fondo */}
+
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
-        
+
         <nav className="mb-16">
           <Link to="/#projects" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-accent transition-colors">
             <ArrowLeft size={14} /> System_Return
@@ -3315,19 +3656,24 @@ def process_social_mentions(raw_data_json):
           </div>
           <h1 className="section-title mb-6">QroData Analytics.</h1>
           <p className="text-xl text-muted leading-relaxed max-w-3xl">
-            A data engineering platform ingesting and classifying 100,000+ unstructured social records per run. 
-            Built around vectorized Pandas operations for performance, VADER sentiment analysis for NLP classification, 
-            and SQLAlchemy bulk inserts with chunking to prevent database timeouts — 
+            A data engineering platform ingesting and classifying 100,000+ unstructured social records per run.
+            Built around vectorized Pandas operations for performance, VADER sentiment analysis for NLP classification,
+            and SQLAlchemy bulk inserts with chunking to prevent database timeouts —
             exposing aggregated metrics to a React dashboard with sub-second query response.
           </p>
         </header>
 
+        {/* ── EVIDENCE CAROUSEL ── */}
+        <div className="mb-24">
+          <EvidenceCarousel images={QRODATA_IMAGES} title="Project Evidence" />
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
           {[
-            { label: 'Frontend', value: 'React', icon: LayoutDashboard },
-            { label: 'Backend', value: 'Python', icon: Code2 },
-            { label: 'Database', value: 'MySQL', icon: Database },
-            { label: 'Analytics', value: 'Pandas & NLP', icon: LineChart },
+            { label: 'Frontend', value: 'React',       icon: LayoutDashboard },
+            { label: 'Backend',  value: 'Python',      icon: Code2 },
+            { label: 'Database', value: 'MySQL',       icon: Database },
+            { label: 'Analytics',value: 'Pandas & NLP',icon: LineChart },
           ].map((item, i) => (
             <div key={i} className="glass-panel p-5 rounded-sm border border-white/5 hover:border-white/20 transition-colors bg-[#0a0a0a]">
               <item.icon className="text-accent mb-3" size={20} />
@@ -3368,11 +3714,12 @@ def process_social_mentions(raw_data_json):
         </div>
 
         <section className="space-y-24">
-          
+
           <div>
             <h2 className="item-title mb-6 border-b border-white/10 pb-4">01. Live NLP Pipeline Simulation</h2>
             <p className="text-muted text-lg leading-relaxed mb-6 max-w-3xl">
-              The main challenge is not displaying data, but cleaning and categorizing 100,000+ unstructured strings efficiently. The backend extracts text, applies sentiment analysis models, and pushes aggregated metrics to the frontend.
+              The main challenge is not displaying data, but cleaning and categorizing 100,000+ unstructured strings efficiently.
+              The backend extracts text, applies sentiment analysis models, and pushes aggregated metrics to the frontend.
             </p>
             <AdvancedNLPSimulation />
           </div>
@@ -3381,10 +3728,10 @@ def process_social_mentions(raw_data_json):
             <div>
               <h2 className="item-title mb-6 border-b border-white/10 pb-4 text-accent">02. Backend Evidence</h2>
               <p className="text-muted text-lg leading-relaxed mb-6">
-                Below is a simplified snippet of the Python backend logic I wrote to clean the data, apply the NLP logic, and use bulk inserts (<code>chunksize=10000</code>) to prevent MySQL timeouts during persistence. 
+                Below is a simplified snippet of the Python backend logic I wrote to clean the data, apply the NLP logic,
+                and use bulk inserts (<code>chunksize=10000</code>) to prevent MySQL timeouts during persistence.
               </p>
             </div>
-            
             <div className="rounded-sm overflow-hidden border border-white/10 bg-[#0d1117] shadow-2xl relative">
               <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
                 <span className="tech-subtitle !mb-0 !tracking-widest">pipeline.py</span>
@@ -3396,7 +3743,7 @@ def process_social_mentions(raw_data_json):
               </div>
             </div>
           </div>
-          
+
         </section>
       </div>
     </div>

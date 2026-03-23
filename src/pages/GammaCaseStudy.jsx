@@ -4,6 +4,7 @@ import { ArrowLeft, Clock, Bot, Check, RefreshCw, Send, FileText, Server, Termin
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion, AnimatePresence } from 'framer-motion';
+import EvidenceCarousel from '../components/EvidenceCarousel';
 
 function AsynchronousSimulation() {
   const [step, setStep] = useState(0);
@@ -136,6 +137,8 @@ function AsynchronousSimulation() {
   );
 }
 
+const GAMMA_IMAGES = ['/proyectos/gamma/1.png'];
+
 export default function GammaCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -178,6 +181,10 @@ if (payload.message) {
             then resumes to schedule deferred email delivery — zero manual intervention at any stage.
           </p>
         </header>
+
+        <div className="mb-16">
+          <EvidenceCarousel images={GAMMA_IMAGES} title="Workflow Evidence" />
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
           {[

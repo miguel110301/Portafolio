@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, GitBranch, Server, Database, Activity, Code2, Smartphone, CheckCheck, Webhook, BrainCircuit, ChevronRight, FileCheck2, Terminal } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import EvidenceCarousel from '../components/EvidenceCarousel';
 
 function EndToEndSimulation() {
   const [isRunning, setIsRunning] = useState(false);
@@ -218,6 +219,8 @@ function EndToEndSimulation() {
   );
 }
 
+const LOGISTICS_IMAGES = ['/proyectos/logisticsflow/1.png'];
+
 export default function LogisticsCaseStudy() {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -277,6 +280,10 @@ class TicketIngestionView(APIView):
             multimodal evidence classification — keeping each layer independently testable and replaceable.
           </p>
         </header>
+
+        <div className="mb-16">
+          <EvidenceCarousel images={LOGISTICS_IMAGES} title="Workflow Evidence" />
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
           {[

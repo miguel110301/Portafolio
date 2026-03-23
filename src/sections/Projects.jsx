@@ -6,58 +6,57 @@ import RevealText from '../components/RevealText';
 
 function Projects() {
   const projects = [
-  {
-    title: "LogisticsFlow AI",
-    category: "Architecture & Automation",
-    description: "End-to-end logistics validation system processing 500+ daily shipments. AI-powered evidence verification (images, audio) via Whisper & OpenAI Vision. Reduced manual validation time by 85% through n8n orchestration, Django backend, and real-time WhatsApp notifications.",
-    tech: ["n8n", "Django", "OpenAI", "WhatsApp", "Firebase"],
-    featured: true,
-    link: "/proyecto/logisticsflow"
-  },
-  {
-    title: "QroData",
-    category: "Data Engineering & Analytics",
-    description: "Social listening platform ingesting and classifying 100,000+ unstructured records per run. NLP sentiment pipeline (VADER) with vectorized Pandas operations for performance. Sub-second query response via optimized MySQL schema and bulk SQLAlchemy inserts.",
-    tech: ["React", "Python", "MySQL", "Pandas", "NLP"],
-    featured: true,
-    link: "/proyecto/qrodata"
-  },
-  {
-    title: "Gamma Agent",
-    category: "AI Orchestration",
-    description: "Fully asynchronous AI agent that ingests raw data, generates structured presentations via Gamma API, routes human-in-the-loop approvals through Telegram, and schedules deferred email delivery — zero manual intervention required.",
-    tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
-    featured: true,
-    link: "/proyecto/gamma"
-  },
-  {
-    title: "Dashboard Pro",
-    category: "ERP Backend & SaaS",
-    description: "Production ERP backend handling inventory and sales operations with role-based access control (RBAC) across multiple permission layers. Automated reporting workflows deliver scheduled decision-making reports with zero manual intervention.",
-    tech: ["Python", "RBAC", "Automation", "SQL"],
-    featured: true,
-    link: "/proyecto/dashboard"
-  }
-];
+    {
+      title: "LogisticsFlow AI",
+      category: "Architecture & Automation",
+      description: "Production event-driven system processing 500+ daily logistics validations. Eliminated 9 hours/day of manual coordination across operations teams. AI-powered evidence verification (images, audio) via Whisper & OpenAI Vision, orchestrated by n8n with Django handling ACID transactions and WhatsApp as the operator interface.",
+      tech: ["n8n", "Django", "OpenAI", "WhatsApp", "Firebase"],
+      featured: true,
+      link: "/proyecto/logisticsflow"
+    },
+    {
+      title: "QroData",
+      category: "Data Engineering & Analytics",
+      description: "Social listening platform reducing manual reporting from ~2 hours to under 30 seconds per campaign run. Ingests and classifies 100,000+ unstructured records via a vectorized Pandas + VADER NLP pipeline. Sub-second query response via optimized MySQL schema and bulk SQLAlchemy inserts with chunksize=10000.",
+      tech: ["React", "Python", "MySQL", "Pandas", "NLP"],
+      featured: true,
+      link: "/proyecto/qrodata"
+    },
+    {
+      title: "Gamma Agent",
+      category: "AI Orchestration",
+      description: "Fully asynchronous AI agent with Human-in-the-Loop approval pattern. Ingests raw data, generates structured presentations via Gamma API, pauses execution for Telegram-based human approval, then resumes to schedule deferred email delivery — zero manual intervention at any stage.",
+      tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
+      featured: true,
+      link: "/proyecto/gamma"
+    },
+    {
+      title: "Dashboard Pro",
+      category: "ERP Backend & SaaS",
+      description: "Production ERP backend with custom Role-Based Access Control (RBAC) built from scratch. Three isolated permission layers — warehouse, sales, management — with zero unauthorized access incidents across all production usage. Automated reporting workflows eliminate manual report generation entirely.",
+      tech: ["Python", "RBAC", "Automation", "SQL"],
+      featured: false,
+      link: "/proyecto/dashboard"
+    },
+    {
+      title: "Valance",
+      category: "iOS Native Development",
+      description: "Local-first personal finance app for the Apple ecosystem. Tracks real liquidity by combining debit accounts, credit card debt with cut/pay date modeling, and a physical cash counter (Arqueo de Caja). All data lives on-device via CoreData behind FaceID biometric authentication. Zero network requests.",
+      tech: ["Swift", "CoreData", "FaceID", "iOS"],
+      featured: false,
+      link: "/proyecto/valance"
+    }
+  ];
 
   const containerVariants = {
     hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0,
-      }
-    }
-  }
+    visible: { transition: { staggerChildren: 0.15, delayChildren: 0 } }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
-    }
-  }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+  };
 
   return (
     <section id="projects" className="py-32 relative bg-surface/30">
