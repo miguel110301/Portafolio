@@ -203,8 +203,22 @@ def require_role(allowed_roles):
           ))}
         </div>
 
-        <div className="mb-24 rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] h-[500px] md:aspect-video md:h-auto relative animate-in">
-          <AnimatedDashboard />
+        <div className="mb-24 animate-in">
+          <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <h2 className="item-title !mb-0">Live ERP Simulation</h2>
+            </div>
+            <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
+              Interactive Demo — Real-time data feed
+            </span>
+          </div>
+          <p className="text-muted text-sm leading-relaxed mb-4 max-w-2xl">
+            Simulates a live ERP dashboard: KPI panels update in real time, the transaction chart animates across 12 hourly slots, and the security log streams audit events continuously. Click <strong className="text-white">Sync Data</strong> to trigger a batch update.
+          </p>
+          <div className="rounded-sm overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(56,189,248,0.05)] bg-[#0a0a0a] h-[500px] md:aspect-video md:h-auto relative">
+            <AnimatedDashboard />
+          </div>
         </div>
 
         <div className="mb-24 glass-panel p-8 md:p-10 rounded-sm border border-white/5">

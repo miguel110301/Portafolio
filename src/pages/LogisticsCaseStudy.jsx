@@ -113,12 +113,12 @@ function EndToEndSimulation() {
               <div className="w-full h-16 bg-black/40 rounded-sm flex items-center justify-center border border-white/5 mb-1 relative overflow-hidden">
                 <FileCheck2 size={24} className="text-white/50"/>
               </div>
-              <p>Entrego paquete #892.</p>
+              <p>Delivering package #892.</p>
               <div className="text-[9px] text-right text-gray-400 mt-1 flex justify-end items-center gap-1">14:05 <CheckCheck size={12} className="text-[#53bdeb]"/></div>
             </div>
             
             <div className="wa-msg-2 opacity-0 self-start bg-[#202c33] text-[#e9edef] p-2.5 rounded-xl rounded-tl-none w-[85%] shadow-sm origin-bottom-left mt-auto">
-              <p>✅ <strong>Ticket validado.</strong> Paquete #892 registrado en ERP.</p>
+              <p>✅ <strong>Ticket validated.</strong> Package #892 registered in ERP.</p>
               <div className="text-[9px] text-right text-gray-400 mt-1">14:05</div>
             </div>
 

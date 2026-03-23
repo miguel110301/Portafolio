@@ -30,16 +30,16 @@ function AdvancedNLPSimulation() {
   const [counters, setCounters] = useState({ total: 0, pos: 0, neu: 0, neg: 0 });
 
   const mockTweets = [
-    "El servicio en la sucursal es increíble hoy...",
-    "Llevo 2 horas esperando respuesta, pésimo...",
-    "Acaban de anunciar los nuevos horarios...",
-    "Me resolvieron el problema en 5 minutos...",
-    "La plataforma se cae a cada rato...",
-    "Gran mejora en la actualización...",
-    "¿Alguien sabe si mañana abren?",
-    "Muy mala experiencia con el soporte...",
-    "Todo funcionó perfecto a la primera...",
-    "Información útil, gracias por compartir."
+    "Service at the branch is incredible today...",
+    "Been waiting 2 hours for a response, terrible...",
+    "They just announced the new hours...",
+    "They solved my issue in 5 minutes...",
+    "The platform keeps crashing constantly...",
+    "Great improvement in the latest update...",
+    "Does anyone know if they open tomorrow?",
+    "Very bad experience with support...",
+    "Everything worked perfectly on the first try...",
+    "Useful info, thanks for sharing."
   ];
 
   const startEngine = () => {
