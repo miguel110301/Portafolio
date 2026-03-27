@@ -59,7 +59,7 @@ function Projects() {
   };
 
   return (
-    <section id="projects" className="py-32 relative bg-surface/30">
+    <section id="projects" className="py-32 relative">
       <div className="max-w-5xl mx-auto px-6">
         <div className="mb-20">
           <RevealText as="span" className="protocol-label" delay={0}>

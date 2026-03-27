@@ -15,8 +15,9 @@ import Labs from "./sections/Labs";
 import CustomCursor from './components/CustomCursor';
 import Services from "./sections/Services";
 import ValanceCaseStudy from './pages/ValanceCaseStudy';
+import { Toaster } from 'sileo';
+import { FloatingPaths } from './components/FloatingPaths';
 
-// 1. Envolvemos el Home en un motion.div para su animación de entrada/salida
 function Home() {
   return (
     <motion.main
@@ -30,75 +31,47 @@ function Home() {
       <Education />
       <Projects />
       <Services />
-      <Labs />     {/* <-- Agregamos Labs justo aquí */}
+      <Labs />
       <About />
       <Contact />
     </motion.main>
   );
 }
 
-// 2. Componente que maneja la detección de ruta y las animaciones
 function AnimatedRoutes() {
   const location = useLocation();
-  
+
   return (
-    // AnimatePresence detecta cuándo un componente se desmonta para animar su salida
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
-        
-        {/* Envolvemos cada caso de estudio con su propia animación de página */}
+
         <Route path="/proyecto/logisticsflow" element={
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -20 }} 
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4, ease: "easeOut" }}>
             <LogisticsCaseStudy />
           </motion.div>
         } />
-        
+
         <Route path="/proyecto/gamma" element={
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -20 }} 
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4, ease: "easeOut" }}>
             <GammaCaseStudy />
           </motion.div>
         } />
-        
+
         <Route path="/proyecto/qrodata" element={
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -20 }} 
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4, ease: "easeOut" }}>
             <QroDataCaseStudy />
           </motion.div>
         } />
 
         <Route path="/proyecto/dashboard" element={
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -20 }} 
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4, ease: "easeOut" }}>
             <DashboardProCaseStudy />
           </motion.div>
         } />
 
         <Route path="/proyecto/valance" element={
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: -20 }} 
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4, ease: "easeOut" }}>
             <ValanceCaseStudy />
           </motion.div>
         } />
@@ -107,13 +80,32 @@ function AnimatedRoutes() {
   );
 }
 
-// 3. App Principal
 function App() {
   return (
     <Router>
+      {/* Global background — fixed, behind everything */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <FloatingPaths position={1} />
+        <FloatingPaths position={-1} />
+      </div>
+
+      <Toaster
+        position="bottom-right"
+        options={{
+          fill: '#0a0a0a',
+          roundness: 6,
+          styles: {
+            title: 'font-bold uppercase tracking-widest text-[11px] text-white!',
+            description: 'text-white/50! text-[10px] font-mono tracking-wide',
+            badge: 'bg-white/10!',
+          },
+        }}
+      />
       <CustomCursor />
       <Navbar />
-      <AnimatedRoutes />
+      <div className="relative z-10">
+        <AnimatedRoutes />
+      </div>
     </Router>
   );
 }

@@ -17,7 +17,7 @@ function Education() {
   });
 
   return (
-    <section id="education" className="py-16 md:py-32 relative bg-[#050505]">
+    <section id="education" className="py-16 md:py-32 relative">
       <div className="max-w-6xl mx-auto px-6">
         
         <div className="mb-20">

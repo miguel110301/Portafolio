@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Linkedin, Send } from 'lucide-react';
 import RevealText from '../components/RevealText';
 import MagneticButton from '../components/MagneticButton';
-
+import { sileo } from 'sileo';
 
 function Contact() {
   return (
@@ -42,7 +42,34 @@ function Contact() {
           </div>
 
           <div className="flex-1">
-            <form action="https://formspree.io/f/xaqpawbn" method="POST" className="space-y-4">
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                sileo.promise(
+                  fetch('https://formspree.io/f/xaqpawbn', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json' },
+                    body: new FormData(e.target)
+                  }).then(res => {
+                    if (!res.ok) throw new Error('Server error');
+                    return res;
+                  }),
+                  {
+                    loading: { title: 'Sending message...' },
+                    success: {
+                      title: 'Message sent!',
+                      description: "I'll get back to you soon.",
+                    },
+                    error: {
+                      title: 'Something went wrong',
+                      description: 'Please try again.',
+                    },
+                  }
+                );
+                e.target.reset();
+              }}
+            >
               <div>
                 <label htmlFor="name" className="tech-subtitle !text-muted mb-2">Name</label>
                 <input 

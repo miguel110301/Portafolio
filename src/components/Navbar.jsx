@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal as TerminalIcon, ChevronRight, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Terminal from './Terminal';
+import { sileo } from 'sileo';
 
 function Navbar() {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
@@ -31,7 +32,16 @@ function Navbar() {
           }`}>
 
             {/* Logo */}
-            <a href="/#hero" className="flex flex-col group">
+            <a href="/#hero"
+                className="flex flex-col group"
+                onClick={() => {
+                  navigator.clipboard.writeText('miguelmoreno.uaq@gmail.com');
+                  sileo.success({
+                    title: 'Email copied!',
+                    description: 'miguelmoreno.uaq@gmail.com',
+                  });
+                }}
+              >
               <span className="text-white font-black tracking-tighter text-lg md:text-xl leading-none uppercase">
                 Miguel Moreno
               </span>

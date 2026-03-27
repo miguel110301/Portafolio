@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Webhook, Database, BrainCircuit, ChevronRight, FileJson, Code2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import RevealText from '../components/RevealText'; // ← esta línea
+import RevealText from '../components/RevealText';
 
 // Tu componente intacto
 function VisualWorkflowSimulation() {

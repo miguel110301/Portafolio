@@ -4,6 +4,7 @@ import { ChevronRight, FileText, Terminal, Webhook, Database, Server, Cpu, Cloud
 import TechMatrix from '../components/TechMatrix';
 import RevealText from '../components/RevealText';
 import MagneticButton from '../components/MagneticButton';
+import { TextRotate } from '../components/TextRotate';
 
 function MobileStack() {
   const [selected, setSelected] = useState(null);
@@ -89,7 +90,7 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
 
   return (
-    <section ref={containerRef} id="hero" className="relative flex items-start pt-24 md:pt-44 pb-16 md:pb-32 overflow-hidden bg-[#050505]">
+    <section ref={containerRef} id="hero" className="relative flex items-start pt-24 md:pt-44 pb-16 md:pb-32 overflow-hidden">
 
       {/* Grilla Técnica de fondo */}
       <motion.div 
@@ -119,7 +120,22 @@ function Hero() {
             </span>
           </RevealText>
 
-          <p className="text-base md:text-lg text-muted max-w-lg mb-10 font-medium leading-relaxed border-l-2 border-white/10 pl-6">
+          <div className="flex items-center gap-3 mb-10 overflow-hidden">
+            <span className="text-[11px] font-mono text-white/30 uppercase tracking-[0.3em] shrink-0">
+              building
+            </span>
+            <TextRotate
+              texts={["AUTOMATION SYSTEMS", "EVENT-DRIVEN APIS", "N8N WORKFLOWS", "AI PIPELINES", "IOS APPLICATIONS"]}
+              mainClassName="text-[11px] font-mono text-accent uppercase tracking-[0.3em]"
+              rotationInterval={2500}
+              staggerDuration={0.03}
+              staggerFrom="first"
+              splitBy="characters"
+              transition={{ type: "spring", damping: 30, stiffness: 400 }}
+            />
+          </div>
+
+          <p className="text-base md:text-lg text-muted max-w-lg font-medium leading-relaxed border-l-2 border-white/10 pl-6">
             I build AI-powered automation systems that replace manual workflows entirely. 
             Specializing in event-driven architectures with n8n, Python, and LLM integrations — 
             designed for production, fault-tolerant, and built to scale.
