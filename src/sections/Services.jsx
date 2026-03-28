@@ -28,25 +28,25 @@ function Services() {
 
   const capabilities = [
     {
-      icon: <Brain size={24} className="text-accent" />,
+      icon: <Brain size={24} className="text-white/60" />,
       title: "AI-Powered Automation",
       description: "End-to-end workflows combining LLMs, Vision APIs, and Whisper for multimodal data processing. Systems that don't just route data — they understand it.",
       tags: ["OpenAI", "n8n", "Webhooks", "Whisper"]
     },
     {
-      icon: <GitMerge size={24} className="text-accent" />,
+      icon: <GitMerge size={24} className="text-white/60" />,
       title: "Event-Driven Orchestration",
       description: "Production-grade n8n workflows with intelligent routing, conditional logic, retries, and fallbacks. Built for fault tolerance, not just the happy path.",
       tags: ["n8n", "Retry Logic", "State Management", "Error Handling"]
     },
     {
-      icon: <ShieldCheck size={24} className="text-accent" />,
+      icon: <ShieldCheck size={24} className="text-white/60" />,
       title: "Backend Systems & APIs",
       description: "Django REST APIs with RBAC, ACID transactions, and background job processing. Architected for reliability — race condition protection included by default.",
       tags: ["Django", "Python", "PostgreSQL", "RBAC"]
     },
     {
-      icon: <Zap size={24} className="text-accent" />,
+      icon: <Zap size={24} className="text-white/60" />,
       title: "Systems Integration",
       description: "Connecting CRMs, WhatsApp Business API, Telegram, and third-party platforms into unified operational pipelines with consistent error handling across every boundary.",
       tags: ["WhatsApp API", "REST", "Webhooks", "CRM"]
@@ -89,9 +89,9 @@ function Services() {
             <motion.div
               key={i}
               variants={itemVariants}
-              className="glass-panel p-6 rounded-sm border border-white/5 hover:border-accent/30 transition-colors duration-300 group"
+              className="glass-panel p-6 rounded-2xl border border-white/5 hover:border-white/15 transition-colors duration-300 group"
             >
-              <div className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-2 group-hover:text-accent transition-colors duration-300">
+              <div className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-2 group-hover:text-white/70 transition-colors duration-300">
                 {metric.value}
               </div>
               <div className="text-[10px] font-mono text-muted uppercase tracking-widest leading-relaxed">
@@ -113,16 +113,16 @@ function Services() {
             <motion.div
               key={i}
               variants={itemVariants}
-              className="glass-panel p-8 rounded-sm border border-white/5 hover:border-white/20 hover:bg-white/[0.03] transition-all duration-300 group"
+              className="glass-panel p-8 rounded-2xl border border-white/5 hover:border-white/15 hover:bg-white/[0.03] transition-all duration-300 group"
             >
-              <div className="w-12 h-12 rounded-sm bg-accent/10 border border-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors duration-300">
+              <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors duration-300">
                 {cap.icon}
               </div>
               <h3 className="item-title mb-3">{cap.title}</h3>
               <p className="text-muted leading-relaxed mb-6 text-sm md:text-base">{cap.description}</p>
               <div className="flex flex-wrap gap-2">
                 {cap.tags.map((tag, j) => (
-                  <span key={j} className="text-[10px] font-bold text-accent/60 border border-accent/20 px-3 py-1 rounded-sm uppercase tracking-tighter bg-accent/5">
+                  <span key={j} className="text-[10px] font-medium text-white/40 border border-white/8 px-3 py-1 rounded-full tracking-wide bg-white/[0.03]">
                     {tag}
                   </span>
                 ))}

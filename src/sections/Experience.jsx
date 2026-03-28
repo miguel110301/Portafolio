@@ -79,17 +79,17 @@ function Experience() {
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ delay: 0.2, type: "spring" }}
-                    className="absolute -left-[35px] md:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-background border-[3px] border-accent z-10 shadow-[0_0_10px_rgba(56,189,248,0.5)] transition-transform group-hover:scale-150" 
+                    className="absolute -left-[35px] md:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-background border-[3px] border-white/20 z-10 shadow-[0_0_10px_rgba(255,255,255,0.15)] transition-transform group-hover:scale-150"
                   />
                   
-                  <div className="glass-panel p-6 md:p-8 rounded-sm hover:border-accent/30 transition-colors duration-500 hover:bg-white/[0.02]">
+                  <div className="glass-panel p-6 md:p-8 rounded-2xl hover:border-white/15 transition-colors duration-500 hover:bg-white/[0.02]">
                     <h3 className="item-title mb-1">{exp.role}</h3>
                     <span className="tech-subtitle mb-6">{exp.company}</span>
                     <p className="text-muted text-lg leading-relaxed mb-8 max-w-2xl">{exp.description}</p>
                     
                     <div className="flex flex-wrap gap-2">
                       {exp.tech.map((tech, i) => (
-                        <span key={i} className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02] hover:text-accent hover:border-accent/50 cursor-default transition-colors">
+                        <span key={i} className="text-[10px] font-medium text-white/40 border border-white/8 px-3 py-1 rounded-full tracking-wide bg-white/[0.03] hover:text-white/60 hover:border-white/15 cursor-default transition-colors">
                           {tech}
                         </span>
                       ))}

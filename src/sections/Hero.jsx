@@ -34,7 +34,7 @@ function MobileStack() {
             onClick={() => setSelected(selected?.name === item.name ? null : item)}
             className="w-full h-20 rounded-2xl flex flex-col items-center justify-center border bg-[#121212] cursor-pointer transition-all duration-300"
             style={{
-              borderColor: selected?.name === item.name ? item.color + '80' : 'rgba(255,255,255,0.1)',
+              borderCoGrillalor: selected?.name === item.name ? item.color + '80' : 'rgba(255,255,255,0.1)',
               background: selected?.name === item.name ? 'rgba(18,18,18,0.9)' : '#121212',
               boxShadow: selected?.name === item.name 
                 ? `-4px 4px 0px ${item.color}30` 
@@ -92,15 +92,6 @@ function Hero() {
   return (
     <section ref={containerRef} id="hero" className="relative flex items-start pt-24 md:pt-44 pb-16 md:pb-32 overflow-hidden">
 
-      {/* Grilla Técnica de fondo */}
-      <motion.div 
-        style={{ 
-          y: useTransform(scrollYProgress, [0, 1], [0, 200]),
-          backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', 
-          backgroundSize: '50px 50px' 
-        }}
-        className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-      />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
         
@@ -143,13 +134,13 @@ function Hero() {
 
           <div className="flex flex-row gap-3 w-full">
             <MagneticButton>
-              <a href="/#projects" className="group flex items-center justify-center gap-2 bg-white text-black px-4 py-3 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-accent transition-all flex-1">
-                Deployments <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              <a href="/#projects" className="group flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold text-sm hover:bg-white/90 transition-all flex-1">
+                Projects <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </a>
             </MagneticButton>
             <MagneticButton>
-              <a href="/CV_Miguel_Moreno.pdf" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border border-white/20 px-4 py-3 rounded-sm font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all text-white flex-1">
-                <FileText size={14} /> Documentation
+              <a href="/CV_Miguel_Moreno.pdf" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border border-white/10 px-6 py-3 rounded-full font-semibold text-sm hover:border-white/30 hover:bg-white/5 backdrop-blur-sm transition-all text-white/80 hover:text-white flex-1">
+                <FileText size={14} /> Resume
               </a>
             </MagneticButton>
           </div>

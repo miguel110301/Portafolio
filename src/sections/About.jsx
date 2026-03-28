@@ -30,7 +30,6 @@ function VisualWorkflowSimulation() {
 
   return (
     <div className="w-full bg-[#121212] rounded-2xl border border-white/5 p-4 md:p-8 shadow-2xl relative overflow-hidden font-sans">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px]" />
       
       <div className="relative z-10">
         <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 mb-8">
@@ -51,7 +50,7 @@ function VisualWorkflowSimulation() {
                   {isActive && (
                     <motion.div
                       layoutId="payload-particle"
-                      className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(56,189,248,0.8)] z-20"
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.3)] z-20"
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     >
                       <Code2 size={12} className="text-background" />
@@ -60,7 +59,7 @@ function VisualWorkflowSimulation() {
                 </div>
 
                 {i < nodes.length - 1 && (
-                  <ChevronRight size={20} className={`transition-colors duration-500 ${activeNode > i ? 'text-accent' : 'text-white/10'}`} />
+                  <ChevronRight size={20} className={`transition-colors duration-500 ${activeNode > i ? 'text-white/60' : 'text-white/10'}`} />
                 )}
               </div>
             );

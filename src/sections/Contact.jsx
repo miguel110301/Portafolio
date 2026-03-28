@@ -33,7 +33,7 @@ function Contact() {
                 href="https://www.linkedin.com/in/miguel-angel-moreno-sanchez" 
                 target="_blank" 
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-6 py-3 rounded-sm font-medium hover:bg-white/10 transition-colors duration-200"
+                className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-primary px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-colors duration-200"
               >
                 <Linkedin size={18} className="text-[#0A66C2]" />
                 Connect on LinkedIn
@@ -77,7 +77,7 @@ function Contact() {
                   id="name"
                   name="name"
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-primary font-mono text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-primary font-mono text-sm focus:outline-none focus:border-white/20 focus:ring-1 focus:ring-white/10 transition-all"
                   placeholder="John Doe"
                 />
               </div>
@@ -106,7 +106,7 @@ function Contact() {
               <MagneticButton>
                 <button 
                   type="submit" 
-                  className="w-full flex items-center justify-center gap-2 bg-primary text-background px-8 py-3.5 rounded-sm font-bold uppercase tracking-widest text-[10px] hover:bg-white/90 transition-all duration-200 mt-4"
+                  className="w-full flex items-center justify-center gap-2 bg-white text-black px-8 py-3.5 rounded-full font-semibold text-sm hover:bg-white/90 transition-all duration-200 mt-4"
                 >
                   <Send size={16} /> Send Message
                 </button>

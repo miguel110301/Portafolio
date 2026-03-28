@@ -103,13 +103,13 @@ function Projects() {
                 <div className="glass-panel rounded-2xl group transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] h-full shadow-lg">
                   <Link to={project.link} className="flex flex-col h-full p-8 md:p-10 relative overflow-hidden outline-none">
                     {project.featured && (
-                      <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-[80px] rounded-full pointer-events-none transition-opacity group-hover:bg-accent/10" />
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-white/3 blur-[80px] rounded-full pointer-events-none transition-opacity group-hover:bg-white/5" />
                     )}
                     <div className="flex justify-between items-start mb-6 relative z-10">
-                      <span className="tech-subtitle group-hover:text-accent transition-colors">
+                      <span className="tech-subtitle group-hover:text-white/60 transition-colors">
                         {project.category}
                       </span>
-                      <div className="text-muted group-hover:text-accent transition-colors duration-200">
+                      <div className="text-white/20 group-hover:text-white/60 transition-colors duration-200">
                         <ArrowUpRight size={22} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                       </div>
                     </div>
@@ -125,7 +125,7 @@ function Projects() {
                           key={i}
                           whileHover={{ scale: 1.08, color: '#38bdf8', borderColor: 'rgba(56,189,248,0.4)' }}
                           transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                          className="text-[10px] font-bold text-white/50 border border-white/10 px-3 py-1 rounded-sm uppercase tracking-tighter bg-white/[0.02]"
+                          className="text-[10px] font-medium text-white/40 border border-white/8 px-3 py-1 rounded-full tracking-wide bg-white/[0.03] hover:text-white/60 hover:border-white/15 transition-colors"
                         >
                           {tech}
                         </motion.li>

@@ -10,6 +10,8 @@ const lenis = new Lenis({
   smoothWheel: true,
 })
 
+window.lenis = lenis;
+
 function raf(time) {
   lenis.raf(time)
   requestAnimationFrame(raf)

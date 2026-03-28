@@ -7,17 +7,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Establecemos Inter como la fuente principal del proyecto
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       colors: {
-        background: '#0a0a0a',
-        surface: '#121212',
-        border: 'rgba(255,255,255,0.08)',
-        primary: '#f8fafc',
-        muted: '#94a3b8',
-        accent: '#38bdf8',
+        background: '#050505',
+        surface: '#0d0d0d',
+        border: 'rgba(255,255,255,0.06)',
+        primary: '#f1f5f9',
+        muted: '#64748b',
+        accent: '#e2e8f0',
       },
     },
   },
