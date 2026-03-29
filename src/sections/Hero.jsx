@@ -34,7 +34,7 @@ function MobileStack() {
             onClick={() => setSelected(selected?.name === item.name ? null : item)}
             className="w-full h-20 rounded-2xl flex flex-col items-center justify-center border bg-[#121212] cursor-pointer transition-all duration-300"
             style={{
-              borderCoGrillalor: selected?.name === item.name ? item.color + '80' : 'rgba(255,255,255,0.1)',
+              borderColor: selected?.name === item.name ? item.color + '80' : 'rgba(255,255,255,0.1)',
               background: selected?.name === item.name ? 'rgba(18,18,18,0.9)' : '#121212',
               boxShadow: selected?.name === item.name 
                 ? `-4px 4px 0px ${item.color}30` 
