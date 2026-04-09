@@ -20,14 +20,14 @@ function Experience() {
 
   const experiences = [
     {
-      year: "2025 — Present",
+      year: "Jan 2026 — Present",
       role: "Backend & Automation Engineer",
       company: "Logistics Systems (Remote)",
       description: "Architect of event-driven automation systems. Integration of n8n workflows with Django APIs and WhatsApp Business API for logistics optimization.",
       tech: ["Python", "Django", "n8n", "WhatsApp API"]
     },
     {
-      year: "2023 — Present",
+      year: "Jan 2023 — Present",
       role: "Freelance Software Engineer",
       company: "Remote",
       description: "Design and deployment of backend microservices and REST APIs. Infrastructure management in Linux environments with Nginx and Gunicorn.",
