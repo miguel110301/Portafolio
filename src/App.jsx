@@ -19,10 +19,21 @@ import ValanceCaseStudy from './pages/ValanceCaseStudy';
 import { Toaster } from 'sileo';
 import { FloatingPaths } from './components/FloatingPaths';
 import ScrollExpandMedia from './components/ScrollExpandMedia';
+import { LanguageProvider, useLanguage } from './i18n';
 
 // ─── SPLASH IMAGES ────────────────────────────────────────────────────────────
 const SPLASH_MEDIA   = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1280&auto=format&fit=crop';
 const SPLASH_BG      = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop';
+const SPLASH_COPY = {
+  es: {
+    title: 'Automatizacion y Backend',
+    scrollToExpand: 'Desliza para expandir',
+  },
+  en: {
+    title: 'Automation & Backend',
+    scrollToExpand: 'Scroll to expand',
+  },
+};
 
 // ─── HOME ─────────────────────────────────────────────────────────────────────
 function Home() {
@@ -83,11 +94,13 @@ function AnimatedRoutes() {
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
-function App() {
+function AppShell() {
   const [splashDone, setSplashDone] = useState(false);
+  const { language, isTransitioning } = useLanguage();
+  const splashCopy = SPLASH_COPY[language];
 
   return (
-    <Router>
+    <>
       {/* Global floating paths background */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <FloatingPaths position={1} />
@@ -122,8 +135,8 @@ function App() {
               mediaType="image"
               mediaSrc={SPLASH_MEDIA}
               bgImageSrc={SPLASH_BG}
-              title="Automation & Backend"
-              scrollToExpand="Scroll to expand"
+              title={splashCopy.title}
+              scrollToExpand={splashCopy.scrollToExpand}
               textBlend
               onExpanded={() => setSplashDone(true)}
             />
@@ -138,11 +151,29 @@ function App() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
             <Navbar />
-            <AnimatedRoutes />
+            <motion.div
+              animate={{
+                opacity: isTransitioning ? 0.35 : 1,
+                filter: isTransitioning ? 'blur(10px)' : 'blur(0px)',
+              }}
+              transition={{ duration: 0.18, ease: 'easeInOut' }}
+            >
+              <AnimatedRoutes />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </Router>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <LanguageProvider>
+      <Router>
+        <AppShell />
+      </Router>
+    </LanguageProvider>
   );
 }
 

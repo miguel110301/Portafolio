@@ -150,7 +150,7 @@ const ScrollExpandMedia = ({
                   className="text-xs font-mono text-white/40 uppercase tracking-[0.3em] mb-1"
                   style={{ transform: `translateX(-${textShift}vw)` }}
                 >
-                  scroll to expand
+                  {scrollToExpand}
                 </p>
               </div>
 

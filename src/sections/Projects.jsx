@@ -3,59 +3,117 @@ import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Tilt from 'react-parallax-tilt';
 import RevealText from '../components/RevealText';
+import { useLanguage } from '../i18n';
+
+const PROJECTS_COPY = {
+  es: {
+    protocol: 'Registro_Despliegues',
+    title: 'Sistemas construidos.',
+    description: 'Proyectos enfocados en resolver problemas operativos reales, mostrando pensamiento sistemico y ejecucion tecnica.',
+    projects: [
+      {
+        title: 'LogisticsFlow AI',
+        category: 'Arquitectura y Automatizacion',
+        description: 'Sistema productivo orientado a eventos que procesa mas de 500 validaciones logisticas al dia. Elimino 9 horas diarias de coordinacion manual entre equipos operativos. Verificacion de evidencias con IA mediante Whisper y OpenAI Vision, orquestado por n8n con Django gestionando transacciones ACID y WhatsApp como interfaz del operador.',
+        tech: ['n8n', 'Django', 'OpenAI', 'WhatsApp', 'Firebase'],
+        featured: true,
+        link: '/proyecto/logisticsflow',
+      },
+      {
+        title: 'QroData',
+        category: 'Ingenieria de Datos y Analitica',
+        description: 'Plataforma de social listening que redujo el reporte manual de cerca de 2 horas a menos de 30 segundos por corrida. Ingiere y clasifica mas de 100,000 registros no estructurados mediante un pipeline vectorizado con Pandas y VADER NLP. Respuesta sub-segundo gracias a un esquema MySQL optimizado e inserciones masivas con SQLAlchemy y chunksize=10000.',
+        tech: ['React', 'Python', 'MySQL', 'Pandas', 'NLP'],
+        featured: true,
+        link: '/proyecto/qrodata',
+      },
+      {
+        title: 'Gamma Agent',
+        category: 'Orquestacion con IA',
+        description: 'Agente de IA totalmente asincrono con aprobacion Human-in-the-Loop. Ingiere datos crudos, genera presentaciones estructuradas via Gamma API, pausa la ejecucion para aprobacion humana por Telegram y luego reanuda para programar el envio por correo sin intervencion manual en ninguna etapa.',
+        tech: ['n8n', 'Telegram API', 'Gamma API', 'OpenAI'],
+        featured: true,
+        link: '/proyecto/gamma',
+      },
+      {
+        title: 'Dashboard Pro',
+        category: 'Backend ERP y SaaS',
+        description: 'Backend ERP en produccion con un Role-Based Access Control construido desde cero. Tres capas de permisos aisladas: almacen, ventas y direccion, con cero incidentes de acceso no autorizado en uso real. Flujos de reporte automatizados eliminan por completo la generacion manual de informes.',
+        tech: ['Python', 'RBAC', 'Automation', 'SQL'],
+        featured: false,
+        link: '/proyecto/dashboard',
+      },
+      {
+        title: 'Valance',
+        category: 'Desarrollo Nativo iOS',
+        description: 'App de finanzas personales local-first para el ecosistema Apple. Calcula liquidez real combinando cuentas de debito, deuda de tarjetas con modelado de fecha de corte y pago, y un contador de efectivo fisico. Toda la data vive en el dispositivo con CoreData y autenticacion biometrica FaceID. Cero solicitudes de red.',
+        tech: ['Swift', 'CoreData', 'FaceID', 'iOS'],
+        featured: false,
+        link: '/proyecto/valance',
+      },
+    ],
+  },
+  en: {
+    protocol: 'Deployment_Log',
+    title: 'Engineered Systems.',
+    description: 'Projects focused on solving real operational problems, showcasing systems thinking and technical execution.',
+    projects: [
+      {
+        title: 'LogisticsFlow AI',
+        category: 'Architecture & Automation',
+        description: 'Production event-driven system processing 500+ daily logistics validations. Eliminated 9 hours per day of manual coordination across operations teams. AI-powered evidence verification via Whisper and OpenAI Vision, orchestrated by n8n with Django handling ACID transactions and WhatsApp as the operator interface.',
+        tech: ['n8n', 'Django', 'OpenAI', 'WhatsApp', 'Firebase'],
+        featured: true,
+        link: '/proyecto/logisticsflow',
+      },
+      {
+        title: 'QroData',
+        category: 'Data Engineering & Analytics',
+        description: 'Social listening platform reducing manual reporting from roughly 2 hours to under 30 seconds per campaign run. Ingests and classifies 100,000+ unstructured records via a vectorized Pandas plus VADER NLP pipeline. Sub-second query response via an optimized MySQL schema and bulk SQLAlchemy inserts with chunksize=10000.',
+        tech: ['React', 'Python', 'MySQL', 'Pandas', 'NLP'],
+        featured: true,
+        link: '/proyecto/qrodata',
+      },
+      {
+        title: 'Gamma Agent',
+        category: 'AI Orchestration',
+        description: 'Fully asynchronous AI agent with a Human-in-the-Loop approval pattern. Ingests raw data, generates structured presentations via Gamma API, pauses execution for Telegram-based human approval, then resumes to schedule deferred email delivery with zero manual intervention at any stage.',
+        tech: ['n8n', 'Telegram API', 'Gamma API', 'OpenAI'],
+        featured: true,
+        link: '/proyecto/gamma',
+      },
+      {
+        title: 'Dashboard Pro',
+        category: 'ERP Backend & SaaS',
+        description: 'Production ERP backend with a custom Role-Based Access Control system built from scratch. Three isolated permission layers: warehouse, sales, and management, with zero unauthorized access incidents in production. Automated reporting workflows eliminate manual report generation entirely.',
+        tech: ['Python', 'RBAC', 'Automation', 'SQL'],
+        featured: false,
+        link: '/proyecto/dashboard',
+      },
+      {
+        title: 'Valance',
+        category: 'iOS Native Development',
+        description: 'Local-first personal finance app for the Apple ecosystem. Tracks real liquidity by combining debit accounts, credit card debt with cut and pay date modeling, and a physical cash counter. All data lives on-device via CoreData behind FaceID biometric authentication. Zero network requests.',
+        tech: ['Swift', 'CoreData', 'FaceID', 'iOS'],
+        featured: false,
+        link: '/proyecto/valance',
+      },
+    ],
+  },
+};
 
 function Projects() {
-  const projects = [
-    {
-      title: "LogisticsFlow AI",
-      category: "Architecture & Automation",
-      description: "Production event-driven system processing 500+ daily logistics validations. Eliminated 9 hours/day of manual coordination across operations teams. AI-powered evidence verification (images, audio) via Whisper & OpenAI Vision, orchestrated by n8n with Django handling ACID transactions and WhatsApp as the operator interface.",
-      tech: ["n8n", "Django", "OpenAI", "WhatsApp", "Firebase"],
-      featured: true,
-      link: "/proyecto/logisticsflow"
-    },
-    {
-      title: "QroData",
-      category: "Data Engineering & Analytics",
-      description: "Social listening platform reducing manual reporting from ~2 hours to under 30 seconds per campaign run. Ingests and classifies 100,000+ unstructured records via a vectorized Pandas + VADER NLP pipeline. Sub-second query response via optimized MySQL schema and bulk SQLAlchemy inserts with chunksize=10000.",
-      tech: ["React", "Python", "MySQL", "Pandas", "NLP"],
-      featured: true,
-      link: "/proyecto/qrodata"
-    },
-    {
-      title: "Gamma Agent",
-      category: "AI Orchestration",
-      description: "Fully asynchronous AI agent with Human-in-the-Loop approval pattern. Ingests raw data, generates structured presentations via Gamma API, pauses execution for Telegram-based human approval, then resumes to schedule deferred email delivery — zero manual intervention at any stage.",
-      tech: ["n8n", "Telegram API", "Gamma API", "OpenAI"],
-      featured: true,
-      link: "/proyecto/gamma"
-    },
-    {
-      title: "Dashboard Pro",
-      category: "ERP Backend & SaaS",
-      description: "Production ERP backend with custom Role-Based Access Control (RBAC) built from scratch. Three isolated permission layers — warehouse, sales, management — with zero unauthorized access incidents across all production usage. Automated reporting workflows eliminate manual report generation entirely.",
-      tech: ["Python", "RBAC", "Automation", "SQL"],
-      featured: false,
-      link: "/proyecto/dashboard"
-    },
-    {
-      title: "Valance",
-      category: "iOS Native Development",
-      description: "Local-first personal finance app for the Apple ecosystem. Tracks real liquidity by combining debit accounts, credit card debt with cut/pay date modeling, and a physical cash counter (Arqueo de Caja). All data lives on-device via CoreData behind FaceID biometric authentication. Zero network requests.",
-      tech: ["Swift", "CoreData", "FaceID", "iOS"],
-      featured: false,
-      link: "/proyecto/valance"
-    }
-  ];
+  const { language } = useLanguage();
+  const copy = PROJECTS_COPY[language];
 
   const containerVariants = {
     hidden: {},
-    visible: { transition: { staggerChildren: 0.15, delayChildren: 0 } }
+    visible: { transition: { staggerChildren: 0.15, delayChildren: 0 } },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
   };
 
   return (
@@ -63,10 +121,10 @@ function Projects() {
       <div className="max-w-5xl mx-auto px-6">
         <div className="mb-20">
           <RevealText as="span" className="protocol-label" delay={0}>
-            Deployment_Log
+            {copy.protocol}
           </RevealText>
           <RevealText as="h2" className="section-title" delay={0.12}>
-            Engineered Systems.
+            {copy.title}
           </RevealText>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -75,7 +133,7 @@ function Projects() {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="text-muted text-lg max-w-2xl mt-6"
           >
-            Projects focused on solving real operational problems, showcasing systems thinking and technical execution.
+            {copy.description}
           </motion.p>
         </div>
 
@@ -86,7 +144,7 @@ function Projects() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {projects.map((project, index) => (
+          {copy.projects.map((project, index) => (
             <motion.div
               key={index}
               variants={itemVariants}

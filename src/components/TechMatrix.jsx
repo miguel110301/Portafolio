@@ -2,20 +2,20 @@
 import { useEffect, useState } from 'react';
 import { Webhook, Database, Terminal, Server, Cpu, Cloud, Code, Smartphone } from 'lucide-react';
 
-export default function TechMatrix() {
-  const [selected, setSelected] = useState(null);
+const DEFAULT_STACK = [
+  { name: 'Python', icon: Terminal, color: '#FBBF24', desc: 'Architecting resilient backend logic, data pipelines, and scalable APIs.' },
+  { name: 'n8n', icon: Webhook, color: '#F97316', desc: 'Designing complex, event-driven workflows and system orchestrations.' },
+  { name: 'Django', icon: Database, color: '#22C55E', desc: 'Building robust, secure, and highly scalable web applications.' },
+  { name: 'Swift', icon: Smartphone, color: '#F97316', desc: 'Crafting performant, native iOS experiences with local-first architectures.' },
+  { name: 'Linux', icon: Server, color: '#E2E8F0', desc: 'Managing server environments, deployments, and shell scripting.' },
+  { name: 'APIs', icon: Cloud, color: '#60A5FA', desc: 'Designing, consuming, and securing RESTful architectures.' },
+  { name: 'React', icon: Code, color: '#22D3EE', desc: 'Developing interactive, state-driven frontends with modern hooks.' },
+  { name: 'MySQL', icon: Database, color: '#3B82F6', desc: 'Structuring relational databases for high-concurrency environments.' },
+  { name: 'VPS', icon: Cpu, color: '#A855F7', desc: 'Configuring, deploying, and maintaining private server infrastructure.' },
+];
 
-  const stack = [
-    { name: 'Python', icon: Terminal, color: '#FBBF24', desc: "Architecting resilient backend logic, data pipelines, and scalable APIs." },
-    { name: 'n8n', icon: Webhook, color: '#F97316', desc: "Designing complex, event-driven workflows and system orchestrations." },
-    { name: 'Django', icon: Database, color: '#22C55E', desc: "Building robust, secure, and highly scalable web applications." },
-    { name: 'Swift', icon: Smartphone, color: '#F97316', desc: "Crafting performant, native iOS experiences with local-first architectures." },
-    { name: 'Linux', icon: Server, color: '#E2E8F0', desc: "Managing server environments, deployments, and shell scripting." },
-    { name: 'APIs', icon: Cloud, color: '#60A5FA', desc: "Designing, consuming, and securing RESTful architectures." },
-    { name: 'React', icon: Code, color: '#22D3EE', desc: "Developing interactive, state-driven frontends with modern hooks." },
-    { name: 'MySQL', icon: Database, color: '#3B82F6', desc: "Structuring relational databases for high-concurrency environments." },
-    { name: 'VPS', icon: Cpu, color: '#A855F7', desc: "Configuring, deploying, and maintaining private server infrastructure." },
-  ];
+export default function TechMatrix({ stack = DEFAULT_STACK, idleLabel = 'Click a module to view capabilities' }) {
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     if (window.anime) {
@@ -92,7 +92,7 @@ export default function TechMatrix() {
           </p>
         ) : (
           <p className="text-muted/40 text-sm font-mono animate-pulse">
-            Click a module to view capabilities
+            {idleLabel}
           </p>
         )}
       </div>

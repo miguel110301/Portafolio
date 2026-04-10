@@ -1,15 +1,51 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal as TerminalIcon } from 'lucide-react';
+import { useLanguage } from '../i18n';
+
+const TERMINAL_COPY = {
+  es: {
+    bootLines: [
+      'MiguelOS v1.0.0 (tty1)',
+      'Escribe "help" o "ayuda" para ver los comandos disponibles.',
+    ],
+    help: 'Comandos disponibles:\n  whoami      - muestra informacion del perfil\n  skills      - lista stack tecnico\n  status      - muestra el estado del sistema\n  clear       - limpia la terminal\n  sudo        - intenta ejecutar como superusuario',
+    whoami: 'Miguel Angel Moreno Sanchez\nRol: Ingeniero de Automatizacion y Backend\nUbicacion: Queretaro, Mexico',
+    skills: '[Backend] Python, Django, Flask, MySQL\n[Automatizacion] n8n, Webhooks, APIs\n[Mobile] Swift, iOS\n[DevOps] Linux, Nginx, VPS\n\n> Nota: no solo uso estas herramientas, diseno sistemas solidos con ellas.',
+    status: 'Estado: EJECUTANDO\nEnergia: 100%\nNivel de cafe: Critico\n\n> "Construyo arquitecturas backend que no se rompen y automatizaciones que sustituyen flujos manuales completos."',
+    sudo: 'Buen intento. Pero aqui solo hay un usuario root.\nSi quieres privilegios root, primero tienes que contratarme.',
+    commandNotFound: 'bash: comando no encontrado:',
+  },
+  en: {
+    bootLines: [
+      'MiguelOS v1.0.0 (tty1)',
+      'Type "help" to see available commands.',
+    ],
+    help: 'Available commands:\n  whoami      - display user info\n  skills      - list technical skills\n  status      - show system operational status\n  clear       - clear terminal\n  sudo        - execute command as superuser',
+    whoami: 'Miguel Angel Moreno Sanchez\nRole: Automation & Backend Engineer\nLocation: Queretaro, Mexico',
+    skills: '[Backend] Python, Django, Flask, MySQL\n[Automation] n8n, Webhooks, APIs\n[Mobile] Swift, iOS\n[DevOps] Linux, Nginx, VPS\n\n> Note: I do not just use these tools, I engineer bulletproof systems with them.',
+    status: 'Status: EXECUTING\nEnergy: 100%\nCoffee level: Critical\n\n> "I build backend architectures that do not break, and orchestrate automations that replace entire manual workflows."',
+    sudo: 'Nice try. But I am the only root user here.\nIf you want my root privileges, you will have to hire me first.',
+    commandNotFound: 'bash: command not found:',
+  },
+};
+
+function getInitialHistory(copy) {
+  return copy.bootLines.map((text) => ({ type: 'system', text }));
+}
 
 function Terminal({ isOpen, onClose }) {
-  const [history, setHistory] = useState([
-    { type: 'system', text: 'MiguelOS v1.0.0 (tty1)' },
-    { type: 'system', text: 'Type "help" to see available commands.' }
-  ]);
+  const { language } = useLanguage();
+  const copy = TERMINAL_COPY[language];
+  const [history, setHistory] = useState(() => getInitialHistory(copy));
   const [input, setInput] = useState('');
   const inputRef = useRef(null);
   const bottomRef = useRef(null);
+
+  useEffect(() => {
+    setHistory(getInitialHistory(copy));
+    setInput('');
+  }, [copy]);
 
   // Auto-focus al abrir la terminal
   useEffect(() => {
@@ -25,26 +61,34 @@ function Terminal({ isOpen, onClose }) {
 
   const handleCommand = (e) => {
     if (e.key === 'Enter') {
-      const cmd = input.trim().toLowerCase();
-      const newHistory = [...history, { type: 'user', text: `visitor@miguel-dev:~$ ${cmd}` }];
-      
+      const rawCommand = input.trim().toLowerCase();
+      const aliases = {
+        ayuda: 'help',
+        quiensoy: 'whoami',
+        habilidades: 'skills',
+        estado: 'status',
+        limpiar: 'clear',
+      };
+      const cmd = aliases[rawCommand] ?? rawCommand;
+      const newHistory = [...history, { type: 'user', text: `visitor@miguel-dev:~$ ${rawCommand}` }];
+
       switch (cmd) {
         case 'help':
-          newHistory.push({ type: 'system', text: 'Available commands:\n  whoami      - display user info\n  skills      - list technical skills\n  status      - show system operational status\n  clear       - clear terminal\n  sudo        - execute command as superuser' });
+          newHistory.push({ type: 'system', text: copy.help });
           break;
         case 'whoami':
-          newHistory.push({ type: 'system', text: 'Miguel Ángel Moreno Sánchez\nRole: Automation & Backend Engineer\nLocation: Querétaro, Mexico' });
+          newHistory.push({ type: 'system', text: copy.whoami });
           break;
         case 'skills':
-          newHistory.push({ type: 'system', text: '[Backend] Python, Django, Flask, MySQL\n[Automation] n8n, Webhooks, APIs\n[Mobile] Swift, iOS\n[DevOps] Linux, Nginx, VPS\n\n> Note: I don\'t just use these tools, I engineer bulletproof systems with them.' });
+          newHistory.push({ type: 'system', text: copy.skills });
           break;
         case 'status':
-          newHistory.push({ type: 'system', text: 'Status: EXECUTING\nEnergy: 100%\nCoffee level: Critical\n\n> "I build backend architectures that simply do not break, and orchestrate automations that replace entire manual workflows."' });
+          newHistory.push({ type: 'system', text: copy.status });
           break;
         case 'sudo':
         case 'sudo su':
         case 'sudo -i':
-          newHistory.push({ type: 'system', text: 'Nice try. But I am the only root user here. 🕵🏻‍♂️\nIf you want my root privileges, you\'ll have to hire me first.' });
+          newHistory.push({ type: 'system', text: copy.sudo });
           break;
         case 'clear':
           setHistory([]);
@@ -53,7 +97,7 @@ function Terminal({ isOpen, onClose }) {
         case '':
           break;
         default:
-          newHistory.push({ type: 'system', text: `bash: command not found: ${cmd}` });
+          newHistory.push({ type: 'system', text: `${copy.commandNotFound} ${rawCommand}` });
       }
       
       setHistory(newHistory);
