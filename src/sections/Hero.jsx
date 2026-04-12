@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { ChevronRight, FileText, Terminal, Webhook, Database, Server, Cpu, Cloud, Code, Smartphone } from 'lucide-react';
+import { ArrowUpRight, ChevronRight, FileText, Github, Terminal, Webhook, Database, Server, Cpu, Cloud, Code, Smartphone } from 'lucide-react';
 import TechMatrix from '../components/TechMatrix';
 import RevealText from '../components/RevealText';
 import MagneticButton from '../components/MagneticButton';
@@ -24,6 +24,11 @@ const HERO_COPY = {
     projects: 'Proyectos',
     resume: 'CV',
     resumeHref: '/CV_Miguel_Moreno_ESP.pdf',
+    repositoryHref: 'https://github.com/miguel110301/',
+    repositoryProtocol: 'Codigo_Abierto',
+    repositoryTitle: 'Repositorios publicos y experimentos en curso.',
+    repositoryDescription: 'Explora implementaciones, pruebas tecnicas y trabajo complementario mas alla de los case studies.',
+    repositoryMeta: 'github.com/miguel110301',
     stackPrompt: 'Toca un modulo para ver capacidades',
     stack: [
       { name: 'Python', color: '#FBBF24', icon: Terminal, desc: 'Arquitectura de logica backend resiliente, pipelines de datos y APIs escalables.' },
@@ -53,6 +58,11 @@ const HERO_COPY = {
     projects: 'Projects',
     resume: 'Resume',
     resumeHref: '/CV_Miguel_Moreno.pdf',
+    repositoryHref: 'https://github.com/miguel110301/',
+    repositoryProtocol: 'Open_Source',
+    repositoryTitle: 'Public repositories and ongoing experiments.',
+    repositoryDescription: 'Browse implementations, technical experiments, and supporting work beyond the case studies.',
+    repositoryMeta: 'github.com/miguel110301',
     stackPrompt: 'Tap a module to view capabilities',
     stack: [
       { name: 'Python', color: '#FBBF24', icon: Terminal, desc: 'Architecting resilient backend logic, data pipelines, and scalable APIs.' },
@@ -176,17 +186,48 @@ function Hero() {
             {copy.description}
           </p>
 
-          <div className="flex flex-row gap-3 w-full">
-            <MagneticButton>
-              <a href="/#projects" className="group flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold text-sm hover:bg-white/90 transition-all flex-1">
-                {copy.projects} <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-            </MagneticButton>
-            <MagneticButton>
-              <a href={copy.resumeHref} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border border-white/10 px-6 py-3 rounded-full font-semibold text-sm hover:border-white/30 hover:bg-white/5 backdrop-blur-sm transition-all text-white/80 hover:text-white flex-1">
-                <FileText size={14} /> {copy.resume}
-              </a>
-            </MagneticButton>
+          <div className="mt-10 flex w-full max-w-2xl flex-col gap-3">
+            <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+              <MagneticButton>
+                <a href="/#projects" className="group flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold text-sm hover:bg-white/90 transition-all">
+                  {copy.projects} <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </MagneticButton>
+              <MagneticButton>
+                <a href={copy.resumeHref} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border border-white/10 px-6 py-3 rounded-full font-semibold text-sm hover:border-white/30 hover:bg-white/5 backdrop-blur-sm transition-all text-white/80 hover:text-white">
+                  <FileText size={14} /> {copy.resume}
+                </a>
+              </MagneticButton>
+            </div>
+
+            <motion.a
+              href={copy.repositoryHref}
+              target="_blank"
+              rel="noreferrer"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.2, ease: 'easeOut' }}
+              className="group glass-panel w-full rounded-[1.5rem] border border-white/10 px-5 py-4 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04]"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 gap-4">
+                  <div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-white/70 transition-colors duration-300 group-hover:text-white">
+                    <Github size={18} />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="tech-subtitle !mb-2">{copy.repositoryProtocol}</span>
+                    <p className="text-sm font-semibold text-white md:text-base">{copy.repositoryTitle}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{copy.repositoryDescription}</p>
+                  </div>
+                </div>
+                <ArrowUpRight size={18} className="mt-1 shrink-0 text-white/25 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white/70" />
+              </div>
+
+              <div className="mt-4 flex items-center gap-2 text-[10px] font-mono tracking-[0.18em] text-white/30 sm:text-[11px]">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent/80" />
+                <span>{copy.repositoryMeta}</span>
+              </div>
+            </motion.a>
           </div>
         </motion.div>
 
